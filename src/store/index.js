@@ -4,9 +4,15 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
+  state: {
+    isCollapse: true,
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    handleToggleNav(state, payload) {
+      state.isCollapse = payload;
+    },
+  },
   actions: {},
   modules: {},
 });
