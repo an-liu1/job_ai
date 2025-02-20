@@ -11,7 +11,7 @@
       <el-menu-item
         v-for="(i, index) in navItem"
         :key="index"
-        :index="index + 1"
+        :index="(index + 1).toString()"
         @click="openPage(i.path)"
       >
         <i :class="i.icon"></i>
@@ -39,43 +39,48 @@ export default {
         },
         {
           icon: "el-icon-edit-outline",
-          text: "Exercises",
+          text: "Practice questions",
           path: "/exercise",
         },
         {
           icon: "el-icon-phone-outline",
           text: "Mock interview",
-          path: "/exercise",
-        },
-        {
-          icon: "el-icon-document-copy",
-          text: "Progress Tracking",
-          path: "/",
+          path: "/mockInterview",
         },
         {
           icon: "el-icon-guide",
-          text: "Coaching",
-          path: "/",
+          text: "History",
+          path: "/history",
         },
-        {
-          icon: "el-icon-shopping-cart-full",
-          text: "Pricing",
-          path: "/",
-        },
+        // {
+        //   icon: "el-icon-document-copy",
+        //   text: "Progress Tracking",
+        //   path: "/",
+        // },
+        // {
+        //   icon: "el-icon-guide",
+        //   text: "Coaching",
+        //   path: "/",
+        // },
+        // {
+        //   icon: "el-icon-shopping-cart-full",
+        //   text: "Pricing",
+        //   path: "/",
+        // },
         {
           icon: "el-icon-info",
           text: "About Us",
-          path: "/",
+          path: "/about",
         },
-        {
-          icon: "el-icon-question",
-          text: "Help",
-          path: "/",
-        },
+        // {
+        //   icon: "el-icon-question",
+        //   text: "Help",
+        //   path: "/",
+        // },
         {
           icon: "el-icon-user",
           text: "Account",
-          path: "/",
+          path: "/account",
         },
       ];
     },
@@ -86,16 +91,22 @@ export default {
     },
     openPage: function (path) {
       this.$router.push(path);
+      this.$store.commit("handleToggleNav", true);
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
 }
+
+.el-menu-item [class^="el-icon-"] {
+  font-size: 24px;
+}
+
 .toggleIcon {
   width: 63px;
   text-align: center;

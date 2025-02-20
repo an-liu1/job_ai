@@ -1,16 +1,22 @@
 import axios from "axios";
-import Vue from "vue";
+import router from "../router";
+import store from "../store";
 
-export const mainDomain =
-  process.env.VUE_APP_API_URL || "http://127.0.0.1:8000/";
+export const mainDomain = "https://jobcoach.top/api/";
+// process.env.VUE_APP_API_URL || "http://127.0.0.1:8000/";
 
 axios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("Authorization");
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = `Bearer ${token}`;
     }
-    config.timeout = 10 * 1000;
+    if (config.url.endsWith("/jobapp/chat/")) {
+      config.headers["Content-Type"] = "multipart/form-data";
+    } else {
+      config.headers["Content-Type"] = "application/json";
+    }
+    config.timeout = 10000 * 1000;
     return config;
   },
   (error) => Promise.reject(error)
@@ -18,21 +24,21 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    if (response.data.code === 0) {
+    if (response.status == 200) {
       return response.data;
     }
     return Promise.reject(response.data);
   },
   (error) => {
     if (error.response) {
-      if (error.response.status === 401) {
+      if (error.response.status == 401) {
         localStorage.clear();
         sessionStorage.clear();
-        if (Vue.$router) {
-          Vue.$router.push("/login");
-        }
+        router.push("/account");
       }
+      store.commit("switchLoadingStatus", false);
     }
+    store.commit("switchLoadingStatus", false);
     return Promise.reject(error);
   }
 );

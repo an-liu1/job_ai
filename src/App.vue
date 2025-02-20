@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" v-loading.fullscreen="loading">
     <div class="banner">
-      <h2>Job Interview Training</h2>
+      <el-image :src="logoImg"></el-image>
     </div>
     <div
       :style="
@@ -40,11 +40,15 @@ export default {
   data() {
     return {
       isRouterAlive: true,
+      logoImg: require("@/assets/logo.png"),
     };
   },
   computed: {
     isCollapse: function () {
       return this.$store.state.isCollapse;
+    },
+    loading: function () {
+      return this.$store.state.loading;
     },
   },
   methods: {
@@ -55,20 +59,20 @@ export default {
       });
     },
   },
-  // created() {
-  //   if (sessionStorage.getItem("store")) {
-  //     this.$store.replaceState(
-  //       Object.assign(
-  //         {},
-  //         this.$store.state,
-  //         JSON.parse(sessionStorage.getItem("store"))
-  //       )
-  //     );
-  //   }
-  //   window.addEventListener("beforeunload", () => {
-  //     sessionStorage.setItem("store", JSON.stringify(this.$store.state));
-  //   });
-  // },
+  created() {
+    if (sessionStorage.getItem("store")) {
+      this.$store.replaceState(
+        Object.assign(
+          {},
+          this.$store.state,
+          JSON.parse(sessionStorage.getItem("store"))
+        )
+      );
+    }
+    window.addEventListener("beforeunload", () => {
+      sessionStorage.setItem("store", JSON.stringify(this.$store.state));
+    });
+  },
 };
 </script>
 
@@ -76,24 +80,26 @@ export default {
 body {
   margin: 0 !important;
   padding: 0 !important;
+  // font-family: "Times New Roman", Times, serif !important;
 }
 .banner {
   height: 100px;
   width: 100%;
   text-align: center;
-  h2 {
-    line-height: 100px;
+  .el-image {
+    height: 50px;
+    margin-top: 20px;
   }
 }
 .mainNav {
   background-color: #ffffff;
-  height: calc(100vh - 160px);
+  // height: calc(100vh - 160px);
   float: left;
 }
 .mainContainer {
   background-color: #edf0f5;
-  height: calc(100vh - 160px);
-  overflow: hidden;
+  min-height: calc(100vh - 160px);
+  // overflow: hidden;
 }
 .footer {
   height: 50px;

@@ -17,6 +17,14 @@ Vue.use(ElementUI);
 import VueTyperPlugin from "vue-typer";
 Vue.use(VueTyperPlugin);
 
+//moment js
+import moment from "moment";
+Vue.prototype.$moment = moment;
+
+//vue-audio-better
+import VueAudio from "vue-audio-better";
+Vue.use(VueAudio);
+
 new Vue({
   router,
   store,

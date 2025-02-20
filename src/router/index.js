@@ -15,9 +15,24 @@ const routes = [
     component: () => import("../views/ExerciseView.vue"),
   },
   {
-    path: "/about",
-    name: "about",
-    component: () => import("../views/AboutView.vue"),
+    path: "/mockInterview",
+    name: "Mock interview View",
+    component: () => import("../views/MockInterviewView.vue"),
+  },
+  {
+    path: "/history",
+    name: "History View",
+    component: () => import("../views/HistoryView.vue"),
+  },
+  // {
+  //   path: "/about",
+  //   name: "about",
+  //   component: () => import("../views/AboutView.vue"),
+  // },
+  {
+    path: "/account",
+    name: "Account View",
+    component: () => import("../views/AccountView.vue"),
   },
 ];
 
