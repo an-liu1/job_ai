@@ -1,10 +1,10 @@
 <template>
   <div class="historyDetailContainer">
     <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane label="Summary" name="summaty"></el-tab-pane>
+      <el-tab-pane label="Summary" name="summary"></el-tab-pane>
       <el-tab-pane label="Final assessment" name="assessment"></el-tab-pane>
     </el-tabs>
-    <div v-if="activeName == 'summaty'">
+    <div v-if="activeName == 'summary'" class="summary">
       <h2 class="title">Summary</h2>
       <el-collapse
         v-for="(i, index) of chatHistoryDetail.messages"
@@ -14,13 +14,8 @@
         <p class="mt-3">
           <b>{{ i.role == "user" ? "Me: " : "Coach: " }}</b> {{ i.content }}
         </p>
-        <div class="audio-container">
-          <mini-audio :audio-source="i.audio_url"></mini-audio>
-          <el-button
-            icon="el-icon-download"
-            circle
-            @click="downloadAudio(i.audio_url)"
-          ></el-button>
+        <div class="audio-container" v-if="i.audio_url">
+          <AudioPlayer :src="i.audio_url" style="width: 260px; height: 40px" />
         </div>
         <el-collapse-item
           title="View evaluation"
@@ -64,18 +59,56 @@
         </el-collapse-item>
       </el-collapse>
     </div>
-    <div v-if="activeName == 'assessment'">
+    <div v-if="activeName == 'assessment'" class="assessment">
       <h2 class="title">Final assessment</h2>
-      <h3>Your Score: {{ finalAssessmentDetail.overall_score }} /10</h3>
+      <h3>Your Score: {{ finalAssessmentDetail.overall_score }}/10</h3>
+      <div class="row">
+        <div class="col-6 Strengths">
+          <h4>Strengths:</h4>
+          <div
+            v-for="(content, title) in finalAssessmentDetail.strength_analysis"
+            :key="title"
+          >
+            <p>
+              <strong>{{ title }}:</strong>
+            </p>
+            <p>{{ content }}</p>
+          </div>
+        </div>
+        <div class="col-6 weaknesses">
+          <h4>Weaknesses:</h4>
+          <div
+            v-for="(content, title) in finalAssessmentDetail.weakness_analysis"
+            :key="title"
+          >
+            <p>
+              <strong>{{ title }}:</strong>
+            </p>
+            <p>{{ content }}</p>
+          </div>
+        </div>
+        <div class="col-12 improvensent">
+          <h4>Improvensent plan:</h4>
+          <p>{{ finalAssessmentDetail.improvement_plan }}</p>
+        </div>
+        <div class="col-12 career">
+          <h4>Career suggestions:</h4>
+          <p>{{ finalAssessmentDetail.career_suggestions }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import AudioPlayer from "../components/AudioPlayer.vue";
 export default {
+  components: {
+    AudioPlayer,
+  },
   data() {
     return {
-      activeName: "summaty",
+      activeName: "summary",
     };
   },
   computed: {
@@ -83,15 +116,21 @@ export default {
       return this.$store.state.chatHistoryDetail;
     },
     finalAssessmentDetail: function () {
-      return this.$store.state.finalAssessmentDetail.final_assessment;
+      return this.$store.state.finalAssessmentDetail;
     },
     conversationID: function () {
       return this.$store.state.conversationID;
     },
   },
+  watch: {
+    conversationID: function (N, O) {
+      if (N && N !== O) {
+        this.activeName = "summary";
+      }
+    },
+  },
   methods: {
     handleClick(tab) {
-      console.log(tab.name);
       if (tab.name == "assessment") {
         this.$store.commit("switchLoadingStatus", true);
         this.$store
@@ -108,13 +147,6 @@ export default {
           });
       }
     },
-    downloadAudio(fileUrl) {
-      const link = document.createElement("a");
-      link.href = fileUrl;
-      link.download = "audio.wav"; // 可自定义下载后的文件名
-      link.click();
-      link.remove();
-    },
   },
 };
 </script>
@@ -125,34 +157,80 @@ export default {
   // margin: 0 auto;
   height: 100%;
   overflow: auto !important;
-  .detailSection {
-    padding-bottom: 5px;
-    border-bottom: 1px #265d48 solid;
+  .summary {
+    .detailSection {
+      padding-bottom: 5px;
+      border-bottom: 1px #265d48 solid;
+    }
+    .title {
+      text-align: center;
+      margin: 30px 0;
+      font-weight: bold;
+    }
+    .audio-container {
+      display: flex;
+      align-items: center; /* 垂直居中对齐 */
+      gap: 10px; /* 元素之间的间距 */
+    }
+    ::v-deep .el-collapse-item__header {
+      padding-left: 10px !important;
+      font-weight: bold !important;
+    }
+    .evaluation {
+      background-color: #ffffff;
+    }
+    .evaluationLeft {
+      width: 60%;
+      background-color: #e2fddb;
+      margin: 0 auto;
+      padding: 20px 10px;
+    }
+    .evaluationRight {
+      width: 90%;
+    }
   }
-  .title {
-    text-align: center;
-    margin: 30px 0;
-  }
-  .audio-container {
-    display: flex;
-    align-items: center; /* 垂直居中对齐 */
-    gap: 10px; /* 元素之间的间距 */
-  }
-  ::v-deep .el-collapse-item__header {
-    padding-left: 10px !important;
-    font-weight: bold !important;
-  }
-  .evaluationLeft {
-    width: 60%;
-    background-color: #e2fddb;
-    margin: 0 auto;
-    padding: 20px 10px;
-  }
-  .evaluationRight {
+  .assessment {
     width: 90%;
+    margin: 0 auto;
+    .title {
+      text-align: center;
+      margin: 30px 0;
+      font-weight: bold;
+    }
+    .Strengths {
+      border: 5px solid #265d48;
+      border-radius: 20px;
+      h4 {
+        color: #265d48;
+        margin-top: 10px;
+      }
+    }
+    .weaknesses {
+      border: 5px solid #bc1823;
+      border-radius: 20px;
+      h4 {
+        color: #bc1823;
+        margin-top: 10px;
+      }
+    }
+    .improvensent {
+      border: 5px solid #ffcf60;
+      border-radius: 20px;
+      margin-top: 10px;
+      h4 {
+        color: #ffcf60;
+        margin-top: 10px;
+      }
+    }
+    .career {
+      border: 5px solid #c74375;
+      border-radius: 20px;
+      margin-top: 10px;
+      h4 {
+        color: #c74375;
+        margin-top: 10px;
+      }
+    }
   }
-}
-.evaluation {
-  background-color: #ffffff;
 }
 </style>

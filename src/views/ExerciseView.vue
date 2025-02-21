@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="withebox"></div>
+    <div :class="!showPractice ? 'withebox' : ''"></div>
     <div class="practiceContainer" v-if="!showPractice">
       <h3 class="text-center mt-5 mb-3">What would you like to practice?</h3>
       <div class="practiceBtnContainer">
@@ -23,37 +23,34 @@
     </div>
 
     <div class="textareaContainer row" v-if="showPractice">
+      <h6 @click="$store.commit('switchShowPractice', false)" class="backBtn">
+        <i class="el-icon-arrow-left"></i> Back
+      </h6>
+      <div class="banner">
+        <el-image :src="practiceInfo.img"></el-image>
+      </div>
       <h2 class="text-center mt-3 mb-3">{{ practiceInfo.title }}</h2>
-      <div class="col-10 mx-auto">
+      <div class="col-11 mx-auto">
         <div v-for="(i, index) of practiceInfo.des" :key="index">
-          <p v-html="i"></p>
+          <p v-html="i" class="m-0 text-center"></p>
         </div>
       </div>
 
-      <div>
+      <div class="mt-5">
         <div class="AIpop">
-          <p>sdkfjhsgdkfjhsdkfhsdkfjsdkfjfjhsgfhsdk</p>
+          <!-- <p>{{ chatInfo.response_text }}</p> -->
+          <vue-typer :text="chatInfo.response_text" :repeat="0"></vue-typer>
         </div>
         <div class="clearfix"></div>
         <div class="clientPop">
-          <p>sdkfjhsgdkfjhsdkfhsdkfjsdkfjfjhsgfhsdk</p>
+          <p>
+            Good day Jennifer! I'm pleased to meet with you and discuss the
+            opportunity with your company.
+          </p>
         </div>
       </div>
 
-      <AudioRecorder />
-
-      <div class="col-6 mx-auto btnGroup text-center mb-5 mt-5">
-        <el-button
-          type="primary"
-          @click="$store.commit('switchShowPractice', false)"
-          >Save</el-button
-        >
-        <el-button
-          type="primary"
-          @click="$store.commit('switchShowPractice', false)"
-          >Close</el-button
-        >
-      </div>
+      <AudioRecorder :practiceMode="practiceMode" />
     </div>
   </div>
 </template>
@@ -78,6 +75,7 @@ export default {
     practiceInfo: function () {
       return this.practiceMode == "common"
         ? {
+            img: require("@/assets/common.png"),
             title: "Common Interview Questions",
             des: [
               "These are the questions you’re most likely to be asked in an interview—so be ready!",
@@ -87,16 +85,20 @@ export default {
           }
         : this.practiceMode == "star"
         ? {
+            img: require("@/assets/star.png"),
             title: "Behavioural Questions (STAR Method)",
             des: [
-              "The STAR method helps you answer interview questions with clear, structured responses. Describe the <b>Situation</b>, explain the <b>Task</b>, outline your <b>Actions</b>, and highlight the <b>Results</b>.",
+              "The STAR method helps you answer interview questions with clear, structured responses.",
+              "Describe the <b>Situation</b>, explain the <b>Task</b>, outline your <b>Actions</b>, and highlight the <b>Results</b>.",
               "Try using this approach to give compelling answers and showcase your impact!",
             ],
           }
         : {
+            img: require("@/assets/tough.png"),
             title: "Tough Interview Questions",
             des: [
-              "Tough questions are tricky, challenging, and designed to test your thinking under pressure. Practice by giving clear, structured answers—and refine them through conversation with your AI coach.",
+              "Tough questions are tricky, challenging, and designed to test your thinking under pressure.",
+              "Practice by giving clear, structured answers—and refine them through conversation with your AI coach.",
               "Need a specific type of question? Just ask, and your AI coach will tailor the challenge for you!",
             ],
           };
@@ -179,6 +181,12 @@ export default {
   height: 130px;
   width: 100%;
 }
+.backBtn {
+  padding-top: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
 .practiceContainer {
   border: 1px solid #000000;
   width: 550px;
@@ -201,21 +209,33 @@ export default {
   }
 }
 .textareaContainer {
-  border: 1px solid #000000;
+  // border: 1px solid #000000;
   width: 1000px;
-  background-color: #ffffff;
+  // background-color: #ffffff;
   margin: 0 auto;
+  .banner {
+    height: 150px;
+    width: 100%;
+    text-align: center;
+    .el-image {
+      height: 150px;
+    }
+  }
+  h2 {
+    font-weight: bold;
+  }
   .AIpop {
     float: left;
     background-color: #fcf1d8;
     border-radius: 50px;
     padding: 10px;
     width: fit-content;
-    max-width: 40%;
+    max-width: 45%;
     margin-left: 20px;
     p {
       line-height: 1.5; /* 调整行高，让文字垂直方向更合理，可根据需要调整数值 */
-      word-wrap: break-word; /* 让长单词或 URL 自动换行 */
+      overflow-wrap: break-word; /* 允许在单词内换行，保证内容不溢出容器 */
+      word-break: keep-all; /* 保持单词完整性，不拆分单词 */
       margin: 0;
     }
   }
@@ -225,11 +245,12 @@ export default {
     border-radius: 50px;
     padding: 10px;
     width: fit-content;
-    max-width: 40%;
+    max-width: 45%;
     margin-right: 20px;
     p {
       line-height: 1.5; /* 调整行高，让文字垂直方向更合理，可根据需要调整数值 */
-      word-wrap: break-word; /* 让长单词或 URL 自动换行 */
+      overflow-wrap: break-word; /* 允许在单词内换行，保证内容不溢出容器 */
+      word-break: keep-all; /* 保持单词完整性，不拆分单词 */
       margin: 0;
     }
   }

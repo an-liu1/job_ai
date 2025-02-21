@@ -12,20 +12,84 @@
 
 <script>
 export default {
-  props: {
-    onRecordingComplete: {
-      type: Function,
-      required: true,
-    },
-  },
+  props: ["practiceMode"],
   data() {
     return {
       isRecording: false,
       mediaRecorder: null,
       recordedChunks: [],
+      inactivityTimer: null,
+      newConversationFlag: false,
+      conversation: [],
+      selectedConversation: null,
+      INACTIVITY_PERIOD: 600000, // 10 分钟
     };
   },
   methods: {
+    resetInactivityTimer() {
+      if (this.inactivityTimer) {
+        clearTimeout(this.inactivityTimer);
+      }
+      this.inactivityTimer = setTimeout(() => {
+        this.newConversationFlag = true;
+        this.conversation = [];
+        this.selectedConversation = null;
+      }, this.INACTIVITY_PERIOD);
+    },
+    onRecordingComplete(audioBlob) {
+      this.resetInactivityTimer();
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "recording.wav");
+      formData.append("mode", this.practiceMode);
+      formData.append("new_conversation", this.newConversationFlag);
+
+      this.$store.commit("switchLoadingStatus", true);
+      this.$store
+        .dispatch("getChatInfo", formData)
+        .then((response) => {
+          this.$store.commit("switchLoadingStatus", false);
+
+          this.newConversationFlag = false;
+
+          // Destructure from the backend response
+          let {
+            user_audio_url,
+            tts_audio_url,
+            user_text,
+            response_text,
+            conversation_id,
+            evaluation,
+          } = response.data;
+
+          // Fix up user_audio_url if it's relative
+          if (user_audio_url?.startsWith("/")) {
+            user_audio_url = `https://127.0.0.1:3000${user_audio_url}`;
+          }
+
+          // Fix up tts_audio_url if it's relative
+          if (tts_audio_url?.startsWith("/")) {
+            tts_audio_url = `https://127.0.0.1:3000${tts_audio_url}`;
+          }
+
+          console.log("User Audio URL:", user_audio_url);
+          console.log("TTS Audio URL:", tts_audio_url);
+
+          this.conversation = [
+            ...this.conversation,
+            {
+              user: user_text,
+              bot: response_text,
+              userAudio: user_audio_url,
+              botAudio: tts_audio_url,
+              conversation_id: conversation_id,
+              evaluation: evaluation, // Add evaluation data to conversation
+            },
+          ];
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    },
     async startRecording() {
       try {
         // Request access to the microphone.
@@ -69,3 +133,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.audio-recorder {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #222;
+  /* Adjust background as needed */
+  padding: 10px;
+  z-index: 1000;
+  /* Make sure it stays on top */
+  text-align: center;
+  border-top: 1px solid #444;
+}
+</style>

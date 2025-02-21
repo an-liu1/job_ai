@@ -9,6 +9,7 @@ export default new Vuex.Store({
     loading: false,
     isCollapse: true,
     loginStatus: false,
+    signupResponse: {},
     blogs: [],
     practiceMode: "",
     showPractice: false,
@@ -28,6 +29,12 @@ export default new Vuex.Store({
     },
     setLoginStatus(state, payload) {
       state.loginStatus = payload;
+    },
+    signup(state, payload) {
+      state.signupResponse = payload;
+    },
+    getUserProfile(state, payload) {
+      state.userProfile = payload;
     },
     getBlogs(state, payload) {
       state.blogs = payload;
@@ -60,13 +67,21 @@ export default new Vuex.Store({
       localStorage.setItem("Authorization", res.tokens.access);
       commit("setLoginStatus", true);
     },
+    async signup({ commit }, data) {
+      let res = await request("post", "accounts/register/", data);
+      commit("signup", res);
+    },
+    async getUserProfile({ commit }) {
+      let res = await request("get", "accounts/profile/");
+      commit("getUserProfile", res);
+    },
     async getBlogs({ commit }) {
       let res = await request("get", "blog_posts/");
       commit("getBlogs", res.results);
     },
     async getChatInfo({ commit }, data) {
       let res = await request("post", "jobapp/chat/", data);
-      commit("getChatInfo", res.content);
+      commit("getChatInfo", res);
     },
     async getChatHistory({ commit }) {
       let res = await request("get", "jobapp/history/");
@@ -78,7 +93,7 @@ export default new Vuex.Store({
     },
     async getFinalAssessmentDetail({ commit }, data) {
       let res = await request("post", `jobapp/final-assessment/${data}/`);
-      commit("getFinalAssessmentDetail", res);
+      commit("getFinalAssessmentDetail", res.final_assessment);
     },
   },
 

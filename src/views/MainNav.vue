@@ -67,11 +67,11 @@ export default {
         //   text: "Pricing",
         //   path: "/",
         // },
-        {
-          icon: "el-icon-info",
-          text: "About Us",
-          path: "/about",
-        },
+        // {
+        //   icon: "el-icon-info",
+        //   text: "About Us",
+        //   path: "/about",
+        // },
         // {
         //   icon: "el-icon-question",
         //   text: "Help",

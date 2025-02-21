@@ -14,7 +14,7 @@
     <div class="mainContainer">
       <router-view v-if="isRouterAlive" />
     </div>
-    <div class="footer row">
+    <!-- <div class="footer row">
       <ul class="col-3">
         <li><i class="el-icon-platform-eleme"></i></li>
         <li><i class="el-icon-help"></i></li>
@@ -23,7 +23,7 @@
       </ul>
       <h4 class="col-6">Job Interview Training</h4>
       <p class="col-3">© Copyright CPMP. All Rights Reserved</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -80,7 +80,7 @@ export default {
 body {
   margin: 0 !important;
   padding: 0 !important;
-  // font-family: "Times New Roman", Times, serif !important;
+  font-family: Arial !important;
 }
 .banner {
   height: 100px;
@@ -98,7 +98,7 @@ body {
 }
 .mainContainer {
   background-color: #edf0f5;
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 100px);
   // overflow: hidden;
 }
 .footer {
