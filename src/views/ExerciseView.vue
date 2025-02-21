@@ -37,33 +37,83 @@
       </div>
 
       <div class="mt-5">
+        <div class="clientPop">
+          <h6><b>You:</b></h6>
+          <p class="d-inline-block">{{ chatInfo.user_text }}</p>
+          <!-- <div class="d-inline-block whiteSpace"></div> -->
+          <!-- <MiniAudioPlayer
+            :audioSrc="chatInfo.user_audio_url"
+            class="d-inline-block"
+          /> -->
+        </div>
         <div class="AIpop">
           <!-- <p>{{ chatInfo.response_text }}</p> -->
+          <h6><b>Coach:</b></h6>
           <vue-typer :text="chatInfo.response_text" :repeat="0"></vue-typer>
+          <div class="d-inline-block whiteSpace"></div>
+          <MiniAudioPlayer
+            :audioSrc="chatInfo.tts_audio_url"
+            class="d-inline-block"
+          />
         </div>
-        <div class="clearfix"></div>
-        <div class="clientPop">
-          <p>
-            Good day Jennifer! I'm pleased to meet with you and discuss the
-            opportunity with your company.
-          </p>
-        </div>
+        <el-collapse>
+          <el-collapse-item
+            title="View evaluation"
+            name="evaluation"
+            v-if="chatInfo.evaluation"
+          >
+            <div class="row evaluation">
+              <div class="col-4">
+                <div class="evaluationLeft">
+                  <div>
+                    <h5>Category:</h5>
+                    <p>{{ chatInfo.evaluation.question_category }}</p>
+                  </div>
+                  <div>
+                    <h5>Level:</h5>
+                    <p>{{ chatInfo.evaluation.question_difficulty }}</p>
+                  </div>
+                  <div>
+                    <h5>Score:</h5>
+                    <p>{{ chatInfo.evaluation.score + "/10" }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-8">
+                <div class="evaluationRight">
+                  <div>
+                    <h5 style="color: #004aad">Assessment:</h5>
+                    <p>{{ chatInfo.evaluation.assessment }}</p>
+                  </div>
+                  <div>
+                    <h5 style="color: #f9943b">Advice:</h5>
+                    <p>{{ chatInfo.evaluation.advice }}</p>
+                  </div>
+                  <div>
+                    <h5 style="color: #265d48">Improved example:</h5>
+                    <p>{{ chatInfo.evaluation.revised_example }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
       </div>
       <voice-recorder
+        class="mt-5"
         @record-complete="handleRecord"
         @send="handleSend"
         main-color="#409EFF"
       />
-      <AudioRecorder :practiceMode="practiceMode" />
     </div>
   </div>
 </template>
 
 <script>
-import AudioRecorder from "../components/AudioRecorder.vue";
 import VoiceRecorder from "../components/VoiceRecorder.vue";
+import MiniAudioPlayer from "../components/MiniAudioPlayer.vue";
 export default {
-  components: { AudioRecorder, VoiceRecorder },
+  components: { VoiceRecorder, MiniAudioPlayer },
   data() {
     return {};
   },
@@ -132,6 +182,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     this.$store.commit("switchShowPractice", false);
+    this.$store.commit("getChatInfo", {});
     next();
   },
   methods: {
@@ -145,47 +196,22 @@ export default {
       audio.play();
     },
     handleSend(blob) {
-      console.log(blob);
-      // 处理发送逻辑
+      const formData = new FormData();
+      formData.append("audio", blob, "recording.wav");
+      formData.append("mode", this.practiceMode);
+      formData.append("new_conversation", false);
+      formData.append("conversation_id", this.chatInfo.conversation_id);
+
+      this.$store.commit("switchLoadingStatus", true);
+      this.$store
+        .dispatch("getChatInfo", formData)
+        .then(() => {
+          this.$store.commit("switchLoadingStatus", false);
+        })
+        .catch(() => {
+          this.$store.commit("switchLoadingStatus", false);
+        });
     },
-    // async startAudioPractice() {
-    //   try {
-    //     // 引入音频文件
-    //     const audioUrl = require("@/assets/letStart.wav");
-
-    //     // 使用 fetch 获取音频文件的 Blob 对象，并处理可能的错误
-    //     const response = await fetch(audioUrl);
-    //     if (!response.ok) {
-    //       throw new Error(`请求音频文件失败: ${response.statusText}`);
-    //     }
-    //     const audioBlob = await response.blob();
-
-    //     console.log(audioBlob);
-
-    //     // 创建 FormData 实例
-    //     const formData = new FormData();
-
-    //     // 添加音频文件到 FormData
-    //     formData.append("audio", audioBlob, "recording.wav");
-
-    //     // 添加其他数据到 FormData
-    //     formData.append("mode", this.practiceMode);
-    //     formData.append("new_conversation", true);
-
-    //     // 开启加载状态
-    //     this.$store.commit("switchLoadingStatus", true);
-
-    //     // 分发 Vuex action 并处理可能的错误
-    //     await this.$store.dispatch("getChatInfo", formData);
-
-    //     // 关闭加载状态
-    //     this.$store.commit("switchLoadingStatus", false);
-    //   } catch (error) {
-    //     // 关闭加载状态
-    //     this.$store.commit("switchLoadingStatus", false);
-    //     console.error("音频练习出错:", error);
-    //   }
-    // },
   },
 };
 </script>
@@ -194,6 +220,9 @@ export default {
 .withebox {
   height: 130px;
   width: 100%;
+}
+.whiteSpace {
+  width: 10px;
 }
 .backBtn {
   padding-top: 10px;
@@ -239,13 +268,9 @@ export default {
     font-weight: bold;
   }
   .AIpop {
-    float: left;
     background-color: #fcf1d8;
-    border-radius: 50px;
+    border-radius: 10px;
     padding: 10px;
-    width: fit-content;
-    max-width: 45%;
-    margin-left: 20px;
     p {
       line-height: 1.5; /* 调整行高，让文字垂直方向更合理，可根据需要调整数值 */
       overflow-wrap: break-word; /* 允许在单词内换行，保证内容不溢出容器 */
@@ -254,13 +279,9 @@ export default {
     }
   }
   .clientPop {
-    float: right;
     background-color: #c0f0f7;
-    border-radius: 50px;
+    border-radius: 10px;
     padding: 10px;
-    width: fit-content;
-    max-width: 45%;
-    margin-right: 20px;
     p {
       line-height: 1.5; /* 调整行高，让文字垂直方向更合理，可根据需要调整数值 */
       overflow-wrap: break-word; /* 允许在单词内换行，保证内容不溢出容器 */
@@ -268,8 +289,15 @@ export default {
       margin: 0;
     }
   }
-  .clearfix {
-    clear: both;
+  ::v-deep .el-collapse-item__header {
+    padding-left: 10px !important;
+    font-weight: bold !important;
+  }
+  .evaluation {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    margin: 0;
   }
   .btnGroup {
     clear: both;
