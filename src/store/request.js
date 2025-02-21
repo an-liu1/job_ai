@@ -34,6 +34,7 @@ axios.interceptors.response.use(
       if (error.response.status == 401) {
         localStorage.clear();
         sessionStorage.clear();
+        store.commit("setLoginStatus", false);
         router.push("/account");
       }
       store.commit("switchLoadingStatus", false);

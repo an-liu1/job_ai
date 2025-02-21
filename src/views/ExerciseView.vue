@@ -36,68 +36,75 @@
         </div>
       </div>
 
-      <div class="mt-5">
-        <div class="clientPop">
-          <h6><b>You:</b></h6>
-          <p class="d-inline-block">{{ chatInfo.user_text }}</p>
-          <!-- <div class="d-inline-block whiteSpace"></div> -->
-          <!-- <MiniAudioPlayer
-            :audioSrc="chatInfo.user_audio_url"
-            class="d-inline-block"
-          /> -->
-        </div>
-        <div class="AIpop">
-          <!-- <p>{{ chatInfo.response_text }}</p> -->
-          <h6><b>Coach:</b></h6>
-          <vue-typer :text="chatInfo.response_text" :repeat="0"></vue-typer>
-          <div class="d-inline-block whiteSpace"></div>
-          <MiniAudioPlayer
-            :audioSrc="chatInfo.tts_audio_url"
-            class="d-inline-block"
-          />
-        </div>
-        <el-collapse>
-          <el-collapse-item
-            title="View evaluation"
-            name="evaluation"
-            v-if="chatInfo.evaluation"
-          >
-            <div class="row evaluation">
-              <div class="col-4">
-                <div class="evaluationLeft">
-                  <div>
-                    <h5>Category:</h5>
-                    <p>{{ chatInfo.evaluation.question_category }}</p>
+      <div class="chat-container mt-5">
+        <!-- 新增对话容器 -->
+        <div v-for="(msg, index) in chatHistory" :key="index">
+          <!-- 用户消息 -->
+          <div v-if="msg.type === 'user'" class="clientPop">
+            <h6><b>You:</b></h6>
+            <p class="d-inline-block">{{ msg.text }}</p>
+            <!-- <MiniAudioPlayer
+              v-if="msg.audio"
+              :audioSrc="msg.audio"
+              class="d-inline-block"
+            /> -->
+          </div>
+
+          <!-- AI消息 -->
+          <div v-else class="AIpop">
+            <h6><b>Coach:</b></h6>
+            <vue-typer :text="msg.text" :repeat="0"></vue-typer>
+            <div class="d-inline-block whiteSpace"></div>
+            <MiniAudioPlayer
+              v-if="msg.audio"
+              :audio-src="msg.audio"
+              class="d-inline-block"
+            />
+
+            <el-collapse>
+              <el-collapse-item
+                title="View evaluation"
+                name="evaluation"
+                v-if="chatInfo.evaluation"
+              >
+                <div class="row evaluation">
+                  <div class="col-4">
+                    <div class="evaluationLeft">
+                      <div>
+                        <h5>Category:</h5>
+                        <p>{{ chatInfo.evaluation.question_category }}</p>
+                      </div>
+                      <div>
+                        <h5>Level:</h5>
+                        <p>{{ chatInfo.evaluation.question_difficulty }}</p>
+                      </div>
+                      <div>
+                        <h5>Score:</h5>
+                        <p>{{ chatInfo.evaluation.score + "/10" }}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h5>Level:</h5>
-                    <p>{{ chatInfo.evaluation.question_difficulty }}</p>
-                  </div>
-                  <div>
-                    <h5>Score:</h5>
-                    <p>{{ chatInfo.evaluation.score + "/10" }}</p>
+                  <div class="col-8">
+                    <div class="evaluationRight">
+                      <div>
+                        <h5 style="color: #004aad">Assessment:</h5>
+                        <p>{{ chatInfo.evaluation.assessment }}</p>
+                      </div>
+                      <div>
+                        <h5 style="color: #f9943b">Advice:</h5>
+                        <p>{{ chatInfo.evaluation.advice }}</p>
+                      </div>
+                      <div>
+                        <h5 style="color: #265d48">Improved example:</h5>
+                        <p>{{ chatInfo.evaluation.revised_example }}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-8">
-                <div class="evaluationRight">
-                  <div>
-                    <h5 style="color: #004aad">Assessment:</h5>
-                    <p>{{ chatInfo.evaluation.assessment }}</p>
-                  </div>
-                  <div>
-                    <h5 style="color: #f9943b">Advice:</h5>
-                    <p>{{ chatInfo.evaluation.advice }}</p>
-                  </div>
-                  <div>
-                    <h5 style="color: #265d48">Improved example:</h5>
-                    <p>{{ chatInfo.evaluation.revised_example }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+        </div>
       </div>
       <voice-recorder
         class="mt-5"
@@ -115,7 +122,9 @@ import MiniAudioPlayer from "../components/MiniAudioPlayer.vue";
 export default {
   components: { VoiceRecorder, MiniAudioPlayer },
   data() {
-    return {};
+    return {
+      chatHistory: [], // 新增历史记录数组
+    };
   },
   computed: {
     showPractice: function () {
@@ -169,20 +178,25 @@ export default {
         formData.append("mode", this.practiceMode);
         formData.append("new_conversation", true);
         this.$store.commit("switchLoadingStatus", true);
-        this.$store
-          .dispatch("getChatInfo", formData)
-          .then(() => {
-            this.$store.commit("switchLoadingStatus", false);
-          })
-          .catch(() => {
-            this.$store.commit("switchLoadingStatus", false);
-          });
+        this.$store.dispatch("getChatInfo", formData).then(() => {
+          this.chatHistory = []; // 清空历史记录
+          if (this.chatInfo.response_text) {
+            this.chatHistory.push({
+              type: "ai",
+              text: this.chatInfo.response_text,
+              audio: this.chatInfo.tts_audio_url,
+              evaluation: this.chatInfo.evaluation,
+            });
+          }
+          this.$store.commit("switchLoadingStatus", false);
+          this.scrollToBottom();
+        });
       }
     },
   },
   beforeRouteLeave(to, from, next) {
     this.$store.commit("switchShowPractice", false);
-    this.$store.commit("getChatInfo", {});
+    this.chatHistory = [];
     next();
   },
   methods: {
@@ -203,14 +217,36 @@ export default {
       formData.append("conversation_id", this.chatInfo.conversation_id);
 
       this.$store.commit("switchLoadingStatus", true);
-      this.$store
-        .dispatch("getChatInfo", formData)
-        .then(() => {
-          this.$store.commit("switchLoadingStatus", false);
-        })
-        .catch(() => {
-          this.$store.commit("switchLoadingStatus", false);
-        });
+      this.$store.dispatch("getChatInfo", formData).then(() => {
+        // 添加用户消息
+        if (this.chatInfo.user_text) {
+          this.chatHistory.push({
+            type: "user",
+            text: this.chatInfo.user_text,
+            audio: this.chatInfo.user_audio_url,
+          });
+        }
+
+        // 添加AI回复
+        if (this.chatInfo.response_text) {
+          this.chatHistory.push({
+            type: "ai",
+            text: this.chatInfo.response_text,
+            audio: this.chatInfo.tts_audio_url,
+            evaluation: this.chatInfo.evaluation,
+          });
+        }
+        this.$store.commit("switchLoadingStatus", false);
+        this.scrollToBottom();
+      });
+    },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const container = this.$el.querySelector(".chat-container");
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
+      });
     },
   },
 };
@@ -266,6 +302,12 @@ export default {
   }
   h2 {
     font-weight: bold;
+  }
+  .chat-container {
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ebeef5;
+    border-radius: 4px;
   }
   .AIpop {
     background-color: #fcf1d8;
