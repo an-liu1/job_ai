@@ -5,7 +5,7 @@
       <el-tab-pane label="Final assessment" name="assessment"></el-tab-pane>
     </el-tabs>
     <div v-if="activeName == 'summary'" class="summary">
-      <h2 class="title">Summary</h2>
+      <h2 class="title">Summary - {{ conversationID }}</h2>
       <el-collapse
         v-for="(i, index) of chatHistoryDetail.messages"
         :key="index"
@@ -60,7 +60,7 @@
       </el-collapse>
     </div>
     <div v-if="activeName == 'assessment'" class="assessment">
-      <h2 class="title">Final assessment</h2>
+      <h2 class="title">Final assessment - {{ conversationID }}</h2>
       <h3>Your Score: {{ finalAssessmentDetail.overall_score }}/10</h3>
       <div class="row">
         <div class="col-6 Strengths">
@@ -171,6 +171,7 @@ export default {
       display: flex;
       align-items: center; /* 垂直居中对齐 */
       gap: 10px; /* 元素之间的间距 */
+      margin-bottom: 10px;
     }
     ::v-deep .el-collapse-item__header {
       padding-left: 10px !important;

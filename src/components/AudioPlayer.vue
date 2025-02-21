@@ -151,11 +151,6 @@ export default {
   background: rgba(255, 255, 255, 0.9);
   padding: 2px 4px;
   border-radius: 3px;
-  display: none;
-}
-
-.progress-container:hover .time {
-  display: block;
 }
 
 .right-controls {

@@ -49,7 +49,11 @@
           </p>
         </div>
       </div>
-
+      <voice-recorder
+        @record-complete="handleRecord"
+        @send="handleSend"
+        main-color="#409EFF"
+      />
       <AudioRecorder :practiceMode="practiceMode" />
     </div>
   </div>
@@ -57,8 +61,9 @@
 
 <script>
 import AudioRecorder from "../components/AudioRecorder.vue";
+import VoiceRecorder from "../components/VoiceRecorder.vue";
 export default {
-  components: { AudioRecorder },
+  components: { AudioRecorder, VoiceRecorder },
   data() {
     return {};
   },
@@ -133,6 +138,15 @@ export default {
     startPractice: function (mode) {
       this.$store.commit("setPracticeMode", mode);
       this.$store.commit("switchShowPractice", true);
+    },
+    handleRecord(blob) {
+      const audioURL = URL.createObjectURL(blob);
+      const audio = new Audio(audioURL);
+      audio.play();
+    },
+    handleSend(blob) {
+      console.log(blob);
+      // 处理发送逻辑
     },
     // async startAudioPractice() {
     //   try {

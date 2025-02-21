@@ -5,6 +5,7 @@
       height="1250"
       border
       class="col-4 histroyTable"
+      highlight-current-row
       @row-click="openHistoryDetail"
     >
       <el-table-column
