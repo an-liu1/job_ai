@@ -36,6 +36,7 @@ axios.interceptors.response.use(
         sessionStorage.clear();
         store.commit("setLoginStatus", false);
         router.push("/account");
+        return Promise.resolve();
       }
       store.commit("switchLoadingStatus", false);
     }

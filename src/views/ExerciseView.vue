@@ -127,6 +127,9 @@ export default {
     };
   },
   computed: {
+    loginStatus: function () {
+      return this.$store.state.loginStatus;
+    },
     showPractice: function () {
       return this.$store.state.showPractice;
     },
@@ -195,7 +198,7 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
-    if (this.showPractice) {
+    if (this.showPractice && this.loginStatus) {
       this.$confirm(
         "Leaving will interrupt this interview. Do you want to continue?",
         "warning",
@@ -220,8 +223,12 @@ export default {
   },
   methods: {
     startPractice: function (mode) {
-      this.$store.commit("setPracticeMode", mode);
-      this.$store.commit("switchShowPractice", true);
+      if (this.loginStatus) {
+        this.$store.commit("setPracticeMode", mode);
+        this.$store.commit("switchShowPractice", true);
+      } else {
+        this.$router.push("/account");
+      }
     },
     handleRecord(blob) {
       const audioURL = URL.createObjectURL(blob);

@@ -51,9 +51,12 @@ VueRouter.prototype.push = function push(location) {
 };
 
 router.onError((error) => {
-  if (error.name !== "NavigationAborted") {
-    // Handle other errors
-    throw error;
+  // 忽略重定向和中止导航的错误
+  if (
+    error.name !== "NavigationRedirected" &&
+    error.name !== "NavigationAborted"
+  ) {
+    console.error("Global navigation error:", error);
   }
 });
 
