@@ -65,22 +65,22 @@
               <el-collapse-item
                 title="View evaluation"
                 name="evaluation"
-                v-if="chatInfo.evaluation"
+                v-if="msg.evaluation"
               >
                 <div class="row evaluation">
                   <div class="col-4">
                     <div class="evaluationLeft">
                       <div>
                         <h5>Category:</h5>
-                        <p>{{ chatInfo.evaluation.question_category }}</p>
+                        <p>{{ msg.evaluation.question_category }}</p>
                       </div>
                       <div>
                         <h5>Level:</h5>
-                        <p>{{ chatInfo.evaluation.question_difficulty }}</p>
+                        <p>{{ msg.evaluation.question_difficulty }}</p>
                       </div>
                       <div>
                         <h5>Score:</h5>
-                        <p>{{ chatInfo.evaluation.score + "/10" }}</p>
+                        <p>{{ msg.evaluation.score + "/10" }}</p>
                       </div>
                     </div>
                   </div>
@@ -88,15 +88,15 @@
                     <div class="evaluationRight">
                       <div>
                         <h5 style="color: #004aad">Assessment:</h5>
-                        <p>{{ chatInfo.evaluation.assessment }}</p>
+                        <p>{{ msg.evaluation.assessment }}</p>
                       </div>
                       <div>
                         <h5 style="color: #f9943b">Advice:</h5>
-                        <p>{{ chatInfo.evaluation.advice }}</p>
+                        <p>{{ msg.evaluation.advice }}</p>
                       </div>
                       <div>
                         <h5 style="color: #265d48">Improved example:</h5>
-                        <p>{{ chatInfo.evaluation.revised_example }}</p>
+                        <p>{{ msg.evaluation.revised_example }}</p>
                       </div>
                     </div>
                   </div>
