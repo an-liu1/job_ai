@@ -2,7 +2,24 @@
   <div>
     <div class="withebox"></div>
     <div class="loginContainer" v-if="loginStatus">
-      <h2 class="text-center pt-5 pb-5">Logged in</h2>
+      <h2 class="text-center pt-5 pb-5">Hello {{ userProfile.username }}!</h2>
+      <div class="row">
+        <el-descriptions
+          title="User Information"
+          class="col-10 mx-auto"
+          column="1"
+        >
+          <el-descriptions-item label="Username">{{
+            userProfile.username
+          }}</el-descriptions-item>
+          <el-descriptions-item label="Email">{{
+            userProfile.email
+          }}</el-descriptions-item>
+          <el-descriptions-item label="Id">{{
+            userProfile.id
+          }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
       <div class="text-center pb-5">
         <el-button type="primary" round @click="logout">log out</el-button>
       </div>
@@ -162,7 +179,7 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.$store.dispatch("login", this.loginForm).then(() => {
-            // this.$store.dispatch("getUserProfile");
+            this.$store.dispatch("getUserInfo");
             this.$router.go(-1);
           });
         } else {

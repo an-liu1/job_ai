@@ -50,4 +50,11 @@ VueRouter.prototype.push = function push(location) {
   });
 };
 
+router.onError((error) => {
+  if (error.name !== "NavigationAborted") {
+    // Handle other errors
+    throw error;
+  }
+});
+
 export default router;

@@ -107,7 +107,7 @@
         </div>
       </div>
       <voice-recorder
-        class="mt-5"
+        class="mt-5 mb-5"
         @record-complete="handleRecord"
         @send="handleSend"
         main-color="#409EFF"
@@ -195,9 +195,28 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.commit("switchShowPractice", false);
-    this.chatHistory = [];
-    next();
+    if (this.showPractice) {
+      this.$confirm(
+        "Leaving will interrupt this interview. Do you want to continue?",
+        "warning",
+        {
+          cancelButtonText: "Back",
+          confirmButtonText: "Ok",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          this.$store.commit("switchShowPractice", false);
+          this.chatHistory = [];
+          next();
+        })
+        .catch(() => {
+          console.log(123);
+        });
+    } else {
+      this.$store.commit("switchShowPractice", false);
+      next();
+    }
   },
   methods: {
     startPractice: function (mode) {

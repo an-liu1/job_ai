@@ -116,7 +116,7 @@ export default {
       return this.$store.state.chatHistoryDetail;
     },
     finalAssessmentDetail: function () {
-      return this.$store.state.finalAssessmentDetail;
+      return this.$store.state.finalAssessmentDetail.final_assessment;
     },
     conversationID: function () {
       return this.$store.state.conversationID;

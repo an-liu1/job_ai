@@ -71,8 +71,12 @@ export default new Vuex.Store({
       let res = await request("post", "accounts/register/", data);
       commit("signup", res);
     },
-    async getUserProfile({ commit }) {
-      let res = await request("get", "accounts/profile/");
+    // async getUserProfile({ commit }) {
+    //   let res = await request("get", "accounts/profile/");
+    //   commit("getUserProfile", res);
+    // },
+    async getUserInfo({ commit }) {
+      let res = await request("get", "accounts/userinfo/");
       commit("getUserProfile", res);
     },
     async getBlogs({ commit }) {
@@ -93,7 +97,7 @@ export default new Vuex.Store({
     },
     async getFinalAssessmentDetail({ commit }, data) {
       let res = await request("post", `jobapp/final-assessment/${data}/`);
-      commit("getFinalAssessmentDetail", res.final_assessment);
+      commit("getFinalAssessmentDetail", res);
     },
   },
 
