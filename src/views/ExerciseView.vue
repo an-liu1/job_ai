@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="!showPractice ? 'withebox' : ''"></div>
-    <div class="practiceContainer" v-if="!showPractice">
+    <div class="practiceContainer row col-11 col-lg-5" v-if="!showPractice">
       <h3 class="text-center mt-5 mb-3">What would you like to practice?</h3>
       <div class="practiceBtnContainer">
         <div class="practiceBtn">
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="textareaContainer row" v-if="showPractice">
+    <div class="textareaContainer row col-11 col-lg-7" v-if="showPractice">
       <h6 @click="$store.commit('switchShowPractice', false)" class="backBtn">
         <i class="el-icon-arrow-left"></i> Back
       </h6>
@@ -301,13 +301,11 @@ export default {
 }
 .practiceContainer {
   border: 1px solid #000000;
-  width: 550px;
   height: 400px;
   background-color: #ffffff;
   margin: 0 auto;
   .practiceBtnContainer {
     text-align: center !important;
-    margin-top: 50px;
     .practiceBtn {
       margin-top: 30px;
       .el-button {
@@ -322,7 +320,6 @@ export default {
 }
 .textareaContainer {
   // border: 1px solid #000000;
-  width: 1000px;
   // background-color: #ffffff;
   margin: 0 auto;
   .banner {

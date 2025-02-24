@@ -1,31 +1,38 @@
 <template>
   <div class="row">
-    <el-table
-      :data="chatHistory"
-      height="1250"
-      border
-      class="col-4 histroyTable"
-      highlight-current-row
-      @row-click="openHistoryDetail"
-    >
-      <el-table-column
-        :sortable="true"
-        prop="conversation_id"
-        label="Conversation ID"
-        align="center"
+    <div class="col-11 col-lg-4 mx-auto">
+      <el-table
+        :data="chatHistory"
+        height="830"
+        border
+        class="histroyTable"
+        highlight-current-row
+        @row-click="openHistoryDetail"
       >
-      </el-table-column>
-      <el-table-column :sortable="true" prop="mode" label="Mode" align="center">
-      </el-table-column>
-      <el-table-column
-        :sortable="true"
-        prop="started_at"
-        label="Time"
-        align="center"
-      >
-      </el-table-column>
-    </el-table>
-    <HistoryViewDetail class="col-8 historyDetail" />
+        <el-table-column
+          :sortable="true"
+          prop="conversation_id"
+          label="Conversation ID"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          :sortable="true"
+          prop="mode"
+          label="Mode"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column
+          :sortable="true"
+          prop="started_at"
+          label="Time"
+          align="center"
+        >
+        </el-table-column>
+      </el-table>
+    </div>
+    <HistoryViewDetail class="col-11 col-lg-8 mx-auto historyDetail" />
   </div>
 </template>
 

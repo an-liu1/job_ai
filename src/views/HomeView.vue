@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mainContainer row">
-      <div class="bannerContainer col-8 mx-auto">
+      <div class="bannerContainer col-11 col-lg-8 mx-auto">
         <div class="text-center title">
           <vue-typer
             text="Your AI Interview Coach – Practice. Improve. Succeed."
@@ -43,7 +43,7 @@
           <div
             v-for="(i, index) in userGuide"
             :key="index"
-            class="col-4 cardsection"
+            class="col-12 col-lg-4 cardsection"
           >
             <el-image :src="i.img"></el-image>
             <h4>{{ i.title }}</h4>

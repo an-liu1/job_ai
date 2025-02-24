@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="withebox"></div>
-    <div class="loginContainer" v-if="loginStatus">
+    <div class="loginContainer col-11 col-lg-4" v-if="loginStatus">
       <h2 class="text-center pt-5 pb-5">Hello {{ userProfile.username }}!</h2>
       <div class="row">
         <el-descriptions
@@ -24,7 +24,7 @@
         <el-button type="primary" round @click="logout">log out</el-button>
       </div>
     </div>
-    <div class="loginContainer" v-else>
+    <div class="loginContainer col-11 col-lg-4" v-else>
       <div class="logo">
         <el-image :src="logoImg"></el-image>
       </div>
@@ -235,12 +235,11 @@ export default {
   width: 100%;
 }
 .loginContainer {
-  width: 500px;
   margin: 0 auto;
   background-color: #ffffff;
   border-radius: 10px;
   .logo {
-    width: 50%;
+    width: 30%;
     margin: 0 auto;
     padding: 20px 0 0 0;
   }
