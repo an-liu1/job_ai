@@ -100,7 +100,7 @@ body {
   float: left;
 }
 .mainContainer {
-  background-color: #edf0f5;
+  background-color: #f2faff;
   min-height: calc(100vh - 100px);
   // overflow: hidden;
 }

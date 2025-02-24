@@ -2,10 +2,13 @@
   <div>
     <div :class="!showPractice ? 'withebox' : ''"></div>
     <div class="practiceContainer" v-if="!showPractice">
+      <h3 class="text-center mt-5 mb-3">
+        Ready to put your skills to the test?
+      </h3>
       <div class="practiceBtnContainer">
         <div class="practiceBtn">
-          <el-button type="success" @click="startPractice('mock')"
-            >Mock Interview</el-button
+          <el-button type="primary" @click="startPractice('mock')"
+            >Start Mock Interview</el-button
           >
         </div>
       </div>
@@ -130,10 +133,12 @@ export default {
     },
     practiceInfo: function () {
       return {
-        img: require("@/assets/common.png"),
+        img: require("@/assets/mock.png"),
         title: "Mock Interview",
         des: [
-          "Conducting a mock interview is a way to prepare for a job interview. A mock interview experience allows you to develop your nonverbal body language, craft responses to behavioural interview questions, and become comfortable in an interview environment. A mock interview can simulate any real-world interview experience, be it over the phone, in person, or leverage this powerfull mock interview training bot.",
+          "Get the full interview experience with a series of curated questions.",
+          "Respond naturally and try using the STAR method for structured answers.",
+          "You will receive your full answer evaluation once you finish this mock interview!",
         ],
       };
     },
@@ -263,7 +268,7 @@ export default {
 .practiceContainer {
   border: 1px solid #000000;
   width: 550px;
-  height: 150px;
+  height: 220px;
   background-color: #ffffff;
   margin: 0 auto;
   .practiceBtnContainer {
