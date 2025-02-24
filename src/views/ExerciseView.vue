@@ -61,7 +61,13 @@
               class="d-inline-block"
             />
 
-            <el-collapse v-if="msg.evaluation.score !== 0">
+            <el-collapse
+              v-if="
+                msg.evaluation &&
+                msg.evaluation.score !== 0 &&
+                msg.evaluation.score !== null
+              "
+            >
               <el-collapse-item
                 title="View evaluation"
                 name="evaluation"

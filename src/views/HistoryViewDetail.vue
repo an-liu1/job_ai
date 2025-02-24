@@ -12,15 +12,20 @@
         class="detailSection"
       >
         <p class="mt-3">
-          <b>{{ i.role == "user" ? "Me: " : "Coach: " }}</b> {{ i.content }}
+          <b>{{ i.role == "user" ? "Me: " : "Coach: " }}</b>
         </p>
+        <p v-html="sanitize(i.content.replace(/\n/g, '<br />'))"></p>
         <div class="audio-container" v-if="i.audio_url">
           <AudioPlayer :src="i.audio_url" style="width: 260px; height: 40px" />
         </div>
         <el-collapse-item
           title="View evaluation"
           :name="index"
-          v-if="i.evaluation && i.evaluation.score !== 0"
+          v-if="
+            i.evaluation &&
+            i.evaluation.score !== 0 &&
+            i.evaluation.score !== null
+          "
         >
           <div class="row evaluation">
             <div class="col-4">
@@ -101,6 +106,7 @@
 </template>
 
 <script>
+import DOMPurify from "dompurify";
 import AudioPlayer from "../components/AudioPlayer.vue";
 export default {
   components: {
@@ -116,7 +122,7 @@ export default {
       return this.$store.state.chatHistoryDetail;
     },
     finalAssessmentDetail: function () {
-      return this.$store.state.finalAssessmentDetail.final_assessment;
+      return this.$store.state.finalAssessmentDetail.final_assessment || {};
     },
     conversationID: function () {
       return this.$store.state.conversationID;
@@ -130,6 +136,9 @@ export default {
     },
   },
   methods: {
+    sanitize(html) {
+      return DOMPurify.sanitize(html);
+    },
     handleClick(tab) {
       if (tab.name == "assessment") {
         this.$store.commit("switchLoadingStatus", true);
