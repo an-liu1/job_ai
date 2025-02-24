@@ -64,7 +64,7 @@ export default new Vuex.Store({
   actions: {
     async login({ commit }, data) {
       let res = await request("post", "accounts/login/", data);
-      localStorage.setItem("Authorization", res.tokens.access);
+      localStorage.setItem("Authorization", res.data.tokens.access);
       commit("setLoginStatus", true);
     },
     async signup({ commit }, data) {
