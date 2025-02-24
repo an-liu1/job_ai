@@ -73,6 +73,9 @@ export default {
       sessionStorage.setItem("store", JSON.stringify(this.$store.state));
     });
   },
+  mounted() {
+    this.$store.commit("switchLoadingStatus", false);
+  },
 };
 </script>
 
@@ -83,12 +86,12 @@ body {
   font-family: Arial !important;
 }
 .banner {
-  height: 100px;
+  height: 80px;
   width: 100%;
   text-align: center;
   .el-image {
-    height: 50px;
-    margin-top: 20px;
+    height: 60px;
+    margin-top: 10px;
   }
 }
 .mainNav {

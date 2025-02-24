@@ -113,7 +113,7 @@
 export default {
   data() {
     return {
-      logoImg: require("@/assets/logo.png"),
+      logoImg: require("@/assets/logo1.png"),
       labelPosition: "left",
       loginForm: { email: "", password: "" },
       signupForm: { username: "", email: "", password1: "", password2: "" },
@@ -240,9 +240,9 @@ export default {
   background-color: #ffffff;
   border-radius: 10px;
   .logo {
-    width: 80%;
+    width: 50%;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 20px 0 0 0;
   }
   .lgoinplace {
     width: 80%;

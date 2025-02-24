@@ -50,7 +50,7 @@
               class="d-inline-block"
             />
 
-            <el-collapse>
+            <el-collapse v-if="msg.evaluation.score !== 0">
               <el-collapse-item
                 title="View evaluation"
                 name="evaluation"
@@ -198,9 +198,10 @@ export default {
       }
     },
     handleRecord(blob) {
-      const audioURL = URL.createObjectURL(blob);
-      const audio = new Audio(audioURL);
-      audio.play();
+      console.log(blob);
+      // const audioURL = URL.createObjectURL(blob);
+      // const audio = new Audio(audioURL);
+      // audio.play();
     },
     handleSend(blob) {
       const formData = new FormData();

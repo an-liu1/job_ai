@@ -20,7 +20,7 @@
         <el-collapse-item
           title="View evaluation"
           :name="index"
-          v-if="i.evaluation"
+          v-if="i.evaluation && i.evaluation.score !== 0"
         >
           <div class="row evaluation">
             <div class="col-4">
