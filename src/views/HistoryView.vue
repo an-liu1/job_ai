@@ -12,11 +12,17 @@
         :sortable="true"
         prop="conversation_id"
         label="Conversation ID"
+        align="center"
       >
       </el-table-column>
-      <el-table-column :sortable="true" prop="mode" label="Mode">
+      <el-table-column :sortable="true" prop="mode" label="Mode" align="center">
       </el-table-column>
-      <el-table-column :sortable="true" prop="started_at" label="Time">
+      <el-table-column
+        :sortable="true"
+        prop="started_at"
+        label="Time"
+        align="center"
+      >
       </el-table-column>
     </el-table>
     <HistoryViewDetail class="col-8 historyDetail" />

@@ -96,8 +96,10 @@ body {
 }
 .mainNav {
   background-color: #ffffff;
-  // height: calc(100vh - 160px);
-  float: left;
+  position: fixed !important;
+  top: 100px;
+  left: 0;
+  z-index: 999;
 }
 .mainContainer {
   background-color: #f2faff;

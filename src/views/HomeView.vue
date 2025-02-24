@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mainContainer row">
-      <div class="col-8 mx-auto">
+      <div class="bannerContainer col-8 mx-auto">
         <div class="text-center title">
           <vue-typer
             text="Your AI Interview Coach – Practice. Improve. Succeed."
@@ -29,8 +29,27 @@
           ></el-button>
         </div>
       </div>
-      <div class="guideVideo col-6 mx-auto">
-        <el-image :src="bannerImg"></el-image>
+      <div class="guideVideo">
+        <div class="col-6 mx-auto">
+          <el-image
+            :src="bannerImg"
+            fit="cover"
+            style="width: 960px; height: 430px"
+          ></el-image>
+        </div>
+      </div>
+      <div class="guideSection">
+        <div class="col-9 mx-auto row">
+          <div
+            v-for="(i, index) in userGuide"
+            :key="index"
+            class="col-4 cardsection"
+          >
+            <el-image :src="i.img"></el-image>
+            <h4>{{ i.title }}</h4>
+            <p>{{ i.content }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -43,7 +62,30 @@ export default {
       bannerImg: require("@/assets/banner.png"),
     };
   },
-  computed: {},
+  computed: {
+    userGuide: function () {
+      return [
+        {
+          img: require("@/assets/guide1.png"),
+          title: "Practice & Simulate Real Interviews with Instant Feedback",
+          content:
+            "Train with common, situational, and tough questions, or experience a full mock interview. Receive AI-powered feedback to refine your answers and improve your performance.",
+        },
+        {
+          img: require("@/assets/guide2.png"),
+          title: "Speak Your Answers for a More Realistic Experience",
+          content:
+            "Use voice input to practice answering naturally, just like in a real interview. Strengthen your confidence and delivery with every response.",
+        },
+        {
+          img: require("@/assets/guide3.png"),
+          title: "Track Your Progress with Saved History",
+          content:
+            "Automatically save your responses and feedback. Review past answers, identify areas for improvement, and see how much you’ve grown!",
+        },
+      ];
+    },
+  },
   methods: {
     startPractice: function () {
       this.$router.push("/exercise");
@@ -56,25 +98,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mainContainer {
-  padding: 100px 5% 0 5%;
-}
-.title {
-  font-size: 32px;
-  margin: 20px 0;
-  font-weight: bold;
-}
-.subTitle {
-  margin-top: 60px;
-}
-.startBtn {
-  margin-top: 80px;
-  font-size: 18px;
-  font-weight: bold;
+.bannerContainer {
+  padding: 150px 0;
+  .title {
+    font-size: 32px;
+    margin: 20px 0;
+    font-weight: bold;
+  }
+  .subTitle {
+    margin-top: 60px;
+  }
+  .startBtn {
+    margin-top: 80px;
+    font-size: 18px;
+    font-weight: bold;
+  }
 }
 
 .guideVideo {
-  margin-top: 100px;
-  // height: 350px;
+  background-color: #ffffff;
+  padding: 150px 0;
+}
+.guideSection {
+  background-color: #fcf1d8;
+  padding: 150px 0;
+  .cardsection {
+    padding: 20px 50px;
+    h4 {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
 }
 </style>
