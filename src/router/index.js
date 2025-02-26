@@ -34,6 +34,11 @@ const routes = [
     name: "Account View",
     component: () => import("../views/AccountView.vue"),
   },
+  {
+    path: "/verify-email/:token",
+    name: "verify-email",
+    component: () => import("../views/VerifyEmail.vue"),
+  },
 ];
 
 const router = new VueRouter({

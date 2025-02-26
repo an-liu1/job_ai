@@ -10,6 +10,7 @@ export default new Vuex.Store({
     isCollapse: true,
     loginStatus: false,
     signupResponse: {},
+    verifyEmailResponse: {},
     blogs: [],
     practiceMode: "",
     showPractice: false,
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     signup(state, payload) {
       state.signupResponse = payload;
+    },
+    verifyEmail(state, payload) {
+      state.verifyEmailResponse = payload;
     },
     getUserProfile(state, payload) {
       state.userProfile = payload;
@@ -70,6 +74,10 @@ export default new Vuex.Store({
     async signup({ commit }, data) {
       let res = await request("post", "accounts/register/", data);
       commit("signup", res);
+    },
+    async verifyEmail({ commit }, data) {
+      let res = await request("get", `accounts/verify-email/${data}/`);
+      commit("verifyEmail", res);
     },
     // async getUserProfile({ commit }) {
     //   let res = await request("get", "accounts/profile/");

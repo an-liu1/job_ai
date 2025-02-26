@@ -203,6 +203,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.$store.commit("switchShowPractice", false);
+  },
   beforeRouteLeave(to, from, next) {
     if (this.showPractice && this.loginStatus) {
       this.$confirm(
