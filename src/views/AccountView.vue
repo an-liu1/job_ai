@@ -200,7 +200,7 @@ export default {
                   confirmButtonText: "Ok",
                 }
               ).then(() => {
-                this.abelPosition = "left";
+                this.labelPosition = "left";
               });
             } else {
               let errorMessage = "";

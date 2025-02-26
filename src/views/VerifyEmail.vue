@@ -24,7 +24,7 @@ export default {
       .then(() => {
         this.msg = this.verifyEmailResponse.message;
         this.$alert(
-          "Your registration was successful. Please check okay and login.",
+          "Your registration was successful. Please click okay and login.",
           "Success",
           {
             confirmButtonText: "Ok",
