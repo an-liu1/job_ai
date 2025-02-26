@@ -192,7 +192,17 @@ export default {
       this.$refs.signupForm.validate((valid) => {
         if (valid) {
           this.$store.dispatch("signup", this.signupForm).then(() => {
-            if (this.signupResponse.success == false) {
+            if (this.signupResponse.username) {
+              this.$alert(
+                "Your registration was successful. Please check your email and activate your account.",
+                "Success",
+                {
+                  confirmButtonText: "Ok",
+                }
+              ).then(() => {
+                this.abelPosition = "left";
+              });
+            } else {
               let errorMessage = "";
               const errors = this.signupResponse.errors;
               if (errors) {
@@ -209,16 +219,6 @@ export default {
               }
               this.$alert(errorMessage, "Error", {
                 confirmButtonText: "Ok",
-              });
-            } else {
-              this.$alert(
-                "Your registration was successful. Please check your email and activate your account.",
-                "Success",
-                {
-                  confirmButtonText: "Ok",
-                }
-              ).then(() => {
-                this.abelPosition = "left";
               });
             }
           });
