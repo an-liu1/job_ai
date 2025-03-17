@@ -1,16 +1,9 @@
 <template>
-  <div>
-    <h3>{{ msg }}</h3>
-  </div>
+  <div></div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      msg: "",
-    };
-  },
   computed: {
     verifyEmailResponse: function () {
       return this.$store.state.verifyEmailResponse;
@@ -22,22 +15,15 @@ export default {
     this.$store
       .dispatch("verifyEmail", token)
       .then(() => {
-        this.msg = this.verifyEmailResponse.message;
-        this.$alert(
-          "Your registration was successful. Please click okay and login.",
-          "Success",
-          {
-            confirmButtonText: "Ok",
-          }
-        ).then(() => {
+        this.$store.commit("switchLoadingStatus", false);
+        this.$alert(this.verifyEmailResponse.message, "Success", {
+          confirmButtonText: "Ok",
+        }).then(() => {
+          this.$store.commit("setLoginStatus", true);
           this.$router.push("/account");
         });
-        this.$store.commit("switchLoadingStatus", false);
       })
       .catch(() => {
-        this.msg =
-          this.verifyEmailResponse.response?.data?.error ||
-          "Invalid or expired token";
         this.$store.commit("switchLoadingStatus", false);
         this.$alert(
           this.verifyEmailResponse.response?.data?.error ||

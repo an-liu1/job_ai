@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="withebox"></div>
-    <div class="loginContainer col-11 col-lg-4" v-if="loginStatus">
+    <div class="loginContainer col-11 col-md-6 col-xl-4" v-if="loginStatus">
       <h2 class="text-center pt-5 pb-5">Hello {{ userProfile.username }}!</h2>
       <div class="row">
         <el-descriptions
@@ -24,7 +24,7 @@
         <el-button type="primary" round @click="logout">log out</el-button>
       </div>
     </div>
-    <div class="loginContainer col-11 col-lg-4" v-else>
+    <div class="loginContainer col-11 col-md-6 col-xl-4" v-else>
       <div class="logo">
         <el-image :src="logoImg"></el-image>
       </div>
@@ -61,6 +61,16 @@
           </el-form>
           <div class="text-center pb-4">
             <el-button type="primary" round @click="login">log in</el-button>
+          </div>
+          <div class="login-box">
+            <button @click="googleLogin" class="google-btn custom-style">
+              <img
+                src="https://developers.google.com/identity/images/g-logo.png"
+                alt="Google Logo"
+                class="logo"
+              />
+              Google 登录
+            </button>
           </div>
         </div>
         <div v-if="labelPosition == 'right'">
@@ -162,6 +172,9 @@ export default {
     userProfile: function () {
       return this.$store.state.userProfile;
     },
+    loginResponse: function () {
+      return this.$store.state.loginResponse;
+    },
     signupResponse: function () {
       return this.$store.state.signupResponse;
     },
@@ -175,13 +188,27 @@ export default {
         callback();
       }
     },
+    googleLogin() {
+      window.location.href = "https://jobcoach.top/api/google_authentication/";
+    },
     login() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.$store.dispatch("login", this.loginForm).then(() => {
-            this.$store.dispatch("getUserInfo");
-            this.$router.go(-1);
-          });
+          this.$store
+            .dispatch("login", this.loginForm)
+            .then(() => {
+              this.$store.dispatch("getUserInfo");
+              this.$router.go(-1);
+            })
+            .catch(() => {
+              this.$alert(
+                this.loginResponse.message || "Incorrect Email or Password",
+                "Error",
+                {
+                  confirmButtonText: "Ok",
+                }
+              );
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -255,6 +282,35 @@ export default {
     width: 80%;
     margin: 0 auto;
     padding: 20px 0;
+  }
+}
+.login-box {
+  display: flex;
+  justify-content: right;
+  .google-btn {
+    display: flex;
+    align-items: center;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .google-btn:hover {
+    background-color: #357ae8;
+  }
+  .logo {
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 2px;
   }
 }
 </style>

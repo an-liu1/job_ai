@@ -9,6 +9,7 @@ export default new Vuex.Store({
     loading: false,
     isCollapse: true,
     loginStatus: false,
+    loginResponse: {},
     signupResponse: {},
     verifyEmailResponse: {},
     blogs: [],
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     setLoginStatus(state, payload) {
       state.loginStatus = payload;
+    },
+    login(state, payload) {
+      state.loginResponse = payload;
     },
     signup(state, payload) {
       state.signupResponse = payload;
@@ -70,6 +74,7 @@ export default new Vuex.Store({
       let res = await request("post", "accounts/login/", data);
       localStorage.setItem("Authorization", res.data.tokens.access);
       commit("setLoginStatus", true);
+      commit("login", res);
     },
     async signup({ commit }, data) {
       let res = await request("post", "accounts/register/", data);
