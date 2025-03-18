@@ -219,7 +219,7 @@ export default {
       this.$refs.signupForm.validate((valid) => {
         if (valid) {
           this.$store.dispatch("signup", this.signupForm).then(() => {
-            if (this.signupResponse.username) {
+            if (this.signupResponse.success == true) {
               this.$alert(
                 "Your registration was successful. Please check your email and activate your account.",
                 "Success",
