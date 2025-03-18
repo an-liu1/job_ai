@@ -19,7 +19,7 @@ export default {
         this.$alert(this.verifyEmailResponse.message, "Success", {
           confirmButtonText: "Ok",
         }).then(() => {
-          this.$store.commit("setLoginStatus", true);
+          this.$store.commit("setLoginStatus", false);
           this.$router.push("/account");
         });
       })
