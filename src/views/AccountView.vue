@@ -4,11 +4,7 @@
     <div class="loginContainer col-11 col-md-6 col-xl-4" v-if="loginStatus">
       <h2 class="text-center pt-5 pb-5">Hello {{ userProfile.username }}!</h2>
       <div class="row">
-        <el-descriptions
-          title="User Information"
-          class="col-10 mx-auto"
-          column="1"
-        >
+        <el-descriptions title="User Information" class="col-10 mx-auto">
           <el-descriptions-item label="Username">{{
             userProfile.username
           }}</el-descriptions-item>

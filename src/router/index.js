@@ -39,6 +39,11 @@ const routes = [
     name: "verify-email",
     component: () => import("../views/VerifyEmail.vue"),
   },
+  {
+    path: "/GoogleCallback",
+    name: "GoogleCallback",
+    component: () => import("../views/GoogleCallback.vue"),
+  },
 ];
 
 const router = new VueRouter({
