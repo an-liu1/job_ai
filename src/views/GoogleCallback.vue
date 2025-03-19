@@ -20,8 +20,10 @@ export default {
     if (this.token) {
       // 示例：将 token 存储到本地存储
       localStorage.setItem("Authorization", this.token);
-      this.$store.commit("setLoginStatus", true);
-      this.$router.push("/account");
+      this.$store.dispatch("getUserInfo").then(() => {
+        this.$store.commit("setLoginStatus", true);
+        this.$router.push("/account");
+      });
     }
   },
 };
