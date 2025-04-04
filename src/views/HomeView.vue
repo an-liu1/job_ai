@@ -1,29 +1,29 @@
 <template>
   <div id="home">
-    <MainBanner />
+    <BannerView />
     <HowItWork id="howItWork" />
     <Exercise id="exercise" />
     <WhyUs id="why" />
-    <Banner />
+    <AchievementView />
     <PriceView id="price" />
     <FAQ id="faq" />
   </div>
 </template>
 
 <script>
-import MainBanner from "@/views/home/MainBanner.vue";
+import BannerView from "@/views/home/BannerView.vue";
 import HowItWork from "@/views/home/HowItWork.vue";
 import WhyUs from "@/views/home/WhyUs.vue";
 import FAQ from "@/views/home/FAQ.vue";
-import Banner from "@/views/home/BannerView.vue";
+import AchievementView from "@/views/home/AchievementView.vue";
 import Exercise from "@/views/home/ExerciseView.vue";
 import PriceView from "@/views/home/PriceView.vue";
 export default {
   components: {
-    MainBanner,
+    BannerView,
     HowItWork,
     FAQ,
-    Banner,
+    AchievementView,
     WhyUs,
     PriceView,
     Exercise,

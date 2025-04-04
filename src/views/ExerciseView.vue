@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mainContainer">
     <div :class="!showPractice ? 'withebox' : ''"></div>
     <div class="practiceContainer row col-11 col-lg-5" v-if="!showPractice">
       <h3 class="text-center mt-5 mb-3">What would you like to practice?</h3>
@@ -289,6 +289,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.mainContainer {
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #0295ff,
+    #3cabff,
+    #76c1ff,
+    #b0d7ff,
+    #ebefff
+  );
+}
 .withebox {
   height: 130px;
   width: 100%;

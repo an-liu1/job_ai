@@ -1,83 +1,132 @@
 <template>
-  <div class="container-fluid px-4 py-5 bg-purple">
-    <div class="row g-4">
-      <div
-        v-for="(item, index) in stats"
-        :key="index"
-        class="col-12 col-md-6 col-lg-3"
-      >
-        <div
-          class="card shadow rounded-3 border-0 h-100 bg-white"
-          @mouseenter="onMouseEnter(index)"
-          @mouseleave="onMouseLeave(index)"
-        >
-          <div
-            class="card-body d-flex flex-column justify-content-center text-center"
-          >
-            <h2 class="fw-bold fs-1 text-purple">{{ item.value }}</h2>
-            <p class="card-text text-muted text-uppercase fs-6">
-              {{ item.label }}
-            </p>
+  <div>
+    <!-- Start Home Section -->
+    <div class="home-section">
+      <div class="d-table">
+        <div class="d-table-cell">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-6 col-md-12">
+                <div class="main-banner-content">
+                  <h1>
+                    Interviews anytime,anywhere with personalized AI coaching
+                  </h1>
+                  <p>
+                    Experience realistic, voice-based interview simulations that
+                    tailor to your needs and boost your performance.
+                  </p>
+                  <div class="banner-btn">
+                    <a class="default-btn-one" @click="startPractice"
+                      >Practice <span></span
+                    ></a>
+                    <a class="default-btn-two" @click="startMock"
+                      >Mock Interview <span></span
+                    ></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12" ref="tiltElement">
+                <div class="banner-image">
+                  <img src="../../assets/img/home-font.png" alt="image" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="creative-shape">
+        <img src="../../assets/img/home-bottom-shape.png" alt="svg shape" />
+      </div>
     </div>
+    <!-- End Home Section -->
   </div>
 </template>
 
 <script>
+import VanillaTilt from "vanilla-tilt";
 export default {
-  data() {
-    return {
-      stats: [
-        { value: "3250", label: "Happy Client" },
-        { value: "10 k", label: "Completed Project" },
-        { value: "200 +", label: "Award Wins" },
-        { value: "150", label: "Experienced Engineer" },
-      ],
-    };
+  mounted() {
+    if (this.$refs.tiltElement) {
+      VanillaTilt.init(this.$refs.tiltElement, {
+        max: 25, // 最大倾斜角度
+        speed: 400, // 倾斜动画的速度
+        glare: false, // 是否启用眩光效果
+        "max-glare": 0.5, // 最大眩光强度
+      });
+    }
   },
   methods: {
-    onMouseEnter(index) {
-      this.$el.querySelectorAll(".card")[index].style.transform = "scale(1.05)";
-      this.$el.querySelectorAll(".card")[index].style.boxShadow =
-        "0 10px 20px rgba(0,0,0,0.2)";
+    startPractice: function () {
+      this.$router.push("/exercise");
     },
-    onMouseLeave(index) {
-      this.$el.querySelectorAll(".card")[index].style.transform = "scale(1)";
-      this.$el.querySelectorAll(".card")[index].style.boxShadow =
-        "0 4px 8px rgba(0,0,0,0.1)";
+    startMock: function () {
+      this.$router.push("/mockInterview");
     },
   },
 };
 </script>
 
-<style scoped>
-.bg-purple {
-  background-color: #6f42c1 !important;
-}
-/* 定制化样式 */
-@media (min-width: 992px) {
-  .card {
-    height: 220px;
+<style lang="scss" scoped>
+@import "../../assets/css/style.css";
+.home-section {
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 800px;
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #0295ff,
+    #3cabff,
+    #76c1ff,
+    #b0d7ff,
+    #ebefff
+  );
+
+  .creative-shape {
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: auto;
+    z-index: -1;
+  }
+
+  .banner-image {
+    text-align: center;
+    padding-top: 50px;
   }
 }
 
-@media (min-width: 1200px) {
-  .card {
-    height: 250px;
+.main-banner-content {
+  padding-top: 50px;
+
+  h1 {
+    color: #ffffff;
+    font-size: 68px;
+    font-weight: 700;
+    margin: 0 0 20px;
   }
-}
 
-.fs-1 {
-  font-size: 2.5rem !important;
-}
+  h6 {
+    color: #ff9800;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
 
-.fs-6 {
-  font-size: 0.875rem !important;
-}
+  p {
+    color: #ffffff;
+    font-size: 16px;
+    margin: 0;
+  }
 
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  .banner-btn {
+    margin-top: 25px;
+  }
 }
 </style>
