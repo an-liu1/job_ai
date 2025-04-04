@@ -9,6 +9,7 @@
         <div
           class="card shadow rounded-3 border-0 h-100 bg-white"
           @mouseenter="onMouseEnter(index)"
+          @mouseleave="onMouseLeave(index)"
         >
           <div
             class="card-body d-flex flex-column justify-content-center text-center"
