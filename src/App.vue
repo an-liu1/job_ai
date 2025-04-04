@@ -18,22 +18,23 @@
       class="mainNav"
       v-if="mobileScreenWidth"
     >
-      <main-nav></main-nav>
+      <SideNav />
     </div>
-    <NavBar />
+    <NavBar v-if="!mobileScreenWidth" />
+
     <router-view v-if="isRouterAlive" />
     <Footer />
   </div>
 </template>
 
 <script>
-import MainNav from "@/views/MainNav.vue";
+import SideNav from "@/views/SideNav.vue";
 import NavBar from "@/views/NavBar.vue";
 import Footer from "@/views/Footer.vue";
 export default {
   name: "app",
   components: {
-    MainNav,
+    SideNav,
     NavBar,
     Footer,
   },
@@ -57,7 +58,7 @@ export default {
       return this.$store.state.loading;
     },
     mobileScreenWidth: function () {
-      return window.innerWidth < 991;
+      return window.innerWidth < 1200;
     },
   },
 
