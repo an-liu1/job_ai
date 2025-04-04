@@ -1,37 +1,42 @@
 <template>
   <div id="app" v-loading.fullscreen="loading">
-    <div class="banner">
+    <!-- <div class="banner">
       <el-image :src="logoImg"></el-image>
+    </div> -->
+    <!-- Start Preloader Section -->
+    <div :class="{ preloader: true, 'preloader-deactivate': isPageLoaded }">
+      <div class="loader">
+        <div class="shadow"></div>
+        <div class="box"></div>
+      </div>
     </div>
+    <!-- End Preloader Section -->
     <div
       :style="
         isCollapse ? 'width: 63px !important;' : 'width: 199px !important;'
       "
       class="mainNav"
+      v-if="mobileScreenWidth"
     >
       <main-nav></main-nav>
     </div>
-    <div class="mainContainer">
-      <router-view v-if="isRouterAlive" />
-    </div>
-    <!-- <div class="footer row">
-      <ul class="col-3">
-        <li><i class="el-icon-platform-eleme"></i></li>
-        <li><i class="el-icon-help"></i></li>
-        <li><i class="el-icon-picture-outline-round"></i></li>
-        <li><i class="el-icon-s-opportunity"></i></li>
-      </ul>
-      <h4 class="col-6">Job Interview Training</h4>
-      <p class="col-3">© Copyright CPMP. All Rights Reserved</p>
-    </div> -->
+    <NavBar />
+    <router-view v-if="isRouterAlive" />
+    <Footer />
   </div>
 </template>
 
 <script>
 import MainNav from "@/views/MainNav.vue";
+import NavBar from "@/views/NavBar.vue";
+import Footer from "@/views/Footer.vue";
 export default {
   name: "app",
-  components: { MainNav },
+  components: {
+    MainNav,
+    NavBar,
+    Footer,
+  },
   provide() {
     return {
       reload: this.reload,
@@ -41,6 +46,7 @@ export default {
     return {
       isRouterAlive: true,
       logoImg: require("@/assets/logo.png"),
+      isPageLoaded: false,
     };
   },
   computed: {
@@ -50,7 +56,11 @@ export default {
     loading: function () {
       return this.$store.state.loading;
     },
+    mobileScreenWidth: function () {
+      return window.innerWidth < 991;
+    },
   },
+
   methods: {
     reload() {
       this.isRouterAlive = false;
@@ -75,6 +85,18 @@ export default {
   },
   mounted() {
     this.$store.commit("switchLoadingStatus", false);
+    // 监听 window 的 load 事件，当页面完全加载完成后执行回调
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        this.isPageLoaded = true;
+      }, 1000);
+    });
+  },
+  beforeDestroy() {
+    // 在组件销毁前移除事件监听器，避免内存泄漏
+    window.removeEventListener("load", () => {
+      this.isPageLoaded = true;
+    });
   },
 };
 </script>
@@ -97,39 +119,8 @@ body {
 .mainNav {
   background-color: #ffffff;
   position: fixed !important;
-  top: 100px;
+  top: 180px;
   left: 0;
   z-index: 999;
-}
-.mainContainer {
-  background-color: #f2faff;
-  min-height: calc(100vh - 100px);
-  // overflow: hidden;
-}
-.footer {
-  height: 50px;
-  line-height: 50px;
-  width: 100%;
-  text-align: center;
-  ul {
-    list-style-type: none;
-    text-align: left;
-    padding-left: 50px;
-    li {
-      display: inline-block;
-      padding-right: 15px;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-  h4 {
-    line-height: 50px;
-  }
-  p {
-    line-height: 50px;
-    text-align: right;
-    padding-right: 30px;
-  }
 }
 </style>

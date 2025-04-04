@@ -7,6 +7,7 @@ Vue.config.productionTip = false;
 
 //Bootstrap
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.js";
 
 //ElementUI
 import ElementUI from "element-ui";
@@ -20,6 +21,8 @@ Vue.use(VueTyperPlugin);
 //moment js
 import moment from "moment";
 Vue.prototype.$moment = moment;
+
+import "animate.css";
 
 // const publicRoutes = ["/account", "/"];
 

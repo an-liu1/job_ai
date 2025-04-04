@@ -30,6 +30,11 @@ const routes = [
   //   component: () => import("../views/AboutView.vue"),
   // },
   {
+    path: "/signinup",
+    name: "SignInUP View",
+    component: () => import("../views/SignInUP.vue"),
+  },
+  {
     path: "/account",
     name: "Account View",
     component: () => import("../views/AccountView.vue"),
@@ -50,6 +55,14 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return {
+        selector: to.hash,
+      };
+    }
+    return savedPosition || { x: 0, y: 0 };
+  },
 });
 
 // 重写路由的 push 方法

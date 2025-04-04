@@ -20,7 +20,7 @@ export default {
           confirmButtonText: "Ok",
         }).then(() => {
           this.$store.commit("setLoginStatus", false);
-          this.$router.push("/account");
+          this.$router.push("/signinup");
         });
       })
       .catch(() => {

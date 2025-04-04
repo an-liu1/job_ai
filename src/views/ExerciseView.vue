@@ -236,7 +236,7 @@ export default {
         this.$store.commit("setPracticeMode", mode);
         this.$store.commit("switchShowPractice", true);
       } else {
-        this.$router.push("/account");
+        this.$router.push("/signinup");
       }
     },
     handleRecord(blob) {
