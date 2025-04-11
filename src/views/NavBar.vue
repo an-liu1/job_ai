@@ -13,11 +13,13 @@
                   src="../assets/img/logo.png"
                   class="white-logo"
                   alt="logo"
+                  v-show="!isSticky"
                 />
                 <img
                   src="../assets/img/logo-black.png"
                   class="black-logo"
                   alt="logo"
+                  v-show="isSticky"
                 />
               </a>
             </div>
@@ -461,6 +463,12 @@ export default {
 
   .techvio-nav {
     display: none;
+  }
+
+  .techvio-responsive-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .hamburger-menu {

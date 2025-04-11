@@ -1,8 +1,5 @@
 <template>
   <div id="app" v-loading.fullscreen="loading">
-    <!-- <div class="banner">
-      <el-image :src="logoImg"></el-image>
-    </div> -->
     <!-- Start Preloader Section -->
     <div :class="{ preloader: true, 'preloader-deactivate': isPageLoaded }">
       <div class="loader">
@@ -10,32 +7,24 @@
       </div>
     </div>
     <!-- End Preloader Section -->
-    <div
-      :style="
-        isCollapse ? 'width: 63px !important;' : 'width: 199px !important;'
-      "
-      class="mainNav"
-      v-if="mobileScreenWidth"
-    >
-      <SideNav />
-    </div>
-    <NavBar v-if="!mobileScreenWidth" />
+
+    <NavBar />
 
     <router-view v-if="isRouterAlive" />
+
     <Footer />
+
     <BackToTop />
   </div>
 </template>
 
 <script>
-import SideNav from "@/views/SideNav.vue";
 import NavBar from "@/views/NavBar.vue";
 import Footer from "@/views/Footer.vue";
 import BackToTop from "@/components/BackToTop.vue";
 export default {
   name: "app",
   components: {
-    SideNav,
     NavBar,
     Footer,
     BackToTop,
@@ -48,19 +37,12 @@ export default {
   data() {
     return {
       isRouterAlive: true,
-      logoImg: require("@/assets/logo.png"),
       isPageLoaded: false,
     };
   },
   computed: {
-    isCollapse: function () {
-      return this.$store.state.isCollapse;
-    },
     loading: function () {
       return this.$store.state.loading;
-    },
-    mobileScreenWidth: function () {
-      return window.innerWidth < 1200;
     },
   },
 
@@ -109,21 +91,5 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   font-family: Arial !important;
-}
-.banner {
-  height: 80px;
-  width: 100%;
-  text-align: center;
-  .el-image {
-    height: 60px;
-    margin-top: 10px;
-  }
-}
-.mainNav {
-  background-color: #ffffff;
-  position: fixed !important;
-  top: 180px;
-  left: 0;
-  z-index: 999;
 }
 </style>

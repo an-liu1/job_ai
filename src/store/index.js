@@ -7,7 +7,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loading: false,
-    isCollapse: true,
     loginStatus: false,
     loginResponse: {},
     signupResponse: {},
@@ -25,9 +24,6 @@ export default new Vuex.Store({
   mutations: {
     switchLoadingStatus(state, payload) {
       state.loading = payload;
-    },
-    handleToggleNav(state, payload) {
-      state.isCollapse = payload;
     },
     setLoginStatus(state, payload) {
       state.loginStatus = payload;
