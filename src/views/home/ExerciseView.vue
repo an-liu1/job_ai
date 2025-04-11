@@ -1,8 +1,8 @@
 <template>
   <div class="main-container">
     <!-- 导航栏 -->
-    <nav class="nav-bar container">
-      <div class="d-flex justify-content-center gap-3">
+    <nav class="nav-bar container mx-auto px-4 py-2">
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
         <button
           v-for="(item, index) in navItems"
           :key="index"

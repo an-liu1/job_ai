@@ -117,6 +117,9 @@ export default {
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 16px;
+    @media only screen and (max-width: 991px) {
+      font-size: 12px;
+    }
   }
 
   ::v-deep .el-collapse-item__header:hover {
