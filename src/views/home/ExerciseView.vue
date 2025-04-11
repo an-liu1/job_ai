@@ -22,7 +22,7 @@
           <div class="col-12 col-lg-6">
             <div class="image-section">
               <img
-                src="https://example.com/team-image.jpg"
+                :src="featureInfo[activeIndex].imgUrl"
                 alt="Team Image"
                 class="img-fluid animated fadeIn"
               />
@@ -31,33 +31,27 @@
           <div class="col-12 col-lg-6">
             <div class="info-section">
               <h1 class="main-title">
-                <span class="number text-primary animated fadeInUp">25</span>
-                Years of experience in IT Solution & Business
-              </h1>
-              <p class="description text-secondary animated fadeIn">
-                There are many variations of passages of Lorem Ipsum and
-                available, project is but the majority have suffered alteration
-                in some form, by injected humour, or randomised.
-              </p>
-              <div class="progress-list">
-                <div
-                  v-for="(progress, idx) in progressList"
-                  :key="idx"
-                  class="progress-item mb-3 animated fadeIn"
-                  :style="{ animationDelay: `${idx * 100}ms` }"
+                <span class="number text-primary animated fadeInUp"
+                  >{{ activeIndex + 1 }}.</span
                 >
-                  <span>{{ progress.title }}</span>
-                  <div class="progress">
-                    <div
-                      class="progress-bar bg-primary"
-                      role="progressbar"
-                      :style="{ width: progress.percent }"
-                      aria-valuenow="95"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
+                {{ featureInfo[activeIndex].title }}
+              </h1>
+              <h5>{{ featureInfo[activeIndex].subTitle }}</h5>
+              <p
+                class="description animated fadeIn mt-4"
+                v-for="(i, index) in featureInfo[activeIndex].des"
+                :key="index"
+              >
+                <b>{{ i.title + " " }}</b> {{ i.des }}
+              </p>
+
+              <div class="d-flex justify-content-center gap-3 mt-5">
+                <button
+                  class="nav-btn btn active"
+                  @click="redirectTo(featureInfo[activeIndex].redirectURL)"
+                >
+                  {{ featureInfo[activeIndex].btnText }}
+                </button>
               </div>
             </div>
           </div>
@@ -77,11 +71,94 @@ export default {
         { label: "Common Questions" },
         { label: "Behavioural Questions" },
         { label: "Tough Question" },
+        { label: "Mock Interview Simulation" },
       ],
-      progressList: [
-        { title: "Web Development", percent: "95%" },
-        { title: "Database Management", percent: "85%" },
-        { title: "Digital Marketing", percent: "75%" },
+      featureInfo: [
+        {
+          imgUrl: require("@/assets/guide1.png"),
+          title: "Practice Common Questions",
+          subTitle: "Nail the Basics with Industry-Tested Prompts",
+          des: [
+            {
+              title: "Smart Question Bank:",
+              des: "Access 200+ frequently asked questions across tech, finance, consulting, and more—curated from top companies like Google, McKinsey, and Amazon.",
+            },
+            {
+              title: "Role-Specific Drills:",
+              des: "Get tailored practice sessions based on your target job (e.g., 'Tell me about yourself' for sales vs. engineering roles).",
+            },
+            {
+              title: "Sample Answers:",
+              des: "Learn from high-scoring responses, with tips to avoid clichés and structure concise, compelling replies.",
+            },
+          ],
+          btnText: "Start Practice",
+          redirectURL: "/common-questions",
+        },
+        {
+          imgUrl: require("@/assets/guide2.png"),
+          title: "Master Behavioral Questions",
+          subTitle: "STAR Method Made Simple—Turn Stories into Success",
+          des: [
+            {
+              title: "Guided Frameworks:",
+              des: "Break down answers into Situation, Task, Action, Result with interactive templates that adapt to your experience level.",
+            },
+            {
+              title: "AI Story Builder:",
+              des: "Transform raw experiences into compelling narratives with metrics (e.g., 'Increased team efficiency by 30%').",
+            },
+            {
+              title: "Company-Specific Prep:",
+              des: "Practice behavioral questions tailored to target employers' core values (e.g., Amazon's Leadership Principles).",
+            },
+          ],
+          btnText: "Start Practice",
+          redirectURL: "/behavioral-questions",
+        },
+        {
+          imgUrl: require("@/assets/guide3.png"),
+          title: "Tackle Tough Questions",
+          subTitle: "Handle Curveball Questions with Confidence",
+          des: [
+            {
+              title: "Red Flag Response Library:",
+              des: "Diplomatic answers for sensitive topics like employment gaps, job hopping, or salary expectations.",
+            },
+            {
+              title: "Pressure Test Mode:",
+              des: "Simulate stress interviews with rapid-fire questioning and interruptions.",
+            },
+            {
+              title: "Damage Control Coach:",
+              des: "Get real-time suggestions to recover from weak answers or mistakes during practice.",
+            },
+          ],
+          btnText: "Start Challenge",
+          redirectURL: "/tough-questions",
+        },
+        {
+          imgUrl: require("@/assets/guide3.png"),
+          title: "Mock Interview Simulation",
+          subTitle:
+            "Realistic Practice with AI That Thinks Like a Hiring Manager",
+          des: [
+            {
+              title: "Adaptive Interviews:",
+              des: "AI probes deeper based on your answers, just like human interviewers would.",
+            },
+            {
+              title: "Multimodal Feedback:",
+              des: "Analysis of speech patterns (filler words, clarity) and video cues (eye contact, posture) if enabled.",
+            },
+            {
+              title: "Performance Benchmarking:",
+              des: "Compare your scores with successful candidates in similar roles.",
+            },
+          ],
+          btnText: "Start Mock Interview",
+          redirectURL: "/mock-interview",
+        },
       ],
     };
   },
@@ -91,6 +168,11 @@ export default {
     setTimeout(() => {
       this.showContent = true;
     }, 1000);
+  },
+  methods: {
+    redirectTo: function (url) {
+      this.$router.push(url);
+    },
   },
 };
 </script>

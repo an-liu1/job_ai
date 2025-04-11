@@ -1,10 +1,11 @@
 <template>
   <div class="why-choose-us">
-    <h1>Why Choose Us</h1>
+    <h1>Why Choose Our Interview Prep Platform?</h1>
     <p>
-      Our clients have been choosing PixLab for a number of reasons including
-      reliability, latest technologies, and constant updates & support. Read
-      more about other advantages below.
+      Join thousands of job seekers who land their dream roles 40% faster with
+      our proven system. Our AI-powered platform combines cutting-edge
+      technology with recruiter-approved strategies to give you an unbeatable
+      edge. Users report 3x more confidence after just 5 mock sessions.
     </p>
     <transition-group name="fade" tag="div" class="feature-list">
       <div class="feature-item" v-for="item in features" :key="item.title">
@@ -24,34 +25,34 @@ export default {
     return {
       features: [
         {
-          title: "Quick Results",
-          desc: "We work quickly and effectively to provide the best results.",
-          icon: "clock-icon.png", // 替换为实际图标路径
+          title: "Data-Backed Results",
+          desc: "Verified metrics like '75% of users receive callbacks within 2 weeks' build trust and credibility.",
+          icon: require("@/assets/img/whyUs1.jpg"), // Suggested icon: bar chart/graph
         },
         {
-          title: "Powerful Apps",
-          desc: "Our team offers a wide variety of powerful and sustainable apps.",
-          icon: "app-icon.png",
+          title: "AI-Powered Coaching",
+          desc: "Our DeepSeek-powered AI analyzes your responses like a hiring manager, providing real-time improvements.",
+          icon: require("@/assets/img/whyUs2.jpg"), // Suggested icon: neural network/robot
         },
         {
-          title: "Money Saving",
-          desc: "Our products cost less than their analogs by other companies.",
-          icon: "money-icon.png",
+          title: "Cost-Effective Prep",
+          desc: "Get premium-quality interview training at 1/3 the cost of human career coaches.",
+          icon: require("@/assets/img/whyUs3.jpg"), // Suggested icon: coin/dollar sign
         },
         {
-          title: "Efficient Support",
-          desc: "PixLab offers extensive support to its customers all over the world.",
-          icon: "support-icon.png",
+          title: "24/7 Expert Support",
+          desc: "Access to interview strategists for personalized feedback on demand.",
+          icon: require("@/assets/img/whyUs4.jpg"), // Suggested icon: headset/lifebuoy
         },
         {
-          title: "Innovative Technologies",
-          desc: "Our developers use the latest technologies to deliver the best apps.",
-          icon: "tech-icon.png",
+          title: "Cutting-Edge Simulations",
+          desc: "Practice with the latest interview formats including Metaverse and VR environments.",
+          icon: require("@/assets/img/whyUs5.jpg"), // Suggested icon: virtual reality goggles
         },
         {
-          title: "Great Usability",
-          desc: "Improved usability and UX are distinctive features of our products.",
-          icon: "usability-icon.png",
+          title: "Intuitive Interface",
+          desc: "User-friendly dashboard with progress tracking and one-click practice sessions.",
+          icon: require("@/assets/img/whyUs6.jpg"), // Suggested icon: smartphone with checkmark
         },
       ],
     };
@@ -94,7 +95,7 @@ $gap-size: 40px;
   p {
     font-size: 14px;
     color: #777;
-    max-width: 600px;
+    max-width: 1000px;
     margin: 0 auto 40px;
     position: relative;
     z-index: 1;

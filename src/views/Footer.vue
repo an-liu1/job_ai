@@ -5,16 +5,15 @@
       <div class="row align-items-center mb-4">
         <div class="col-md-6">
           <div class="link-group">
-            <span class="me-3">Cookies Policy</span>
-            <span class="me-3">Legal Terms</span>
+            <span class="me-3">Terms of Service</span>
             <span class="me-3">Privacy Policy</span>
           </div>
         </div>
         <div class="col-md-6 text-md-end">
           <div class="social-icons">
-            <i class="fab fa-facebook-f me-2"></i>
-            <i class="fab fa-x-twitter me-2"></i>
-            <i class="fab fa-instagram me-2"></i>
+            <i class="fa-brands fa-instagram me-2"></i>
+            <i class="fa-brands fa-linkedin me-2"></i>
+            <i class="fa-brands fa-tiktok me-2"></i>
             <i class="fab fa-youtube"></i>
           </div>
         </div>
@@ -22,13 +21,10 @@
 
       <!-- 底部Logo部分 -->
       <div class="row align-items-center">
-        <div class="col-12">
-          <i class="fas fa-upload upload-icon me-3"></i>
-          <div class="c2a-info d-inline-block">
-            <h3 class="mb-1">C2A</h3>
-            <p class="fs-6 m-0">Creative Communication Agency</p>
-          </div>
+        <div class="col-6">
+          <img src="../assets/img/logo.png" class="white-logo" alt="logo" />
         </div>
+        <div class="col-6 contact">Contact us: <b>jobACE@gmail.com</b></div>
       </div>
     </div>
   </div>
@@ -50,8 +46,10 @@ export default {
 .upload-icon {
   font-size: 30px;
 }
+.contact {
+  text-align: right;
+}
+.social-icons:hover {
+  cursor: pointer;
+}
 </style>
-
-<!-- 需先安装并引入Bootstrap -->
-<!-- 在main.js中添加 -->
-import 'bootstrap/dist/css/bootstrap.min.css' import 'bootstrap'

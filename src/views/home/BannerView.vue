@@ -129,4 +129,9 @@ export default {
     margin-top: 25px;
   }
 }
+@media (max-width: 769px) {
+  .home-section {
+    padding-top: 260px;
+  }
+}
 </style>

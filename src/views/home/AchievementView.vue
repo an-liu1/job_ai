@@ -30,10 +30,10 @@ export default {
   data() {
     return {
       stats: [
-        { value: "3250", label: "Happy Client" },
-        { value: "10 k", label: "Completed Project" },
-        { value: "200 +", label: "Award Wins" },
-        { value: "150", label: "Experienced Engineer" },
+        { value: "3250", label: "Evaluated conversations" },
+        { value: "10 k", label: "Completed practises" },
+        { value: "200 +", label: "Final Assessments" },
+        { value: "150", label: "Improvement Plans" },
       ],
     };
   },

@@ -44,6 +44,23 @@
                     @click="redirectTo(i.navLink, i.sectionId)"
                     >{{ i.name }}</a
                   >
+                  <ul
+                    class="dropdown-menu"
+                    v-if="i.name == 'Interview Features'"
+                  >
+                    <li class="nav-item">
+                      <a class="nav-link" @click="$router.push('/exercise')"
+                        >Interview Exercises</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        class="nav-link"
+                        @click="$router.push('/mockInterview')"
+                        >Mock Interview</a
+                      >
+                    </li>
+                  </ul>
                 </li>
               </ul>
               <div class="other-option" @click="$router.push('/signinup')">
@@ -76,18 +93,13 @@ export default {
         },
         {
           navLink: "/",
-          name: "Interview Exercises",
-          sectionId: "",
+          name: "Guide",
+          sectionId: "howItWork",
         },
         {
           navLink: "/",
-          name: "Mock Interview",
-          sectionId: "",
-        },
-        {
-          navLink: "/history",
-          name: "History",
-          sectionId: "",
+          name: "Interview Features",
+          sectionId: "exercise",
         },
         {
           navLink: "/",
@@ -96,8 +108,18 @@ export default {
         },
         {
           navLink: "/",
+          name: "FAQ",
+          sectionId: "faq",
+        },
+        // {
+        //   navLink: "/history",
+        //   name: "History",
+        //   sectionId: "",
+        // },
+        {
+          navLink: "/",
           name: "About Us",
-          sectionId: "",
+          sectionId: "aboutUs",
         },
       ];
     },
@@ -187,6 +209,7 @@ export default {
             font-size: 10px;
             margin-left: 2px;
           }
+
           &:hover,
           &:focus,
           &.active {
@@ -200,6 +223,105 @@ export default {
 
         &:first-child a {
           margin-left: 0;
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          z-index: 99;
+          top: 80px;
+          left: 0;
+          width: 230px;
+          padding: 0;
+          display: block;
+          opacity: 0;
+          visibility: hidden;
+          overflow: hidden;
+          border-radius: 3px;
+          background-color: #ffffff;
+          -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+          -webkit-transition: all 0.3s ease-in-out;
+          transition: all 0.3s ease-in-out;
+          border: none;
+
+          li {
+            padding: 0;
+            border-bottom: 1px solid #f1f1f1;
+
+            &:last-child {
+              border-bottom: 0px solid transparent;
+            }
+
+            a {
+              position: relative;
+              color: #404040;
+              font-size: 16px;
+              font-weight: 600;
+              text-transform: capitalize;
+              padding: 10px 15px;
+              margin: 0;
+
+              &:hover,
+              &:focus,
+              &.active {
+                color: #ffffff;
+                background-color: #7b68ee;
+              }
+            }
+
+            .dropdown-menu {
+              top: 0;
+              left: -245px;
+              opacity: 0;
+              visibility: hidden;
+
+              li {
+                a {
+                  color: #696997;
+
+                  &:hover,
+                  &:focus,
+                  &.active {
+                    color: #7b68ee;
+                  }
+
+                  &.dropdown-menu {
+                    top: 0;
+                    left: -245px;
+                    opacity: 0;
+                    visibility: hidden;
+
+                    li {
+                      a {
+                        color: #696997;
+                        text-transform: capitalize;
+
+                        &:hover,
+                        &:focus,
+                        &.active {
+                          color: #7b68ee;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        &:hover .dropdown-menu {
+          top: 100%;
+          opacity: 1;
+          visibility: visible;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
+        }
+      }
+
+      &.index-navber {
+        .nav-item a {
+          color: #555;
         }
       }
     }
