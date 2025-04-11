@@ -1,8 +1,8 @@
 <template>
   <div class="pricing-plans">
     <div class="section-header">
-      <span class="sub-title">CHOOSE A PLANS</span>
-      <h2 class="main-title">Pricing Plans</h2>
+      <!-- <span class="sub-title">CHOOSE A PLAN</span> -->
+      <h2 class="main-title">CHOOSE A PLAN</h2>
     </div>
     <div class="plan-list">
       <div

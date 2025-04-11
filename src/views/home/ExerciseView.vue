@@ -10,7 +10,7 @@
           @click="activeIndex = index"
           :class="{ active: activeIndex === index }"
         >
-          {{ item.label }}
+          <b>{{ item.label }}</b>
         </button>
       </div>
     </nav>

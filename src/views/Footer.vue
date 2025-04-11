@@ -24,7 +24,9 @@
         <div class="col-6">
           <img src="../assets/img/logo.png" class="white-logo" alt="logo" />
         </div>
-        <div class="col-6 contact">Contact us: <b>jobACE@gmail.com</b></div>
+        <div class="col-6 contact">
+          Copyright © 2025 JobACE. All Rights Reserved.
+        </div>
       </div>
     </div>
   </div>

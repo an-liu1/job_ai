@@ -103,6 +103,11 @@ export default {
         },
         {
           navLink: "/",
+          name: "Why Us",
+          sectionId: "why",
+        },
+        {
+          navLink: "/",
           name: "Pricing",
           sectionId: "price",
         },
@@ -116,11 +121,6 @@ export default {
         //   name: "History",
         //   sectionId: "",
         // },
-        {
-          navLink: "/",
-          name: "About Us",
-          sectionId: "aboutUs",
-        },
       ];
     },
   },

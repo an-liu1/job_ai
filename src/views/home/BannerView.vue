@@ -16,12 +16,15 @@
                     tailor to your needs and boost your performance.
                   </p>
                   <div class="banner-btn">
-                    <a class="default-btn-one" @click="startPractice"
-                      >Practice <span></span
+                    <a class="default-btn-two" @click="startPractice"
+                      >Free Practice <span></span
+                    ></a>
+                    <!-- <a class="default-btn-one" @click="startPractice"
+                      >Free Practice <span></span
                     ></a>
                     <a class="default-btn-two" @click="startMock"
                       >Mock Interview <span></span
-                    ></a>
+                    ></a> -->
                   </div>
                 </div>
               </div>

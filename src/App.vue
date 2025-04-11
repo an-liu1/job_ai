@@ -6,8 +6,7 @@
     <!-- Start Preloader Section -->
     <div :class="{ preloader: true, 'preloader-deactivate': isPageLoaded }">
       <div class="loader">
-        <div class="shadow"></div>
-        <div class="box"></div>
+        <div class="jobace-text">JobACE</div>
       </div>
     </div>
     <!-- End Preloader Section -->
