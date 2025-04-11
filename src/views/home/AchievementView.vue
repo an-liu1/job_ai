@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .bg-purple {
-  background-color: #6f42c1 !important;
+  background-color: #3cabff !important;
 }
 /* 定制化样式 */
 @media (min-width: 992px) {

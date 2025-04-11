@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="guide">
     <div class="row g-4 align-items-center">
       <!-- 左侧内容区 -->
       <div class="col-lg-8">
@@ -13,7 +13,7 @@
           </p>
         </div>
 
-        <div class="row g-4 mt-5">
+        <div class="row g-4 mt-3">
           <div
             class="col-md-6"
             v-for="(item, index) in featureList"
@@ -69,9 +69,9 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  background-color: #f8f4f4;
-  padding: 30px 50px;
+.guide {
+  background-color: #ebefff;
+  padding: 30px 8%;
 }
 .tag {
   background: #54d62c;

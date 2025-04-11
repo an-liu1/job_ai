@@ -1,12 +1,9 @@
 <template>
-  <div class="bg-dark text-white maincontainer">
+  <div class="maincontainer">
     <div class="container py-5">
       <!-- 标题部分 -->
       <div class="text-center mb-5">
         <h1 class="display-5 mb-3">Got questions?</h1>
-        <h2 class="display-5">
-          Join our community and get the support you need.
-        </h2>
         <p class="fs-6 opacity-75 mb-4">
           Our team and fellow users are here to help you succeed in every
           interview. Your feedback helps us make the AI even smarter!
@@ -98,7 +95,13 @@ export default {
 .maincontainer {
   text-align: center;
   color: #ffffff;
-  background-color: #121212;
+  background-color: #ebefff;
+
+  h1 {
+    color: #000;
+    font-size: 56px;
+  }
+
   .el-collapse {
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -113,10 +116,11 @@ export default {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 16px;
   }
 
   ::v-deep .el-collapse-item__header:hover {
-    background-color: #edf2f7;
+    background-color: #cbd5e0;
   }
 
   ::v-deep .el-collapse-item__content {
@@ -124,6 +128,7 @@ export default {
     padding: 1rem 1.5rem;
     border-top: 1px solid #e2e8f0;
     background-color: #fff;
+    font-size: 14px;
   }
 
   /* 动画效果 */

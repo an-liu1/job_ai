@@ -38,7 +38,7 @@ export default {
 
 <style scoped>
 .footer-container {
-  background: #6a5acd;
+  background: #0295ff;
   color: white;
   padding: 20px 0;
 }

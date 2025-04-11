@@ -111,7 +111,7 @@ export default {
 <style scoped lang="scss">
 .pricing-plans {
   padding: 60px 20px;
-  background: #f5f5f5;
+  background: #fff;
 
   .section-header {
     text-align: center;
@@ -142,7 +142,7 @@ export default {
       background: #fff;
       padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
       min-width: 360px;
       text-align: left;
       transform: translateY(0);

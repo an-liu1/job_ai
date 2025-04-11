@@ -62,7 +62,7 @@ export default {
 
 <style lang="scss" scoped>
 $text-color: #333;
-$desc-color: #999;
+$desc-color: #464545;
 $icon-size: 60px;
 $gap-size: 40px;
 
@@ -70,21 +70,10 @@ $gap-size: 40px;
   text-align: center;
   padding: 40px;
   position: relative;
-  background: url("../../assets/img/bg-whyUs.jpg") center/cover no-repeat; // 背景图
-
-  // 添加半透明遮罩层
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8); // 白色半透明，降低背景图透明度
-  }
+  background-color: #ebefff;
 
   h1 {
-    font-size: 28px;
+    font-size: 32px;
     color: $text-color;
     margin-bottom: 20px;
     position: relative; // 确保文字在遮罩层之上
@@ -93,8 +82,8 @@ $gap-size: 40px;
   }
 
   p {
-    font-size: 14px;
-    color: #777;
+    font-size: 16px;
+    color: $desc-color;
     max-width: 1000px;
     margin: 0 auto 40px;
     position: relative;
@@ -133,13 +122,13 @@ $gap-size: 40px;
       }
 
       h3 {
-        font-size: 16px;
+        font-size: 20px;
         color: $text-color;
         margin-bottom: 10px;
       }
 
       p {
-        font-size: 12px;
+        font-size: 16px;
         color: $desc-color;
       }
     }
