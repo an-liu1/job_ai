@@ -44,13 +44,10 @@
                     @click="redirectTo(i.navLink, i.sectionId)"
                     >{{ i.name }}</a
                   >
-                  <ul
-                    class="dropdown-menu"
-                    v-if="i.name == 'Interview Features'"
-                  >
+                  <ul class="dropdown-menu" v-if="i.name == 'Interview'">
                     <li class="nav-item">
                       <a class="nav-link" @click="$router.push('/exercise')"
-                        >Interview Exercises</a
+                        >Practice</a
                       >
                     </li>
                     <li class="nav-item">
@@ -93,12 +90,17 @@ export default {
         },
         {
           navLink: "/",
+          name: "Features",
+          sectionId: "features",
+        },
+        {
+          navLink: "/",
           name: "Guide",
           sectionId: "howItWork",
         },
         {
           navLink: "/",
-          name: "Interview Features",
+          name: "Interview",
           sectionId: "exercise",
         },
         {

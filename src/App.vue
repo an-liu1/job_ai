@@ -23,6 +23,7 @@
 
     <router-view v-if="isRouterAlive" />
     <Footer />
+    <BackToTop />
   </div>
 </template>
 
@@ -30,12 +31,14 @@
 import SideNav from "@/views/SideNav.vue";
 import NavBar from "@/views/NavBar.vue";
 import Footer from "@/views/Footer.vue";
+import BackToTop from "@/components/BackToTop.vue";
 export default {
   name: "app",
   components: {
     SideNav,
     NavBar,
     Footer,
+    BackToTop,
   },
   provide() {
     return {
