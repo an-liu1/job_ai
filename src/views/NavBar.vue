@@ -2,9 +2,11 @@
   <div>
     <!-- Start Navbar Section -->
     <div class="navbar-section" :class="{ 'is-sticky': isSticky }">
+      <!-- 响应式导航部分 -->
       <div class="techvio-responsive-nav">
         <div class="container">
           <div class="techvio-responsive-menu">
+            <!--  logo  -->
             <div class="logo">
               <a @click="$router.push({ path: '/', hash: '#home' })">
                 <img
@@ -19,9 +21,46 @@
                 />
               </a>
             </div>
+            <!-- 汉堡菜单按钮 -->
+            <button class="hamburger-menu" @click="toggleMenu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+          <!-- 响应式导航项 -->
+          <div class="responsive-nav" :class="{ show: isMenuOpen }">
+            <ul class="navbar-nav">
+              <li class="nav-item" v-for="(i, index) in navBar" :key="index">
+                <a
+                  class="nav-link"
+                  @click="
+                    redirectTo(i.navLink, i.sectionId);
+                    toggleMenu();
+                  "
+                  >{{ i.name }}</a
+                >
+                <ul class="dropdown-menu" v-if="i.name === 'Interview'">
+                  <li class="nav-item">
+                    <a class="nav-link" @click="$router.push('/exercise')"
+                      >Practice</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" @click="$router.push('/mockInterview')"
+                      >Mock Interview</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <div class="other-option" @click="$router.push('/signinup')">
+              <a class="default-btn">Sign in<span></span></a>
+            </div>
           </div>
         </div>
       </div>
+      <!-- 正常导航部分 -->
       <div class="techvio-nav">
         <div class="container">
           <nav class="navbar navbar-expand-md navbar-light">
@@ -44,7 +83,7 @@
                     @click="redirectTo(i.navLink, i.sectionId)"
                     >{{ i.name }}</a
                   >
-                  <ul class="dropdown-menu" v-if="i.name == 'Interview'">
+                  <ul class="dropdown-menu" v-if="i.name === 'Interview'">
                     <li class="nav-item">
                       <a class="nav-link" @click="$router.push('/exercise')"
                         >Practice</a
@@ -78,6 +117,7 @@ export default {
     return {
       isSticky: false,
       scrollListener: null,
+      isMenuOpen: false,
     };
   },
   computed: {
@@ -118,28 +158,23 @@ export default {
           name: "FAQ",
           sectionId: "faq",
         },
-        // {
-        //   navLink: "/history",
-        //   name: "History",
-        //   sectionId: "",
-        // },
       ];
     },
   },
   mounted() {
-    // Bind the scroll handler to maintain Vue instance context
+    // 绑定滚动事件监听器
     this.scrollListener = this.handleScroll.bind(this);
     window.addEventListener("scroll", this.scrollListener);
   },
   beforeDestroy() {
-    // Clean up the event listener when component is destroyed
+    // 组件销毁前移除滚动事件监听器
     if (this.scrollListener) {
       window.removeEventListener("scroll", this.scrollListener);
     }
   },
   methods: {
     handleScroll() {
-      // Use requestAnimationFrame for smoother performance
+      // 使用 requestAnimationFrame 优化性能
       requestAnimationFrame(() => {
         this.isSticky = window.scrollY > 120;
       });
@@ -167,12 +202,17 @@ export default {
         this.$router.push(link);
       }
     },
+    toggleMenu() {
+      // 切换菜单显示状态
+      this.isMenuOpen = !this.isMenuOpen;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../assets/css/style.css";
+
 .techvio-responsive-nav {
   display: none;
 }
@@ -374,7 +414,6 @@ export default {
   left: 0;
   width: 100%;
   height: auto;
-  // background-color: transparent;
   transition: 0.4s;
 
   &.is-sticky {
@@ -413,65 +452,90 @@ export default {
   }
 }
 
-.techvio-responsive-nav {
-  @media only screen and (max-width: 991px) {
+// 响应式导航部分样式
+@media only screen and (max-width: 991px) {
+  .techvio-responsive-nav {
     display: block;
+    position: relative;
+  }
 
-    .techvio-responsive-menu {
-      position: relative;
+  .techvio-nav {
+    display: none;
+  }
 
-      &.mean-container {
-        .mean-nav ul {
-          font-size: 15px;
+  .hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 
-          li a {
-            color: #101834;
-            font-size: 16px;
-            font-weight: 500;
+    span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background-color: #404040;
+      transition: all 0.3s ease;
+    }
+  }
 
-            &.active {
-              color: #7b68ee;
-            }
-          }
+  .hamburger-menu.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
 
-          li li a {
-            font-size: 15px;
-          }
-        }
+  .hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+  }
 
-        .navbar-nav {
-          height: 300px;
-          overflow-y: scroll;
-          box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.1);
-        }
+  .hamburger-menu.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
 
-        .others-options {
-          display: none;
-        }
+  .responsive-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 99;
 
-        a.meanmenu-reveal {
+    .navbar-nav {
+      margin: 0;
+      padding: 0;
+
+      .nav-item {
+        padding: 10px 15px;
+        border-bottom: 1px solid #f1f1f1;
+
+        a {
           color: #404040;
+          margin: 0;
+        }
 
-          span {
-            background-color: #404040;
-          }
+        .dropdown-menu {
+          position: static;
+          opacity: 1;
+          visibility: visible;
+          width: 100%;
+          box-shadow: none;
+          border-top: 1px solid #f1f1f1;
         }
       }
     }
 
-    .logo {
-      position: relative;
-      width: 50%;
-      z-index: 999;
-
-      .white-logo {
-        display: block;
-      }
-
-      .black-logo {
-        display: none;
-      }
+    .other-option {
+      margin: 10px 15px;
     }
+  }
+
+  .responsive-nav.show {
+    display: block;
   }
 }
 </style>
