@@ -56,8 +56,17 @@
                 </ul>
               </li>
             </ul>
-            <div class="other-option" @click="$router.push('/signinup')">
+            <div
+              class="other-option"
+              @click="$router.push('/signinup')"
+              v-if="!loginStatus"
+            >
               <a class="default-btn">Sign in<span></span></a>
+            </div>
+            <div class="accountAvatar" @click="$router.push('/account')" v-else>
+              <el-avatar shape="square">
+                {{ userProfile.username }}
+              </el-avatar>
             </div>
           </div>
         </div>
@@ -101,8 +110,21 @@
                   </ul>
                 </li>
               </ul>
-              <div class="other-option" @click="$router.push('/signinup')">
+              <div
+                class="other-option"
+                @click="$router.push('/signinup')"
+                v-if="!loginStatus"
+              >
                 <a class="default-btn">Sign in<span></span></a>
+              </div>
+              <div
+                class="accountAvatar"
+                @click="$router.push('/account')"
+                v-else
+              >
+                <el-avatar shape="square">
+                  {{ userProfile.username }}
+                </el-avatar>
               </div>
             </div>
           </nav>
@@ -161,6 +183,12 @@ export default {
           sectionId: "faq",
         },
       ];
+    },
+    userProfile: function () {
+      return this.$store.state.userProfile;
+    },
+    loginStatus: function () {
+      return this.$store.state.loginStatus;
     },
   },
   mounted() {
@@ -396,6 +424,15 @@ export default {
           height: 40px;
           border-radius: 6px;
         }
+      }
+    }
+
+    .accountAvatar {
+      .el-avatar {
+        background: #7b68ee;
+      }
+      &:hover {
+        cursor: pointer;
       }
     }
   }

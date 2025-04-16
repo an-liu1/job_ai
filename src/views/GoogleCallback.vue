@@ -1,7 +1,6 @@
 <template>
   <div>
     <p>{{ token }}</p>
-    <p>132165</p>
   </div>
 </template>
 

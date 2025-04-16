@@ -197,8 +197,10 @@ export default {
           this.$store
             .dispatch("login", this.loginForm)
             .then(() => {
-              this.$store.dispatch("getUserInfo");
-              this.$router.go(-1);
+              this.$store.dispatch("getUserInfo").then(() => {
+                this.$store.commit("setLoginStatus", true);
+                this.$router.push("/account");
+              });
             })
             .catch(() => {
               this.$alert(
