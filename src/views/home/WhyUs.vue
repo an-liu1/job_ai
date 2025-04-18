@@ -25,33 +25,33 @@ export default {
     return {
       features: [
         {
-          title: "Data-Backed Results",
-          desc: "Verified metrics like '75% of users receive callbacks within 2 weeks' build trust and credibility.",
+          title: "Affordable Coaching",
+          desc: "Get interview training at a fraction of the cost of a real job coach.",
           icon: require("@/assets/img/whyUs1.jpg"), // Suggested icon: bar chart/graph
         },
         {
-          title: "AI-Powered Coaching",
-          desc: "Our DeepSeek-powered AI analyzes your responses like a hiring manager, providing real-time improvements.",
+          title: "Perfect Your English",
+          desc: "AI helps you improve grammar and fluency—great for ESL speakers and newcomers.",
           icon: require("@/assets/img/whyUs2.jpg"), // Suggested icon: neural network/robot
         },
         {
-          title: "Cost-Effective Prep",
-          desc: "Get premium-quality interview training at 1/3 the cost of human career coaches.",
+          title: "Your 24/7 AI Job Coach",
+          desc: "Your AI coach is always on—practice whenever it fits your schedule.",
           icon: require("@/assets/img/whyUs3.jpg"), // Suggested icon: coin/dollar sign
         },
         {
-          title: "24/7 Expert Support",
-          desc: "Access to interview strategists for personalized feedback on demand.",
+          title: "Track Your Growth",
+          desc: "Save and review all your sessions to see how far you’ve come./Re-listen to your answers, compare sessions, and hear your improvement over time.",
           icon: require("@/assets/img/whyUs4.jpg"), // Suggested icon: headset/lifebuoy
         },
         {
-          title: "Cutting-Edge Simulations",
-          desc: "Practice with the latest interview formats including Metaverse and VR environments.",
+          title: "Know What You're Good At",
+          desc: "Receive a structured assessment report highlighting your strengths and what to improve.",
           icon: require("@/assets/img/whyUs5.jpg"), // Suggested icon: virtual reality goggles
         },
         {
-          title: "Intuitive Interface",
-          desc: "User-friendly dashboard with progress tracking and one-click practice sessions.",
+          title: "Practice That Feels Real",
+          desc: "Simulate real interview pressure with voice-only mock interviews and no do-overs.",
           icon: require("@/assets/img/whyUs6.jpg"), // Suggested icon: smartphone with checkmark
         },
       ],
