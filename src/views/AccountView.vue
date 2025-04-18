@@ -30,6 +30,16 @@
             <div class="stat-label">Improvement</div>
           </div>
         </div>
+
+        <div class="mt-5">
+          <el-button
+            type="warning"
+            icon="el-icon-switch-button"
+            @click="logout"
+          >
+            Logout
+          </el-button>
+        </div>
       </el-card>
 
       <!-- 用户详细信息 -->
@@ -122,6 +132,7 @@
                     v-model="darkMode"
                     active-text="Dark"
                     inactive-text="Light"
+                    disabled
                   ></el-switch>
                 </el-form-item>
 
@@ -132,19 +143,19 @@
                 </el-form-item>
               </el-form>
 
-              <div class="danger-zone">
+              <!-- <div class="danger-zone">
                 <h4>Danger Zone</h4>
                 <el-button type="danger" plain @click="showDeleteDialog">
                   Delete Account
                 </el-button>
-              </div>
+              </div> -->
             </div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
 
       <!-- 底部操作按钮 -->
-      <div class="action-buttons">
+      <!-- <div class="action-buttons">
         <el-button type="primary" icon="el-icon-edit" @click="showEditProfile">
           Edit Profile
         </el-button>
@@ -158,21 +169,41 @@
         <el-button type="warning" icon="el-icon-switch-button" @click="logout">
           Logout
         </el-button>
-      </div>
+      </div> -->
     </div>
 
     <!-- 各种对话框 -->
     <el-dialog
-      title="Update Email"
+      title="Update Passowrd"
       :visible.sync="emailDialogVisible"
       width="30%"
+      :close-on-click-modal="false"
     >
-      <el-form :model="emailForm" :rules="emailRules" ref="emailForm">
-        <el-form-item label="New Email" prop="email">
-          <el-input v-model="emailForm.email"></el-input>
+      <el-form
+        :model="passwordUpdateForm"
+        :rules="passwordUpdateRules"
+        ref="passwordUpdateForm"
+      >
+        <el-form-item label="Email" prop="email">
+          <el-input v-model="passwordUpdateForm.email" disabled></el-input>
         </el-form-item>
-        <el-form-item label="Confirm Password" prop="password">
-          <el-input type="password" v-model="emailForm.password"></el-input>
+        <el-form-item label="Old Password" prop="password">
+          <el-input
+            type="password"
+            v-model="passwordUpdateForm.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="New Password" prop="password1">
+          <el-input
+            type="password"
+            v-model="passwordUpdateForm.password1"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="Confirm New Password" prop="password2">
+          <el-input
+            type="password"
+            v-model="passwordUpdateForm.password2"
+          ></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -195,11 +226,13 @@ export default {
       activeTab: "info",
       defaultAvatar: "",
       emailDialogVisible: false,
-      emailForm: {
+      passwordUpdateForm: {
         email: "",
         password: "",
+        password1: "",
+        password2: "",
       },
-      emailRules: {
+      passwordUpdateRules: {
         email: [
           {
             required: true,
@@ -213,7 +246,17 @@ export default {
           },
         ],
         password: [
-          { required: true, message: "Please input password", trigger: "blur" },
+          { required: true, message: "Old password required", trigger: "blur" },
+        ],
+        password1: [
+          { required: true, message: "New password required", trigger: "blur" },
+        ],
+        password2: [
+          {
+            required: true,
+            message: "Confirm new password required",
+            trigger: "blur",
+          },
         ],
       },
       darkMode: false,
@@ -270,11 +313,11 @@ export default {
       this.$router.push("/");
     },
     showEmailDialog() {
-      this.emailForm.email = this.userProfile.email;
+      this.passwordUpdateForm.email = this.userProfile.email;
       this.emailDialogVisible = true;
     },
     updateEmail() {
-      this.$refs.emailForm.validate((valid) => {
+      this.$refs.passwordUpdateForm.validate((valid) => {
         if (valid) {
           // API call to update email
           this.$message.success("Email updated successfully");
@@ -286,7 +329,8 @@ export default {
       this.$message.info("Edit profile feature coming soon!");
     },
     showUpgradeDialog() {
-      this.$message.info("Subscription upgrade feature coming soon!");
+      // this.$message.info("Subscription upgrade feature coming soon!");
+      this.$router.push({ path: "/", hash: `#price` });
     },
     showDeleteDialog() {
       this.$confirm(
