@@ -1,114 +1,100 @@
 <template>
   <div class="mainContainer">
-    <div :class="!showPractice ? 'withebox' : ''"></div>
-    <div class="practiceContainer row col-11 col-lg-5" v-if="!showPractice">
-      <h3 class="text-center mt-5 mb-3">What would you like to practice?</h3>
-      <div class="practiceBtnContainer">
-        <div class="practiceBtn">
-          <el-button type="success" @click="startPractice('common')"
-            >Common Questions</el-button
-          >
-        </div>
-        <div class="practiceBtn">
-          <el-button type="warning" @click="startPractice('star')"
-            >Behavioural Questions</el-button
-          >
-        </div>
-        <div class="practiceBtn">
-          <el-button type="danger" @click="startPractice('tough')"
-            >Tough Question</el-button
-          >
-        </div>
-      </div>
-    </div>
-
-    <div class="textareaContainer row col-11 col-lg-7" v-if="showPractice">
-      <h6 @click="$store.commit('switchShowPractice', false)" class="backBtn">
-        <i class="el-icon-arrow-left"></i> Back
-      </h6>
-      <div class="banner">
-        <el-image :src="practiceInfo.img"></el-image>
-      </div>
-      <h2 class="text-center mt-3 mb-3">{{ practiceInfo.title }}</h2>
-      <div class="col-11 mx-auto">
-        <div v-for="(i, index) of practiceInfo.des" :key="index">
-          <p v-html="i" class="m-0 text-center"></p>
-        </div>
+    <div class="interview-container">
+      <h1 class="text-center mb-5">{{ practiceMode }}</h1>
+      <div class="header">
+        <input
+          type="text"
+          v-model="position"
+          placeholder="Enter position"
+          class="position-input"
+        />
+        <button class="start-btn" @click="startInterview">
+          Start Interview
+        </button>
       </div>
 
-      <div class="chat-container mt-5">
-        <!-- 新增对话容器 -->
-        <div v-for="(msg, index) in chatHistory" :key="index">
-          <!-- 用户消息 -->
-          <div v-if="msg.type === 'user'" class="clientPop">
-            <h6><b>You:</b></h6>
-            <p class="d-inline-block">{{ msg.text }}</p>
-            <!-- <MiniAudioPlayer
-              v-if="msg.audio"
-              :audioSrc="msg.audio"
-              class="d-inline-block"
-            /> -->
+      <div class="question-section">
+        <div v-for="(msg, index) in chatHistory" :key="index" class="message">
+          <div v-if="msg.type == 'user'" class="user-message">
+            <div class="message-header" style="justify-content: flex-end">
+              <h4>You</h4>
+              <div class="avatar user-avatar" style="margin-left: 8px"></div>
+            </div>
+            <div class="message-content">
+              <p>{{ msg.text }}</p>
+            </div>
           </div>
 
-          <!-- AI消息 -->
-          <div v-else class="AIpop">
-            <h6><b>Coach:</b></h6>
-            <vue-typer :text="msg.text" :repeat="0"></vue-typer>
-            <div class="d-inline-block whiteSpace"></div>
-            <MiniAudioPlayer
-              v-if="msg.audio"
-              :audio-src="msg.audio"
-              class="d-inline-block"
-            />
+          <div v-else class="ai-message">
+            <div class="message-header">
+              <div class="avatar ai-avatar"></div>
+              <h4>AI Interview Coach</h4>
+            </div>
 
-            <el-collapse
-              v-if="
-                msg.evaluation &&
-                msg.evaluation.score !== 0 &&
-                msg.evaluation.score !== null
-              "
-            >
-              <el-collapse-item
-                title="View evaluation"
-                name="evaluation"
-                v-if="msg.evaluation"
+            <div class="message-content">
+              <p>{{ msg.text }}</p>
+              <div v-if="msg.evaluation && msg.evaluation.score" class="score">
+                {{ msg.evaluation.score + "/10" }}
+              </div>
+              <MiniAudioPlayer
+                v-if="msg.audio"
+                :audio-src="msg.audio"
+                class="d-inline-block"
+              />
+              <el-collapse
+                v-if="
+                  msg.evaluation &&
+                  msg.evaluation.score !== 0 &&
+                  msg.evaluation.score !== null
+                "
               >
-                <div class="row evaluation">
-                  <div class="col-4">
-                    <div class="evaluationLeft">
-                      <div>
-                        <h5>Category:</h5>
-                        <p>{{ msg.evaluation.question_category }}</p>
+                <el-collapse-item
+                  title="View evaluation"
+                  name="evaluation"
+                  v-if="msg.evaluation"
+                >
+                  <div class="row evaluation">
+                    <div class="col-4">
+                      <div class="evaluationLeft">
+                        <div>
+                          <h5>Category:</h5>
+                          <p>{{ msg.evaluation.question_category }}</p>
+                        </div>
+                        <div>
+                          <h5>Level:</h5>
+                          <p>{{ msg.evaluation.question_difficulty }}</p>
+                        </div>
+                        <div>
+                          <h5>Score:</h5>
+                          <p>{{ msg.evaluation.score + "/10" }}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h5>Level:</h5>
-                        <p>{{ msg.evaluation.question_difficulty }}</p>
-                      </div>
-                      <div>
-                        <h5>Score:</h5>
-                        <p>{{ msg.evaluation.score + "/10" }}</p>
+                    </div>
+                    <div class="col-8">
+                      <div class="evaluationRight">
+                        <div>
+                          <h5 style="color: #004aad">Assessment:</h5>
+                          <p>{{ msg.evaluation.assessment }}</p>
+                        </div>
+                        <div>
+                          <h5 style="color: #f9943b">Advice:</h5>
+                          <p>{{ msg.evaluation.advice }}</p>
+                        </div>
+                        <div>
+                          <h5 style="color: #265d48">Improved example:</h5>
+                          <p>{{ msg.evaluation.revised_example }}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-8">
-                    <div class="evaluationRight">
-                      <div>
-                        <h5 style="color: #004aad">Assessment:</h5>
-                        <p>{{ msg.evaluation.assessment }}</p>
-                      </div>
-                      <div>
-                        <h5 style="color: #f9943b">Advice:</h5>
-                        <p>{{ msg.evaluation.advice }}</p>
-                      </div>
-                      <div>
-                        <h5 style="color: #265d48">Improved example:</h5>
-                        <p>{{ msg.evaluation.revised_example }}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </el-collapse-item>
-            </el-collapse>
+                </el-collapse-item>
+              </el-collapse>
+              <!-- <div class="divider"></div>
+              <div class="next-question">
+                <p>Next question: {{ msg.nextQuestion }}</p>
+              </div> -->
+            </div>
           </div>
         </div>
       </div>
@@ -116,7 +102,6 @@
         class="mt-5 mb-5"
         @record-complete="handleRecord"
         @send="handleSend"
-        main-color="#409EFF"
       />
     </div>
   </div>
@@ -130,84 +115,31 @@ export default {
   data() {
     return {
       chatHistory: [], // 新增历史记录数组
+      position: "marketing",
     };
   },
   computed: {
+    mode: function () {
+      return this.$route.params.mode;
+    },
     loginStatus: function () {
       return this.$store.state.loginStatus;
-    },
-    showPractice: function () {
-      return this.$store.state.showPractice;
     },
     practiceMode: function () {
       return this.$store.state.practiceMode;
     },
-    practiceModeInfo: function () {
-      return this.$store.state.practiceModeInfo.hide_on_mobile;
-    },
-    practiceInfo: function () {
-      return this.practiceMode == "common"
-        ? {
-            img: require("@/assets/common.png"),
-            title: "Common Interview Questions",
-            des: [
-              "These are the questions you’re most likely to be asked in an interview—so be ready!",
-              "Try answering out loud to build confidence and improve your delivery.",
-              "Stuck on a question? Ask your AI coach for an example!",
-            ],
-          }
-        : this.practiceMode == "star"
-        ? {
-            img: require("@/assets/star.png"),
-            title: "Behavioural Questions (STAR Method)",
-            des: [
-              "The STAR method helps you answer interview questions with clear, structured responses.",
-              "Describe the <b>Situation</b>, explain the <b>Task</b>, outline your <b>Actions</b>, and highlight the <b>Results</b>.",
-              "Try using this approach to give compelling answers and showcase your impact!",
-            ],
-          }
-        : {
-            img: require("@/assets/tough.png"),
-            title: "Tough Interview Questions",
-            des: [
-              "Tough questions are tricky, challenging, and designed to test your thinking under pressure.",
-              "Practice by giving clear, structured answers—and refine them through conversation with your AI coach.",
-              "Need a specific type of question? Just ask, and your AI coach will tailor the challenge for you!",
-            ],
-          };
+    startPracticeFlag: function () {
+      return this.$store.state.startPracticeFlag;
     },
     chatInfo: function () {
       return this.$store.state.chatInfo;
     },
   },
-  watch: {
-    showPractice: function (N) {
-      if (N == true) {
-        const formData = new FormData();
-        formData.append("mode", this.practiceMode);
-        formData.append("new_conversation", true);
-        this.$store.commit("switchLoadingStatus", true);
-        this.$store.dispatch("getChatInfo", formData).then(() => {
-          this.chatHistory = []; // 清空历史记录
-          if (this.chatInfo.response_text) {
-            this.chatHistory.push({
-              type: "ai",
-              text: this.chatInfo.response_text,
-              audio: this.chatInfo.tts_audio_url,
-              evaluation: this.chatInfo.evaluation,
-            });
-          }
-          this.$store.commit("switchLoadingStatus", false);
-          this.scrollToBottom();
-        });
-      }
-    },
-  },
   mounted() {
-    this.$store.commit("switchShowPractice", false);
+    this.$store.commit("setStartPractice", false);
   },
   beforeRouteLeave(to, from, next) {
-    if (this.showPractice && this.loginStatus) {
+    if (this.startPracticeFlag) {
       this.$confirm(
         "Leaving will interrupt this interview. Do you want to continue?",
         "warning",
@@ -218,7 +150,6 @@ export default {
         }
       )
         .then(() => {
-          this.$store.commit("switchShowPractice", false);
           this.chatHistory = [];
           next();
         })
@@ -226,18 +157,35 @@ export default {
           console.log(123);
         });
     } else {
-      this.$store.commit("switchShowPractice", false);
       next();
     }
   },
+  watch: {
+    mode: function (newValue) {
+      this.$store.commit("setStartPractice", false);
+      this.$store.commit("setPracticeMode", newValue);
+    },
+  },
   methods: {
-    startPractice: function (mode) {
-      if (this.loginStatus) {
-        this.$store.commit("setPracticeMode", mode);
-        this.$store.commit("switchShowPractice", true);
-      } else {
-        this.$router.push("/signinup");
-      }
+    startInterview() {
+      const formData = new FormData();
+      formData.append("mode", this.practiceMode);
+      formData.append("new_conversation", true);
+      this.$store.commit("switchLoadingStatus", true);
+      this.$store.dispatch("getChatInfo", formData).then(() => {
+        this.chatHistory = []; // 清空历史记录
+        if (this.chatInfo.response_text) {
+          this.chatHistory.push({
+            type: "ai",
+            text: this.chatInfo.response_text,
+            audio: this.chatInfo.tts_audio_url,
+            evaluation: this.chatInfo.evaluation,
+          });
+        }
+        this.$store.commit("setStartPractice", true);
+        this.$store.commit("switchLoadingStatus", false);
+        this.scrollToBottom();
+      });
     },
     handleRecord(blob) {
       console.log(blob);
@@ -246,13 +194,13 @@ export default {
       // audio.play();
     },
     handleSend(blob) {
+      this.$store.commit("setPracticeRequest", true);
       const formData = new FormData();
       formData.append("audio", blob, "recording.wav");
       formData.append("mode", this.practiceMode);
       formData.append("new_conversation", false);
       formData.append("conversation_id", this.chatInfo.conversation_id);
 
-      this.$store.commit("switchLoadingStatus", true);
       this.$store.dispatch("getChatInfo", formData).then(() => {
         // 添加用户消息
         if (this.chatInfo.user_text) {
@@ -272,7 +220,7 @@ export default {
             evaluation: this.chatInfo.evaluation,
           });
         }
-        this.$store.commit("switchLoadingStatus", false);
+        this.$store.commit("setPracticeRequest", false);
         this.scrollToBottom();
       });
     },
@@ -289,8 +237,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$blue: #3498db;
+$red: #f44336;
+$gray: #bdc3c7;
+
 .mainContainer {
-  min-height: 100vh;
+  min-height: calc(100vh - 123px);
+  padding: 150px 20px 20px 20px;
   background: linear-gradient(
     to bottom,
     #0295ff,
@@ -300,84 +253,138 @@ export default {
     #ebefff
   );
 }
-.withebox {
-  height: 130px;
-  width: 100%;
-}
-.whiteSpace {
-  width: 10px;
-}
-.backBtn {
-  padding-top: 10px;
-  &:hover {
-    cursor: pointer;
-  }
-}
-.practiceContainer {
-  border: 1px solid #000000;
-  height: 400px;
-  background-color: #ffffff;
+
+.interview-container {
+  max-width: 80%;
   margin: 0 auto;
-  .practiceBtnContainer {
-    text-align: center !important;
-    .practiceBtn {
-      margin-top: 30px;
-      .el-button {
-        width: 300px;
-        height: 50px;
-        color: #000000;
-        font-weight: bold;
-        font-size: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background: #f0f4f8;
+  .header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .position-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .start-btn {
+      background: $blue;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+
+  .question-section {
+    flex: 1;
+    margin-bottom: 20px;
+    overflow-y: auto;
+
+    .message {
+      margin-bottom: 15px;
+      border-radius: 10px;
+      padding: 15px;
+      position: relative;
+
+      .ai-message {
+        background: #e3f2fd; // 浅蓝背景（与图中一致）
+        border: 1px solid #d8e9f7; // 新增浅蓝边框，增强轮廓感
+        padding: 20px;
+      }
+      .user-message {
+        background: #e1e2e2;
+        border: 1px solid #d8e9f7;
+        padding: 20px;
+      }
+
+      .message-header {
+        display: flex;
+        align-items: center;
+        .avatar {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          margin-right: 12px;
+          &.ai-avatar {
+            background: $blue;
+          }
+          &.user-avatar {
+            background: $gray;
+          }
+        }
+
+        h4 {
+          color: #333;
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 1; /* 重置行高避免冲突 */
+          display: inline-block;
+          vertical-align: middle; /* 确保垂直居中 */
+        }
+      }
+
+      .message-content {
+        // display: inline-block;
+        // vertical-align: top;
+
+        p {
+          color: #666;
+          font-size: 16px;
+          line-height: 1.4;
+          margin: 12px 0;
+          overflow-wrap: break-word; /* 允许在单词内换行，保证内容不溢出容器 */
+          word-break: keep-all; /* 保持单词完整性，不拆分单词 */
+        }
+
+        .score {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: $blue;
+          color: white;
+          padding: 4px 8px;
+          border-radius: 50%;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .detailed-btn {
+          background: none;
+          border: none;
+          color: $blue;
+          cursor: pointer;
+          margin-top: 10px;
+          font-size: 16px;
+          text-align: center;
+        }
+
+        .next-question {
+          margin-top: 20px;
+          p {
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+          }
+        }
       }
     }
   }
-}
-.textareaContainer {
-  // border: 1px solid #000000;
-  // background-color: #ffffff;
-  margin: 0 auto;
-  .banner {
-    height: 150px;
-    width: 100%;
-    text-align: center;
-    .el-image {
-      height: 150px;
-    }
-  }
-  h2 {
-    font-weight: bold;
-  }
-  .chat-container {
-    overflow-y: auto;
-    padding: 10px;
-    border: 1px solid #ebeef5;
-    border-radius: 4px;
-  }
-  .AIpop {
-    background-color: #fcf1d8;
-    border-radius: 10px;
-    padding: 10px;
-    p {
-      line-height: 1.5; /* 调整行高，让文字垂直方向更合理，可根据需要调整数值 */
-      overflow-wrap: break-word; /* 允许在单词内换行，保证内容不溢出容器 */
-      word-break: keep-all; /* 保持单词完整性，不拆分单词 */
-      margin: 0;
-    }
-  }
-  .clientPop {
-    background-color: #c0f0f7;
-    border-radius: 10px;
-    padding: 10px;
-    p {
-      line-height: 1.5; /* 调整行高，让文字垂直方向更合理，可根据需要调整数值 */
-      overflow-wrap: break-word; /* 允许在单词内换行，保证内容不溢出容器 */
-      word-break: keep-all; /* 保持单词完整性，不拆分单词 */
-      margin: 0;
-    }
-  }
+
   ::v-deep .el-collapse-item__header {
     padding-left: 10px !important;
     font-weight: bold !important;
+    text-align: center !important;
   }
   .evaluation {
     border-radius: 10px;
@@ -385,12 +392,14 @@ export default {
     background-color: #ffffff;
     margin: 0;
   }
-  .btnGroup {
-    clear: both;
-    width: 100%;
-    .el-button {
-      width: 200px;
-      font-size: 16px;
+
+  @media (max-width: 600px) {
+    .header {
+      flex-direction: column;
+    }
+
+    .position-input {
+      margin-bottom: 10px;
     }
   }
 }

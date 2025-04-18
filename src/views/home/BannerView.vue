@@ -56,13 +56,22 @@ export default {
       });
     }
   },
+  computed: {
+    loginStatus: function () {
+      return this.$store.state.loginStatus;
+    },
+  },
   methods: {
     startPractice: function () {
-      this.$router.push("/exercise");
+      if (this.loginStatus) {
+        this.$router.push("/exercise/common");
+      } else {
+        this.$router.push("/signinup");
+      }
     },
-    startMock: function () {
-      this.$router.push("/mockInterview");
-    },
+    // startMock: function () {
+    //   this.$router.push("/exercise/mock");
+    // },
   },
 };
 </script>

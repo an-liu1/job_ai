@@ -93,7 +93,7 @@ export default {
             },
           ],
           btnText: "Start Practice",
-          redirectURL: "/common-questions",
+          redirectURL: "exercise/common",
         },
         {
           imgUrl: require("@/assets/guide2.png"),
@@ -114,7 +114,7 @@ export default {
             },
           ],
           btnText: "Start Practice",
-          redirectURL: "/behavioral-questions",
+          redirectURL: "exercise/star",
         },
         {
           imgUrl: require("@/assets/guide3.png"),
@@ -135,7 +135,7 @@ export default {
             },
           ],
           btnText: "Start Challenge",
-          redirectURL: "/tough-questions",
+          redirectURL: "exercise/tough",
         },
         {
           imgUrl: require("@/assets/guide3.png"),
@@ -157,10 +157,15 @@ export default {
             },
           ],
           btnText: "Start Mock Interview",
-          redirectURL: "/mock-interview",
+          redirectURL: "exercise/mock",
         },
       ],
     };
+  },
+  computed: {
+    loginStatus: function () {
+      return this.$store.state.loginStatus;
+    },
   },
   mounted() {
     // 初始化延迟显示（模拟动态加载）
@@ -171,7 +176,11 @@ export default {
   },
   methods: {
     redirectTo: function (url) {
-      this.$router.push(url);
+      if (this.loginStatus) {
+        this.$router.push(url);
+      } else {
+        this.$router.push("/signinup");
+      }
     },
   },
 };

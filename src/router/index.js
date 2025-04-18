@@ -10,25 +10,15 @@ const routes = [
     component: () => import("../views/HomeView.vue"),
   },
   {
-    path: "/exercise",
+    path: "/exercise/:mode",
     name: "Exercise View",
     component: () => import("../views/ExerciseView.vue"),
-  },
-  {
-    path: "/mockInterview",
-    name: "Mock interview View",
-    component: () => import("../views/MockInterviewView.vue"),
   },
   {
     path: "/history",
     name: "History View",
     component: () => import("../views/HistoryView.vue"),
   },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   component: () => import("../views/AboutView.vue"),
-  // },
   {
     path: "/signinup",
     name: "SignInUP View",

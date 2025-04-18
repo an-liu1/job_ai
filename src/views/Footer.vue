@@ -38,6 +38,7 @@ export default {
 };
 </script>
 
+<!-- height: 123px -->
 <style scoped>
 .footer-container {
   background: #0295ff;

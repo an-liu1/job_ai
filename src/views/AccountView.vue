@@ -1,57 +1,332 @@
 <template>
-  <div class="accountContainer">
-    <div class="loginContainer col-11 col-md-6 col-xl-4">
-      <h2 class="text-center pt-5 pb-5">Hello {{ userProfile.username }}!</h2>
-      <div class="row">
-        <el-descriptions
-          title="User Information"
-          class="col-10 mx-auto"
-          :column="1"
+  <div class="account-dashboard">
+    <div class="user-profile-container">
+      <!-- 用户头像和信息卡片 -->
+      <el-card class="profile-card" shadow="hover">
+        <div class="profile-header">
+          <el-avatar
+            :size="120"
+            :src="userProfile.avatar || defaultAvatar"
+            class="user-avatar"
+          >
+            {{ userProfile.username.charAt(0).toUpperCase() }}
+          </el-avatar>
+          <h2 class="user-greeting">Hello, {{ userProfile.username }}!</h2>
+          <p class="user-role">{{ userProfile.role || "Premium Member" }}</p>
+        </div>
+
+        <!-- 用户统计信息 -->
+        <div class="user-stats">
+          <div class="stat-item">
+            <div class="stat-value">{{ userStats.interviewCount || 0 }}</div>
+            <div class="stat-label">Interviews</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ userStats.avgScore || "0.0" }}</div>
+            <div class="stat-label">Avg Score</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ userStats.improvement || "+0%" }}</div>
+            <div class="stat-label">Improvement</div>
+          </div>
+        </div>
+      </el-card>
+
+      <!-- 用户详细信息 -->
+      <el-card class="details-card" shadow="hover">
+        <el-tabs v-model="activeTab" class="profile-tabs">
+          <el-tab-pane label="Personal Info" name="info">
+            <el-descriptions title="Account Details" :column="1" border>
+              <el-descriptions-item label="Username">
+                <el-tag>{{ userProfile.username }}</el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="Email">
+                {{ userProfile.email }}
+                <el-button
+                  type="text"
+                  icon="el-icon-edit"
+                  @click="showEmailDialog"
+                ></el-button>
+              </el-descriptions-item>
+              <el-descriptions-item label="User ID">{{
+                userProfile.id
+              }}</el-descriptions-item>
+              <el-descriptions-item label="Member Since">
+                {{ formatDate(userProfile.createdAt) }}
+              </el-descriptions-item>
+              <el-descriptions-item label="Last Login">
+                {{ formatDate(userProfile.lastLogin) }}
+              </el-descriptions-item>
+              <el-descriptions-item label="Subscription">
+                <el-tag
+                  :type="userProfile.subscription ? 'success' : 'warning'"
+                >
+                  {{ userProfile.subscription ? "Active" : "Free Tier" }}
+                </el-tag>
+                <el-button
+                  v-if="!userProfile.subscription"
+                  type="text"
+                  size="mini"
+                  @click="showUpgradeDialog"
+                >
+                  Upgrade
+                </el-button>
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-tab-pane>
+
+          <el-tab-pane label="Activity" name="activity">
+            <div class="activity-section">
+              <h4>Recent Activity</h4>
+              <el-timeline>
+                <el-timeline-item
+                  v-for="(activity, index) in userActivities"
+                  :key="index"
+                  :timestamp="formatTime(activity.timestamp)"
+                  placement="top"
+                >
+                  <el-card>
+                    <h4>{{ activity.title }}</h4>
+                    <p>{{ activity.description }}</p>
+                    <div v-if="activity.score" class="activity-score">
+                      <el-rate
+                        v-model="activity.score"
+                        disabled
+                        :max="10"
+                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                        score-template="{value}"
+                      />
+                    </div>
+                  </el-card>
+                </el-timeline-item>
+              </el-timeline>
+            </div>
+          </el-tab-pane>
+
+          <el-tab-pane label="Settings" name="settings">
+            <div class="settings-section">
+              <h4>Account Settings</h4>
+              <el-form label-position="top">
+                <el-form-item label="Notification Preferences">
+                  <el-checkbox-group v-model="notificationSettings">
+                    <el-checkbox label="email">Email Notifications</el-checkbox>
+                    <el-checkbox label="push">Push Notifications</el-checkbox>
+                    <el-checkbox label="newsletter"
+                      >Monthly Newsletter</el-checkbox
+                    >
+                  </el-checkbox-group>
+                </el-form-item>
+
+                <el-form-item label="Dark Mode">
+                  <el-switch
+                    v-model="darkMode"
+                    active-text="Dark"
+                    inactive-text="Light"
+                  ></el-switch>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" @click="saveSettings"
+                    >Save Settings</el-button
+                  >
+                </el-form-item>
+              </el-form>
+
+              <div class="danger-zone">
+                <h4>Danger Zone</h4>
+                <el-button type="danger" plain @click="showDeleteDialog">
+                  Delete Account
+                </el-button>
+              </div>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </el-card>
+
+      <!-- 底部操作按钮 -->
+      <div class="action-buttons">
+        <el-button type="primary" icon="el-icon-edit" @click="showEditProfile">
+          Edit Profile
+        </el-button>
+        <el-button
+          type="info"
+          icon="el-icon-setting"
+          @click="activeTab = 'settings'"
         >
-          <el-descriptions-item label="Username">{{
-            userProfile.username
-          }}</el-descriptions-item>
-          <el-descriptions-item label="Email">{{
-            userProfile.email
-          }}</el-descriptions-item>
-          <el-descriptions-item label="Id">{{
-            userProfile.id
-          }}</el-descriptions-item>
-        </el-descriptions>
-      </div>
-      <div class="text-center pb-5">
-        <el-button type="primary" round @click="logout">log out</el-button>
+          Settings
+        </el-button>
+        <el-button type="warning" icon="el-icon-switch-button" @click="logout">
+          Logout
+        </el-button>
       </div>
     </div>
+
+    <!-- 各种对话框 -->
+    <el-dialog
+      title="Update Email"
+      :visible.sync="emailDialogVisible"
+      width="30%"
+    >
+      <el-form :model="emailForm" :rules="emailRules" ref="emailForm">
+        <el-form-item label="New Email" prop="email">
+          <el-input v-model="emailForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="Confirm Password" prop="password">
+          <el-input type="password" v-model="emailForm.password"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="emailDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="updateEmail">Confirm</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 其他对话框类似... -->
   </div>
 </template>
 
 <script>
+import { format } from "date-fns";
+// import defaultAvatar from "@/assets/default-avatar.png";
+
 export default {
   data() {
-    return {};
+    return {
+      activeTab: "info",
+      defaultAvatar: "",
+      emailDialogVisible: false,
+      emailForm: {
+        email: "",
+        password: "",
+      },
+      emailRules: {
+        email: [
+          {
+            required: true,
+            message: "Please input email address",
+            trigger: "blur",
+          },
+          {
+            type: "email",
+            message: "Please input correct email address",
+            trigger: ["blur", "change"],
+          },
+        ],
+        password: [
+          { required: true, message: "Please input password", trigger: "blur" },
+        ],
+      },
+      darkMode: false,
+      notificationSettings: ["email", "push"],
+      userStats: {
+        interviewCount: 12,
+        avgScore: 7.8,
+        improvement: "+15%",
+      },
+      userActivities: [
+        {
+          title: "Completed Technical Interview",
+          description:
+            "You completed a technical interview for Frontend Developer position",
+          timestamp: new Date(Date.now() - 3600000),
+          score: 8,
+        },
+        {
+          title: "Received Feedback",
+          description: "Your last interview feedback is now available",
+          timestamp: new Date(Date.now() - 86400000),
+          score: 7,
+        },
+        {
+          title: "Account Updated",
+          description: "You changed your profile picture",
+          timestamp: new Date(Date.now() - 172800000),
+        },
+      ],
+    };
   },
   computed: {
-    userProfile: function () {
-      return this.$store.state.userProfile;
+    userProfile() {
+      return {
+        ...this.$store.state.userProfile,
+        createdAt: this.$store.state.userProfile.createdAt || new Date(),
+        lastLogin: this.$store.state.userProfile.lastLogin || new Date(),
+        subscription: this.$store.state.userProfile.subscription || false,
+        avatar: this.$store.state.userProfile.avatar || null,
+      };
     },
   },
   methods: {
+    formatDate(date) {
+      return format(new Date(date), "MMMM d, yyyy");
+    },
+    formatTime(date) {
+      return format(new Date(date), "h:mm a, MMM d");
+    },
     logout() {
       this.$store.commit("setLoginStatus", false);
       sessionStorage.clear();
       localStorage.clear();
+      this.$router.push("/");
+    },
+    showEmailDialog() {
+      this.emailForm.email = this.userProfile.email;
+      this.emailDialogVisible = true;
+    },
+    updateEmail() {
+      this.$refs.emailForm.validate((valid) => {
+        if (valid) {
+          // API call to update email
+          this.$message.success("Email updated successfully");
+          this.emailDialogVisible = false;
+        }
+      });
+    },
+    showEditProfile() {
+      this.$message.info("Edit profile feature coming soon!");
+    },
+    showUpgradeDialog() {
+      this.$message.info("Subscription upgrade feature coming soon!");
+    },
+    showDeleteDialog() {
+      this.$confirm(
+        "This will permanently delete your account. Continue?",
+        "Warning",
+        {
+          confirmButtonText: "Delete",
+          cancelButtonText: "Cancel",
+          type: "warning",
+          center: true,
+        }
+      )
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "Account deleted",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "Deletion canceled",
+          });
+        });
+    },
+    saveSettings() {
+      this.$message.success("Settings saved successfully");
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.accountContainer {
+.account-dashboard {
+  min-height: calc(100vh - 123px);
+  // background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  align-items: flex-start;
+  padding: 150px 20px 20px 20px;
   background: linear-gradient(
     to bottom,
     #0295ff,
@@ -62,19 +337,109 @@ export default {
   );
 }
 
-.loginContainer {
-  margin: 0 auto;
-  background-color: #ffffff;
-  border-radius: 10px;
-  .logo {
-    width: 30%;
-    margin: 0 auto;
-    padding: 20px 0 0 0;
+.user-profile-container {
+  max-width: 1300px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
   }
-  .lgoinplace {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px 0;
+}
+
+.profile-card {
+  padding: 30px 0;
+  text-align: center;
+
+  .profile-header {
+    margin-bottom: 20px;
+
+    .user-avatar {
+      margin-bottom: 15px;
+      background-color: #409eff;
+      color: white;
+      font-size: 48px;
+    }
+
+    .user-greeting {
+      margin: 10px 0 5px;
+      color: #303133;
+    }
+
+    .user-role {
+      margin: 0;
+      color: #909399;
+      font-size: 14px;
+    }
+  }
+
+  .user-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+    .stat-item {
+      .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #409eff;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #909399;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}
+
+.details-card {
+  padding: 20px;
+
+  .profile-tabs {
+    ::v-deep .el-tabs__item {
+      font-weight: 500;
+    }
+  }
+
+  .activity-section {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    .activity-score {
+      margin-top: 10px;
+    }
+  }
+
+  .settings-section {
+    .danger-zone {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #f56c6c;
+
+      h4 {
+        color: #f56c6c;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+.action-buttons {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
   }
 }
 </style>

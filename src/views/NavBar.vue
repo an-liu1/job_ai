@@ -44,12 +44,24 @@
                 >
                 <ul class="dropdown-menu" v-if="i.name === 'Interview'">
                   <li class="nav-item">
-                    <a class="nav-link" @click="$router.push('/exercise')"
+                    <a
+                      class="nav-link"
+                      @click="
+                        $router.push(
+                          loginStatus ? '/exercise/common' : '/signinup'
+                        )
+                      "
                       >Practice</a
                     >
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" @click="$router.push('/mockInterview')"
+                    <a
+                      class="nav-link"
+                      @click="
+                        $router.push(
+                          loginStatus ? '/exercise/mock' : '/signinup'
+                        )
+                      "
                       >Mock Interview</a
                     >
                   </li>
@@ -64,7 +76,8 @@
               <a class="default-btn">Sign in<span></span></a>
             </div>
             <div class="accountAvatar" @click="$router.push('/account')" v-else>
-              <el-avatar shape="square">
+              <span>Hello,</span>
+              <el-avatar>
                 {{ userProfile.username }}
               </el-avatar>
             </div>
@@ -96,14 +109,24 @@
                   >
                   <ul class="dropdown-menu" v-if="i.name === 'Interview'">
                     <li class="nav-item">
-                      <a class="nav-link" @click="$router.push('/exercise')"
+                      <a
+                        class="nav-link"
+                        @click="
+                          $router.push(
+                            loginStatus ? '/exercise/common' : '/signinup'
+                          )
+                        "
                         >Practice</a
                       >
                     </li>
                     <li class="nav-item">
                       <a
                         class="nav-link"
-                        @click="$router.push('/mockInterview')"
+                        @click="
+                          $router.push(
+                            loginStatus ? '/exercise/mock' : '/signinup'
+                          )
+                        "
                         >Mock Interview</a
                       >
                     </li>
@@ -122,7 +145,8 @@
                 @click="$router.push('/account')"
                 v-else
               >
-                <el-avatar shape="square">
+                <span>Hello,</span>
+                <el-avatar>
                   {{ userProfile.username }}
                 </el-avatar>
               </div>
@@ -146,43 +170,88 @@ export default {
   },
   computed: {
     navBar: function () {
-      return [
-        {
-          navLink: "/",
-          name: "Home",
-          sectionId: "home",
-        },
-        {
-          navLink: "/",
-          name: "Features",
-          sectionId: "features",
-        },
-        {
-          navLink: "/",
-          name: "Guide",
-          sectionId: "howItWork",
-        },
-        {
-          navLink: "/",
-          name: "Interview",
-          sectionId: "exercise",
-        },
-        {
-          navLink: "/",
-          name: "Why Us",
-          sectionId: "why",
-        },
-        {
-          navLink: "/",
-          name: "Pricing",
-          sectionId: "price",
-        },
-        {
-          navLink: "/",
-          name: "FAQ",
-          sectionId: "faq",
-        },
-      ];
+      if (this.loginStatus) {
+        return [
+          {
+            navLink: "/",
+            name: "Home",
+            sectionId: "home",
+          },
+          {
+            navLink: "/exercise/common",
+            name: "Common",
+            sectionId: "",
+          },
+          {
+            navLink: "/exercise/star",
+            name: "Behavioral",
+            sectionId: "",
+          },
+          {
+            navLink: "/exercise/tough",
+            name: "Tough",
+            sectionId: "",
+          },
+          {
+            navLink: "/exercise/mock",
+            name: "Mock Interview",
+            sectionId: "",
+          },
+          {
+            navLink: "/history",
+            name: "History",
+            sectionId: "",
+          },
+          {
+            navLink: "/",
+            name: "Pricing",
+            sectionId: "price",
+          },
+          {
+            navLink: "/account",
+            name: "My Account",
+            sectionId: "",
+          },
+        ];
+      } else {
+        return [
+          {
+            navLink: "/",
+            name: "Home",
+            sectionId: "home",
+          },
+          {
+            navLink: "/",
+            name: "Features",
+            sectionId: "features",
+          },
+          {
+            navLink: "/",
+            name: "Guide",
+            sectionId: "howItWork",
+          },
+          {
+            navLink: "/",
+            name: "Interview",
+            sectionId: "exercise",
+          },
+          {
+            navLink: "/",
+            name: "Why Us",
+            sectionId: "why",
+          },
+          {
+            navLink: "/",
+            name: "Pricing",
+            sectionId: "price",
+          },
+          {
+            navLink: "/",
+            name: "FAQ",
+            sectionId: "faq",
+          },
+        ];
+      }
     },
     userProfile: function () {
       return this.$store.state.userProfile;
@@ -240,6 +309,7 @@ export default {
 };
 </script>
 
+<!-- height: 85px -->
 <style lang="scss" scoped>
 @import "../assets/css/style.css";
 
@@ -428,6 +498,13 @@ export default {
     }
 
     .accountAvatar {
+      display: flex;
+      align-items: center; /* 垂直居中 */
+      gap: 8px;
+      span {
+        color: #ffffff;
+        font-weight: bold;
+      }
       .el-avatar {
         background: #7b68ee;
       }
@@ -581,6 +658,22 @@ export default {
 
   .responsive-nav.show {
     display: block;
+  }
+
+  .accountAvatar {
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    gap: 8px;
+    margin: 5px 0 5px 10px;
+    span {
+      font-weight: bold;
+    }
+    .el-avatar {
+      background: #7b68ee;
+    }
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 </style>

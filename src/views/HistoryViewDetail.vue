@@ -1,137 +1,250 @@
 <template>
-  <div class="historyDetailContainer">
-    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane label="Summary" name="summary"></el-tab-pane>
-      <el-tab-pane label="Final assessment" name="assessment"></el-tab-pane>
-    </el-tabs>
-    <div v-if="activeName == 'summary'" class="summary">
-      <h2 class="title">Summary - {{ conversationID }}</h2>
-      <el-collapse
-        v-for="(i, index) of chatHistoryDetail.messages"
-        :key="index"
-        class="detailSection"
-      >
-        <p class="mt-3">
-          <b>{{ i.role == "user" ? "Me: " : "Coach: " }}</b>
-        </p>
-        <p v-html="sanitize(i.content.replace(/\n/g, '<br />'))"></p>
-        <div class="audio-container" v-if="i.audio_url">
-          <AudioPlayer :src="i.audio_url" style="width: 260px; height: 40px" />
-        </div>
-        <el-collapse-item
-          title="View evaluation"
-          :name="index"
-          v-if="
-            i.evaluation &&
-            i.evaluation.score !== 0 &&
-            i.evaluation.score !== null
-          "
-        >
-          <div class="row evaluation">
-            <div class="col-4">
-              <div class="evaluationLeft">
-                <div>
-                  <h5>Category:</h5>
-                  <p>{{ i.evaluation.question_category }}</p>
-                </div>
-                <div>
-                  <h5>Level:</h5>
-                  <p>{{ i.evaluation.question_difficulty }}</p>
-                </div>
-                <div>
-                  <h5>Score:</h5>
-                  <p>{{ i.evaluation.score + "/10" }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-8">
-              <div class="evaluationRight">
-                <div>
-                  <h5 style="color: #004aad">Assessment:</h5>
-                  <p>{{ i.evaluation.assessment }}</p>
-                </div>
-                <div>
-                  <h5 style="color: #f9943b">Advice:</h5>
-                  <p>{{ i.evaluation.advice }}</p>
-                </div>
-                <div>
-                  <h5 style="color: #265d48">Improved example:</h5>
-                  <p>{{ i.evaluation.revised_example }}</p>
-                </div>
-              </div>
-            </div>
+  <el-card
+    class="interview-detail-container"
+    v-loading="$store.state.isLoading"
+  >
+    <div class="interview-header">
+      <div class="header-content">
+        <h2 class="interview-title">Interview Review: {{ conversationID }}</h2>
+        <div class="interview-meta">
+          <div class="meta-item">
+            <i class="el-icon-date"></i>
+            <span>{{ formatDate(chatHistoryDetail.started_at) }}</span>
           </div>
-        </el-collapse-item>
-      </el-collapse>
-    </div>
-    <div v-if="activeName == 'assessment'" class="assessment">
-      <h2 class="title">Final assessment - {{ conversationID }}</h2>
-      <h3>Your Score: {{ finalAssessmentDetail.overall_score }}/10</h3>
-      <div class="row">
-        <div class="col-6 Strengths">
-          <h4>Strengths:</h4>
-          <div
-            v-for="(content, title) in finalAssessmentDetail.strength_analysis"
-            :key="title"
-          >
-            <p>
-              <strong>{{ title }}:</strong>
-            </p>
-            <p>{{ content }}</p>
+          <div class="meta-item" v-if="finalAssessmentDetail.overall_score">
+            <i class="el-icon-star-on"></i>
+            <span
+              >Overall Score: {{ finalAssessmentDetail.overall_score }}/10</span
+            >
           </div>
-        </div>
-        <div class="col-6 weaknesses">
-          <h4>Weaknesses:</h4>
-          <div
-            v-for="(content, title) in finalAssessmentDetail.weakness_analysis"
-            :key="title"
-          >
-            <p>
-              <strong>{{ title }}:</strong>
-            </p>
-            <p>{{ content }}</p>
-          </div>
-        </div>
-        <div class="col-12 improvensent">
-          <h4>Improvensent plan:</h4>
-          <p>{{ finalAssessmentDetail.improvement_plan }}</p>
-        </div>
-        <div class="col-12 career">
-          <h4>Career suggestions:</h4>
-          <p>{{ finalAssessmentDetail.career_suggestions }}</p>
         </div>
       </div>
+
+      <el-tabs v-model="activeTab" class="detail-tabs">
+        <el-tab-pane label="Conversation" name="conversation">
+          <div class="conversation-view mt-3">
+            <div
+              v-for="(message, index) in chatHistoryDetail.messages"
+              :key="index"
+              class="message-container"
+              :class="{
+                'user-message': message.role === 'user',
+                'coach-message': message.role !== 'user',
+              }"
+            >
+              <div class="message-avatar">
+                <el-avatar
+                  :icon="
+                    message.role === 'user'
+                      ? 'el-icon-user'
+                      : 'el-icon-coordinate'
+                  "
+                />
+              </div>
+              <div class="message-content">
+                <div class="message-header">
+                  <span class="sender-name">{{
+                    message.role === "user" ? "You" : "Interview Coach"
+                  }}</span>
+                  <span class="message-time">{{
+                    formatTime(message.timestamp)
+                  }}</span>
+                </div>
+                <div
+                  class="message-text"
+                  v-html="sanitize(message.content.replace(/\n/g, '<br />'))"
+                ></div>
+
+                <div class="message-audio" v-if="message.audio_url">
+                  <AudioPlayer :src="message.audio_url" />
+                </div>
+
+                <el-collapse
+                  v-if="message.evaluation && message.evaluation.score"
+                  class="evaluation-collapse"
+                  :class="{ 'has-evaluation': message.evaluation }"
+                >
+                  <el-collapse-item
+                    title="View Evaluation Details"
+                    :name="index"
+                  >
+                    <div class="evaluation-details">
+                      <div class="evaluation-score">
+                        <el-rate
+                          v-model="message.evaluation.score"
+                          disabled
+                          :max="10"
+                          :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                          score-template="{value}"
+                        />
+                        <span class="score-text"
+                          >{{ message.evaluation.score }}/10</span
+                        >
+                      </div>
+
+                      <div class="evaluation-grid">
+                        <div class="evaluation-item">
+                          <h5>Question Category</h5>
+                          <p>{{ message.evaluation.question_category }}</p>
+                        </div>
+
+                        <div class="evaluation-item">
+                          <h5>Difficulty Level</h5>
+                          <p>{{ message.evaluation.question_difficulty }}</p>
+                        </div>
+
+                        <div class="evaluation-item full-width">
+                          <h5><i class="el-icon-document"></i> Assessment</h5>
+                          <p>{{ message.evaluation.assessment }}</p>
+                        </div>
+
+                        <div class="evaluation-item full-width">
+                          <h5><i class="el-icon-light-rain"></i> Advice</h5>
+                          <p>{{ message.evaluation.advice }}</p>
+                        </div>
+
+                        <div class="evaluation-item full-width">
+                          <h5>
+                            <i class="el-icon-magic-stick"></i> Improved Example
+                          </h5>
+                          <p>{{ message.evaluation.revised_example }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </el-collapse-item>
+                </el-collapse>
+              </div>
+            </div>
+          </div>
+        </el-tab-pane>
+
+        <el-tab-pane label="Final Assessment" name="assessment">
+          <div
+            class="assessment-view"
+            v-if="Object.keys(finalAssessmentDetail).length"
+          >
+            <div class="assessment-score">
+              <el-progress
+                type="dashboard"
+                :percentage="finalAssessmentDetail.overall_score * 10"
+                :color="getScoreColor(finalAssessmentDetail.overall_score)"
+                :width="120"
+              >
+                <template #default>
+                  <div class="score-display">
+                    <span class="score-value">{{
+                      finalAssessmentDetail.overall_score
+                    }}</span>
+                    <span class="score-max">/ 10</span>
+                  </div>
+                </template>
+              </el-progress>
+              <div class="score-summary">
+                <h3>Overall Interview Performance</h3>
+                <p>
+                  {{ getPerformanceText(finalAssessmentDetail.overall_score) }}
+                </p>
+              </div>
+            </div>
+
+            <div class="assessment-sections">
+              <el-card shadow="hover" class="strengths-section">
+                <div class="section-header">
+                  <i class="el-icon-success"></i>
+                  <h4>Strengths</h4>
+                </div>
+                <div
+                  v-for="(
+                    content, title
+                  ) in finalAssessmentDetail.strength_analysis"
+                  :key="'strength-' + title"
+                  class="analysis-item"
+                >
+                  <h5>{{ title }}</h5>
+                  <p>{{ content }}</p>
+                </div>
+              </el-card>
+
+              <el-card shadow="hover" class="weaknesses-section">
+                <div class="section-header">
+                  <i class="el-icon-warning"></i>
+                  <h4>Areas for Improvement</h4>
+                </div>
+                <div
+                  v-for="(
+                    content, title
+                  ) in finalAssessmentDetail.weakness_analysis"
+                  :key="'weakness-' + title"
+                  class="analysis-item"
+                >
+                  <h5>{{ title }}</h5>
+                  <p>{{ content }}</p>
+                </div>
+              </el-card>
+
+              <el-card shadow="hover" class="improvement-section">
+                <div class="section-header">
+                  <i class="el-icon-aim"></i>
+                  <h4>Improvement Plan</h4>
+                </div>
+                <p>{{ finalAssessmentDetail.improvement_plan }}</p>
+              </el-card>
+
+              <el-card shadow="hover" class="career-section">
+                <div class="section-header">
+                  <i class="el-icon-office-building"></i>
+                  <h4>Career Suggestions</h4>
+                </div>
+                <p>{{ finalAssessmentDetail.career_suggestions }}</p>
+              </el-card>
+            </div>
+          </div>
+
+          <div class="empty-assessment" v-else>
+            <el-empty description="No assessment data available">
+              <el-button
+                type="primary"
+                @click="generateAssessment"
+                :loading="isGeneratingAssessment"
+              >
+                Generate Assessment
+              </el-button>
+            </el-empty>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
-  </div>
+  </el-card>
 </template>
 
 <script>
 import DOMPurify from "dompurify";
 import AudioPlayer from "../components/AudioPlayer.vue";
+import { format, parseISO } from "date-fns";
+
 export default {
-  components: {
-    AudioPlayer,
-  },
+  components: { AudioPlayer },
   data() {
     return {
-      activeName: "summary",
+      activeTab: "conversation",
+      isGeneratingAssessment: false,
     };
   },
   computed: {
-    chatHistoryDetail: function () {
+    chatHistoryDetail() {
       return this.$store.state.chatHistoryDetail;
     },
-    finalAssessmentDetail: function () {
+    finalAssessmentDetail() {
       return this.$store.state.finalAssessmentDetail.final_assessment || {};
     },
-    conversationID: function () {
+    conversationID() {
       return this.$store.state.conversationID;
     },
   },
   watch: {
-    conversationID: function (N, O) {
-      if (N && N !== O) {
-        this.activeName = "summary";
+    conversationID(newVal, oldVal) {
+      if (newVal && newVal !== oldVal) {
+        this.activeTab = "conversation";
       }
     },
   },
@@ -139,107 +252,345 @@ export default {
     sanitize(html) {
       return DOMPurify.sanitize(html);
     },
-    handleClick(tab) {
-      if (tab.name == "assessment") {
-        this.$store.commit("switchLoadingStatus", true);
-        this.$store
-          .dispatch("getFinalAssessmentDetail", this.conversationID)
-          .then(() => {
-            this.$store.commit("switchLoadingStatus", false);
-          });
-      } else {
-        this.$store.commit("switchLoadingStatus", true);
-        this.$store
-          .dispatch("getChatHistoryDetail", this.conversationID)
-          .then(() => {
-            this.$store.commit("switchLoadingStatus", false);
-          });
-      }
+    formatDate(dateString) {
+      if (!dateString) return "N/A";
+      return format(parseISO(dateString), "MMMM d, yyyy - h:mm a");
+    },
+    formatTime(timestamp) {
+      if (!timestamp) return "";
+      return format(parseISO(timestamp), "h:mm a");
+    },
+    getScoreColor(score) {
+      if (score >= 8) return "#67C23A";
+      if (score >= 6) return "#E6A23C";
+      if (score >= 4) return "#F56C6C";
+      return "#909399";
+    },
+    getPerformanceText(score) {
+      if (score >= 9)
+        return "Exceptional performance! You demonstrated outstanding skills and knowledge.";
+      if (score >= 7) return "Strong performance with a few areas to polish.";
+      if (score >= 5)
+        return "Average performance with several areas needing improvement.";
+      if (score >= 3)
+        return "Below average performance with significant room for improvement.";
+      return "Needs substantial improvement in most areas.";
+    },
+    generateAssessment() {
+      this.isGeneratingAssessment = true;
+      this.$store
+        .dispatch("getFinalAssessmentDetail", this.conversationID)
+        .then(() => {
+          this.isGeneratingAssessment = false;
+          this.activeTab = "assessment";
+        });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.historyDetailContainer {
-  // width: 80%;
-  // margin: 0 auto;
+.interview-detail-container {
   height: 100%;
-  overflow: auto !important;
-  .summary {
-    .detailSection {
-      padding-bottom: 5px;
-      border-bottom: 1px #265d48 solid;
-    }
-    .title {
-      text-align: center;
-      margin: 30px 0;
-      font-weight: bold;
-    }
-    .audio-container {
-      display: flex;
-      align-items: center; /* 垂直居中对齐 */
-      gap: 10px; /* 元素之间的间距 */
-      margin-bottom: 10px;
-    }
-    ::v-deep .el-collapse-item__header {
-      padding-left: 10px !important;
-      font-weight: bold !important;
-    }
-    .evaluation {
-      background-color: #ffffff;
-    }
-    .evaluationLeft {
-      width: 60%;
-      background-color: #e2fddb;
-      margin: 0 auto;
-      padding: 20px 10px;
-    }
-    .evaluationRight {
-      width: 90%;
+  border-radius: 8px;
+
+  .interview-header {
+    margin-bottom: 20px;
+
+    .header-content {
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ebeef5;
+
+      .interview-title {
+        color: #303133;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .interview-meta {
+        display: flex;
+        gap: 20px;
+        color: #909399;
+        font-size: 14px;
+
+        .meta-item {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+
+          i {
+            font-size: 16px;
+          }
+        }
+      }
     }
   }
-  .assessment {
-    width: 90%;
-    margin: 0 auto;
-    .title {
-      text-align: center;
-      margin: 30px 0;
-      font-weight: bold;
+
+  .detail-tabs {
+    ::v-deep .el-tabs__header {
+      margin: 0;
     }
-    .Strengths {
-      border: 5px solid #265d48;
-      border-radius: 20px;
-      h4 {
-        color: #265d48;
-        margin-top: 10px;
+
+    ::v-deep .el-tabs__item {
+      font-weight: 500;
+    }
+  }
+
+  .conversation-view {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+    padding-right: 10px;
+
+    .message-container {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+
+      .message-avatar {
+        flex-shrink: 0;
+      }
+
+      .message-content {
+        flex-grow: 1;
+
+        .message-header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 5px;
+
+          .sender-name {
+            font-weight: 600;
+            color: #303133;
+          }
+
+          .message-time {
+            color: #909399;
+            font-size: 12px;
+          }
+        }
+
+        .message-text {
+          background-color: #f5f7fa;
+          padding: 12px 15px;
+          border-radius: 8px;
+          line-height: 1.6;
+          word-break: break-word;
+        }
+
+        .message-audio {
+          margin-top: 10px;
+        }
+
+        .evaluation-collapse {
+          margin-top: 15px;
+
+          &.has-evaluation {
+            border: 1px solid #ebeef5;
+            border-radius: 8px;
+          }
+
+          ::v-deep .el-collapse-item__header {
+            padding: 0 15px;
+            font-weight: 500;
+          }
+
+          ::v-deep .el-collapse-item__content {
+            padding: 15px;
+          }
+
+          .evaluation-details {
+            .evaluation-score {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin-bottom: 15px;
+
+              .score-text {
+                font-weight: 600;
+                color: #ff9900;
+              }
+            }
+
+            .evaluation-grid {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 15px;
+
+              .evaluation-item {
+                h5 {
+                  color: #606266;
+                  margin-bottom: 5px;
+                  display: flex;
+                  align-items: center;
+                  gap: 5px;
+                }
+
+                p {
+                  background-color: #f5f7fa;
+                  padding: 10px;
+                  border-radius: 4px;
+                  margin: 0;
+                }
+
+                &.full-width {
+                  grid-column: span 2;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.user-message {
+        .message-content {
+          .message-text {
+            background-color: #ecf5ff;
+            border-left: 4px solid #409eff;
+          }
+        }
+      }
+
+      &.coach-message {
+        .message-content {
+          .message-text {
+            background-color: #f0f9eb;
+            border-left: 4px solid #67c23a;
+          }
+        }
       }
     }
-    .weaknesses {
-      border: 5px solid #bc1823;
-      border-radius: 20px;
-      h4 {
-        color: #bc1823;
-        margin-top: 10px;
+  }
+
+  .assessment-view {
+    .assessment-score {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #f5f7fa;
+      border-radius: 8px;
+
+      .score-display {
+        text-align: center;
+
+        .score-value {
+          font-size: 28px;
+          font-weight: 700;
+        }
+
+        .score-max {
+          font-size: 16px;
+          color: #909399;
+        }
+      }
+
+      .score-summary {
+        h3 {
+          margin-top: 0;
+          margin-bottom: 10px;
+        }
+
+        p {
+          color: #606266;
+          margin: 0;
+        }
       }
     }
-    .improvensent {
-      border: 5px solid #ffcf60;
-      border-radius: 20px;
-      margin-top: 10px;
-      h4 {
-        color: #ffcf60;
-        margin-top: 10px;
+
+    .assessment-sections {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .el-card {
+        border-radius: 8px;
+
+        .section-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 15px;
+          color: #303133;
+
+          i {
+            font-size: 20px;
+          }
+
+          h4 {
+            margin: 0;
+          }
+        }
+
+        .analysis-item {
+          margin-bottom: 15px;
+
+          h5 {
+            color: #606266;
+            margin-bottom: 5px;
+          }
+
+          p {
+            margin: 0;
+            line-height: 1.6;
+          }
+        }
+      }
+
+      .strengths-section {
+        border-top: 4px solid #67c23a;
+
+        .section-header {
+          i {
+            color: #67c23a;
+          }
+        }
+      }
+
+      .weaknesses-section {
+        border-top: 4px solid #f56c6c;
+
+        .section-header {
+          i {
+            color: #f56c6c;
+          }
+        }
+      }
+
+      .improvement-section {
+        border-top: 4px solid #e6a23c;
+
+        .section-header {
+          i {
+            color: #e6a23c;
+          }
+        }
+      }
+
+      .career-section {
+        border-top: 4px solid #409eff;
+
+        .section-header {
+          i {
+            color: #409eff;
+          }
+        }
       }
     }
-    .career {
-      border: 5px solid #c74375;
-      border-radius: 20px;
-      margin-top: 10px;
-      h4 {
-        color: #c74375;
-        margin-top: 10px;
-      }
+  }
+
+  .empty-assessment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+  }
+}
+
+@media (max-width: 992px) {
+  .assessment-view {
+    .assessment-sections {
+      grid-template-columns: 1fr !important;
     }
   }
 }

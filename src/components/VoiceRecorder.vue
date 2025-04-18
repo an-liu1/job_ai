@@ -1,37 +1,63 @@
 <template>
-  <div class="voice-recorder" :style="{ '--main-color': mainColor }">
-    <button
-      class="record-button"
-      :class="{ recording: isRecording, stopped: isStopped }"
-      @click="handleButtonClick"
-      :disabled="loading"
-      :style="{
-        width: buttonSize + 'px',
-        height: buttonSize + 'px',
-        color: textColor,
-      }"
-    >
-      <span v-if="loading">...</span>
-      <template v-else>
-        {{ buttonText }}
-        <div v-if="isRecording" class="recording-indicator"></div>
-      </template>
-    </button>
+  <div class="voice-recorder" :style="{ '--main-color': '#409EFF' }">
+    <div class="recorder-container" :class="{ recording: isRecording }">
+      <!-- Left side content -->
+      <div class="left-content">
+        <!-- Pre-practice state -->
+        <p v-if="!startPracticeFlag">
+          Enter position and click "Start Interview"
+        </p>
 
-    <button
-      v-if="isStopped"
-      class="send-button"
-      @click="handleSend"
-      :style="{
-        backgroundColor: mainColor,
-        color: textColor,
-      }"
-    >
-      Send
-    </button>
+        <!-- Ready to record state -->
+        <p v-else-if="recordingStatus === 'idle'">
+          Click Record button to start recording your answer
+        </p>
 
-    <div v-if="showTime" class="time-display">
-      {{ formattedTime }}
+        <!-- Recording state -->
+        <div v-else-if="isRecording" class="recording-controls">
+          <div class="waveform">
+            <div
+              class="wave-bar"
+              v-for="(bar, index) in waveformBars"
+              :key="index"
+              :style="{ height: bar.height + 'px', backgroundColor: '#409EFF' }"
+            ></div>
+          </div>
+          <div class="time-display">
+            {{ formattedTime }}
+          </div>
+        </div>
+
+        <!-- Processing state --> 
+        <p v-else-if="practiceRequestFlag && loading">
+          Processing your answer...
+        </p>
+
+        <!-- Completed state -->
+        <p v-else-if="practiceRequestFlag">
+          Answer recorded! Review the feedback below
+        </p>
+      </div>
+
+      <!-- Center button -->
+      <button
+        class="record-button"
+        :class="{ recording: isRecording, stopped: isStopped }"
+        @click="handleButtonClick"
+        :disabled="loading || !startPracticeFlag"
+      >
+        <span v-if="loading">...</span>
+        <template v-else>
+          {{ buttonText }}
+        </template>
+      </button>
+
+      <!-- Right side content -->
+      <div class="right-content">
+        <button v-if="isStopped" class="send-button" @click="handleSend">
+          Send
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -40,21 +66,9 @@
 export default {
   name: "VoiceRecorder",
   props: {
-    mainColor: {
-      type: String,
-      default: "#f56c6c",
-    },
-    textColor: {
-      type: String,
-      default: "#fff",
-    },
-    buttonSize: {
-      type: Number,
-      default: 56,
-    },
-    showTime: {
+    requestDone: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   data() {
@@ -67,9 +81,19 @@ export default {
       loading: false,
       timer: null,
       audioBlob: null,
+      waveformBars: Array(20)
+        .fill()
+        .map(() => ({ height: Math.random() * 20 + 5 })),
+      waveformInterval: null,
     };
   },
   computed: {
+    startPracticeFlag() {
+      return this.$store.state.startPracticeFlag;
+    },
+    practiceRequestFlag() {
+      return this.$store.state.practiceRequestFlag;
+    },
     isRecording() {
       return this.recordingStatus === "recording";
     },
@@ -90,7 +114,6 @@ export default {
     },
   },
   methods: {
-    // 修复的核心：确保handleButtonClick方法存在
     handleButtonClick() {
       switch (this.recordingStatus) {
         case "idle":
@@ -103,6 +126,14 @@ export default {
           this.restartRecording();
           break;
       }
+    },
+
+    animateWaveform() {
+      this.waveformInterval = setInterval(() => {
+        this.waveformBars = this.waveformBars.map(() => ({
+          height: Math.random() * 20 + 5,
+        }));
+      }, 200);
     },
 
     async startRecording() {
@@ -128,6 +159,7 @@ export default {
         this.recordingStatus = "recording";
         this.recordingStart = Date.now();
         this.startTimer();
+        this.animateWaveform();
         this.mediaRecorder.start();
         this.$emit("record-start");
       } catch (error) {
@@ -141,6 +173,7 @@ export default {
       this.mediaRecorder.stop();
       this.recordingStatus = "stopped";
       this.stopTimer();
+      clearInterval(this.waveformInterval);
       this.$emit("record-stop");
     },
 
@@ -175,35 +208,63 @@ export default {
       this.mediaRecorder.stop();
     }
     this.stopTimer();
+    clearInterval(this.waveformInterval);
   },
 };
 </script>
 
 <style scoped>
 .voice-recorder {
-  display: inline-flex;
-  flex-direction: column;
+  --main-color: #3f86ff;
+  --inactive-color: #f0f0f0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.recorder-container {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.recorder-container.recording {
+  padding: 12px 16px;
+}
+
+.left-content {
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+  color: #666;
+}
+
+.left-content p {
+  margin: 4px 0;
 }
 
 .record-button {
   border: none;
-  border-radius: 50%;
+  border-radius: 20px;
   background: var(--main-color);
+  color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  min-width: 80px;
   transition: 0.3s;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .record-button:hover {
   opacity: 0.9;
-  transform: scale(1.05);
 }
 
 .record-button:disabled {
@@ -211,46 +272,56 @@ export default {
   cursor: not-allowed;
 }
 
-.recording-indicator {
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  border-radius: 50%;
-  animation: pulse 1.5s infinite;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+.record-button.stopped {
+  background: var(--inactive-color);
+  color: #666;
 }
 
-.send-button {
-  margin-top: 12px;
-  padding: 8px 20px;
-  border-radius: 24px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
+.recording-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.send-button:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
+.waveform {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 30px;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
+.wave-bar {
+  width: 3px;
+  border-radius: 3px;
+  transition: height 0.2s ease;
 }
 
 .time-display {
   font-size: 14px;
   color: #666;
+  min-width: 40px;
+  text-align: center;
 }
 
-.record-button.stopped {
-  background: #ddd;
+.right-content {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.send-button {
+  border: none;
+  border-radius: 20px;
+  background: var(--main-color);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: 0.3s;
+}
+
+.send-button:hover {
+  opacity: 0.9;
 }
 </style>
