@@ -816,7 +816,6 @@ export default {
 
       .recorder-container {
         width: 100%;
-        max-width: 600px;
         background: white;
         border-radius: 8px;
         padding: 20px;
@@ -840,6 +839,8 @@ export default {
       }
 
       .end-interview-btn {
+        display: block;
+        margin: 0 auto;
         margin-top: 10px;
       }
     }
