@@ -132,7 +132,7 @@
               <!-- 评估部分 -->
               <div v-if="msg.evaluation?.score" class="evaluation-badge">
                 <el-tag :type="getScoreTagType(msg.evaluation.score)">
-                  {{ msg.evaluation.score }}/10
+                  {{ msg.evaluation.score }} / 10
                 </el-tag>
               </div>
 
@@ -311,6 +311,40 @@ export default {
         { value: "hard", label: "Hard (Senior)" },
       ],
       chatHistory: [],
+      // chatHistory: [
+      //   {
+      //     type: "user",
+      //     user_text: "let's start",
+      //     text: "Great! Let's dive into the interview. \n\n**Question 1:** Tell me about yourself.",
+      //     audio: "/media/tts/dbdc22b7-d24d-4978-a1e2-d03b560755ea.wav",
+      //     conversation_id: 401,
+      //     mode: "common",
+      //     evaluation: null,
+      //   },
+      //   {
+      //     type: "ai",
+      //     user_text:
+      //       "Hello, I'm Yia Sen, and I would like to find a job at Web2MI5.\n",
+      //     text: "Thank you for your response, Yia Sen. I appreciate the introduction, but it's beneficial to provide more detail about your background, experience, and skills that relate to the job you're applying for.\n\n**Revised Response:** \"Hello, my name is Yia Sen. I have a background in [your field/industry], with experience in [relevant skills or experiences]. I am interested in finding a job at Web2MI5 because I believe my expertise aligns well with the company's goals.\"\n\n**Score:** 3/10 - The response is very brief and lacks depth.\n\n**Question 2:** What is your greatest accomplishment?",
+      //     audio: "/media/tts/689f950a-c32c-4259-9fad-b2b6d8a7ac38.wav",
+      //     conversation_id: 401,
+      //     mode: "common",
+      //     evaluation: {
+      //       question_category: "Behavioral Questions (STAR method)",
+      //       question_difficulty: "intermediate",
+      //       revised_example:
+      //         "One of my greatest accomplishments was when I led a project that resulted in a 20% increase in efficiency by implementing a new workflow system.",
+      //       assessment:
+      //         "The initial response lacks specific details about the accomplishment. It should follow the STAR method to provide context, actions taken, and results achieved.",
+      //       score: 4,
+      //       advice:
+      //         "Use the STAR method to structure your answer: describe the Situation, Task, Action, and Result clearly.",
+      //       is_relevant: true,
+      //     },
+      //     user_audio_url:
+      //       "/media/user_audio/72e5fd9d-2450-4687-abf1-3e5d7dad2f0a.wav",
+      //   },
+      // ],
     };
   },
   computed: {
@@ -750,7 +784,8 @@ export default {
           gap: 8px;
           color: #409eff;
           font-weight: 500;
-
+          padding: 10px 0;
+          font-size: 15px;
           i {
             font-size: 16px;
           }
