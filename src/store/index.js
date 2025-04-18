@@ -13,8 +13,6 @@ export default new Vuex.Store({
     verifyEmailResponse: {},
     blogs: [],
     practiceMode: "",
-    startPracticeFlag: false,
-    practiceRequestFlag: false,
     chatInfo: {},
     chatHistory: [],
     chatHistoryDetail: {},
@@ -46,12 +44,6 @@ export default new Vuex.Store({
     },
     setPracticeMode(state, payload) {
       state.practiceMode = payload;
-    },
-    setStartPractice(state, payload) {
-      state.startPracticeFlag = payload;
-    },
-    setPracticeRequest(state, payload) {
-      state.practiceRequestFlag = payload;
     },
     getChatInfo(state, payload) {
       state.chatInfo = payload;

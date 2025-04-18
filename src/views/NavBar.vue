@@ -297,7 +297,6 @@ export default {
             console.error("路由跳转出错:", error);
           });
       } else {
-        console.log(link);
         this.$router.push(link);
       }
     },

@@ -173,6 +173,7 @@ export default {
         .then(() => {
           this.$store.commit("setConversationID", row.conversation_id);
           this.refreshKey += 1;
+          this.$store.commit("getFinalAssessmentDetail", {});
           this.$store.commit("switchLoadingStatus", false);
         });
     },
