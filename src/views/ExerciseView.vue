@@ -83,7 +83,11 @@
           :class="[msg.type, { evaluated: msg.evaluation?.score }]"
         >
           <!-- 用户消息 -->
-          <div v-if="msg.type === 'user'" class="message-content user-message">
+          <div
+            v-if="msg.type === 'user'"
+            class="message-content user-message"
+            style="border-left: 4px solid #409eff"
+          >
             <div class="message-header">
               <div class="avatar user-avatar">
                 {{ userInitial }}
@@ -107,7 +111,11 @@
           </div>
 
           <!-- AI 消息 -->
-          <div v-else class="message-content ai-message">
+          <div
+            v-else
+            class="message-content ai-message"
+            style="border-left: 4px solid #67c23a"
+          >
             <div class="message-header">
               <div class="avatar ai-avatar">
                 <i class="el-icon-robot"></i>
@@ -126,7 +134,7 @@
                 :audio-src="msg.audio"
                 :auto-play="true"
                 :show-progress="true"
-                color="#67C23A"
+                color="#67c23a"
               />
 
               <!-- 评估部分 -->
@@ -681,10 +689,6 @@ export default {
 
         &.ai {
           align-self: flex-start;
-        }
-
-        &.evaluated {
-          border-left: 4px solid #409eff;
         }
       }
 

@@ -56,7 +56,10 @@
                 ></div>
 
                 <div class="message-audio" v-if="message.audio_url">
-                  <AudioPlayer :src="message.audio_url" />
+                  <AudioPlayer
+                    :src="message.audio_url"
+                    :color="message.role === 'user' ? '#409EFF' : '#67c23a'"
+                  />
                 </div>
 
                 <el-collapse

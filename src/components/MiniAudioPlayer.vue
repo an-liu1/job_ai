@@ -241,7 +241,7 @@ export default {
   }
 
   &.playing {
-    background-color: mix(#2196f3, #000, 85%);
+    background-color: v-bind(color);
   }
 
   &.loading {
