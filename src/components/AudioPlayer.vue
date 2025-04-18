@@ -38,19 +38,22 @@
       <!-- 右侧控制 -->
       <div class="right-controls">
         <!-- 音量控制 -->
-        <div class="volume-control" v-if="showVolume">
+        <div class="volume-control-wrapper" v-if="showVolume">
           <button class="icon-btn" @click="toggleMute">
             <i :class="muteIcon"></i>
           </button>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            v-model="volume"
-            class="volume-slider"
-            @input="updateVolume"
-          />
+          <div class="vertical-volume-control">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              v-model="volume"
+              class="vertical-volume-slider"
+              @input="updateVolume"
+              orient="vertical"
+            />
+          </div>
         </div>
 
         <!-- 下载按钮 -->
@@ -155,7 +158,9 @@ export default {
       };
     },
     progressPercentage() {
-      return this.duration > 0 ? `${(this.currentTime / this.duration) * 100}%` : "0%";
+      return this.duration > 0
+        ? `${(this.currentTime / this.duration) * 100}%`
+        : "0%";
     },
     playIcon() {
       return this.isPlaying ? "fas fa-pause" : "fas fa-play";
@@ -214,9 +219,9 @@ export default {
       this.loading = true;
       this.error = false;
       this.$refs.audio.load();
-      
+
       if (this.autoPlay) {
-        this.play().catch(error => {
+        this.play().catch((error) => {
           console.error("Autoplay failed:", error);
           this.$emit("autoplay-failed", error);
         });
@@ -417,38 +422,70 @@ export default {
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
 }
 
-.volume-control {
+.volume-control-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 4px;
 
-  .volume-slider {
-    width: 60px;
-    height: 4px;
+  &:hover .vertical-volume-control {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.vertical-volume-control {
+  position: absolute;
+  bottom: 100%;
+  // left: 50%;
+  transform: translateY(10px) translateX(-50%);
+  padding: 10px 0;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 10;
+
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+  }
+}
+
+.vertical-volume-slider {
+  -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr;
+  width: 6px;
+  height: 80px;
+  padding: 0 10px;
+  margin: 0;
+  background: #e0e0e0;
+  border-radius: 3px;
+  outline: none;
+
+  &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: #e0e0e0;
-    border-radius: 2px;
-    outline: none;
-    opacity: 0;
-    transition: opacity 0.2s ease, width 0.2s ease;
-
-    &::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 12px;
-      height: 12px;
-      background: var(--main-color);
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    &:hover {
-      opacity: 1;
-    }
+    width: 14px;
+    height: 14px;
+    background: var(--main-color);
+    border-radius: 50%;
+    cursor: pointer;
   }
 
-  &:hover .volume-slider {
+  &:hover {
     opacity: 1;
   }
 }
@@ -507,8 +544,8 @@ export default {
     }
   }
 
-  .volume-control .volume-slider {
-    width: 40px;
+  .vertical-volume-slider {
+    height: 60px;
   }
 }
 </style>
