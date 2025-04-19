@@ -259,6 +259,7 @@
           src="@/assets/img/home-font.png"
           alt="Start Interview"
           class="empty-image"
+          ref="tiltElement"
         />
         <h3>Ready to practice your interview skills?</h3>
         <p>
@@ -288,6 +289,7 @@
 import VoiceRecorder from "../components/VoiceRecorder.vue";
 import MiniAudioPlayer from "../components/MiniAudioPlayer.vue";
 import { format } from "date-fns";
+import VanillaTilt from "vanilla-tilt";
 
 export default {
   components: { VoiceRecorder, MiniAudioPlayer },
@@ -398,6 +400,16 @@ export default {
       this.showEndInterviewDialog();
     } else {
       next();
+    }
+  },
+  mounted() {
+    if (this.$refs.tiltElement) {
+      VanillaTilt.init(this.$refs.tiltElement, {
+        max: 25, // 最大倾斜角度
+        speed: 400, // 倾斜动画的速度
+        glare: false, // 是否启用眩光效果
+        "max-glare": 0.5, // 最大眩光强度
+      });
     }
   },
   watch: {
