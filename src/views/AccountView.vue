@@ -48,10 +48,13 @@
               </el-descriptions-item>
               <el-descriptions-item label="Email">
                 {{ userProfile.email }}
+              </el-descriptions-item>
+              <el-descriptions-item label="Password">
+                ****************
                 <el-button
                   type="text"
                   icon="el-icon-edit"
-                  @click="showEmailDialog"
+                  @click="showPasswordUpdateDialog"
                 ></el-button>
               </el-descriptions-item>
               <el-descriptions-item label="User ID">{{
@@ -111,12 +114,10 @@
 
           <el-tab-pane label="Settings" name="settings">
             <div class="settings-section">
-              <h4>Account Settings</h4>
               <el-form label-position="top">
                 <el-form-item label="Notification Preferences">
                   <el-checkbox-group v-model="notificationSettings">
                     <el-checkbox label="email">Email Notifications</el-checkbox>
-                    <el-checkbox label="push">Push Notifications</el-checkbox>
                     <el-checkbox label="newsletter"
                       >Monthly Newsletter</el-checkbox
                     >
@@ -171,8 +172,8 @@
     <!-- 各种对话框 -->
     <el-dialog
       title="Update Passowrd"
-      :visible.sync="emailDialogVisible"
-      width="30%"
+      :visible.sync="passwordUpdateDialogVisible"
+      width="40%"
       :close-on-click-modal="false"
     >
       <el-form
@@ -203,8 +204,10 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="emailDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="updateEmail">Confirm</el-button>
+        <el-button @click="passwordUpdateDialogVisible = false"
+          >Cancel</el-button
+        >
+        <el-button type="primary" @click="updatePassword">Confirm</el-button>
       </span>
     </el-dialog>
 
@@ -219,7 +222,7 @@ export default {
   data() {
     return {
       activeTab: "info",
-      emailDialogVisible: false,
+      passwordUpdateDialogVisible: false,
       passwordUpdateForm: {
         email: "",
         password: "",
@@ -254,7 +257,7 @@ export default {
         ],
       },
       darkMode: false,
-      notificationSettings: ["email", "push"],
+      notificationSettings: ["email"],
       userStats: {
         interviewCount: 12,
         avgScore: 7.8,
@@ -306,16 +309,16 @@ export default {
       localStorage.clear();
       this.$router.push("/");
     },
-    showEmailDialog() {
+    showPasswordUpdateDialog() {
       this.passwordUpdateForm.email = this.userProfile.email;
-      this.emailDialogVisible = true;
+      this.passwordUpdateDialogVisible = true;
     },
-    updateEmail() {
+    updatePassword() {
       this.$refs.passwordUpdateForm.validate((valid) => {
         if (valid) {
           // API call to update email
           this.$message.success("Email updated successfully");
-          this.emailDialogVisible = false;
+          this.passwordUpdateDialogVisible = false;
         }
       });
     },

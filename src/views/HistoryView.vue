@@ -51,7 +51,7 @@
           <el-table-column
             prop="started_at"
             label="Date"
-            width="175"
+            width="140"
             align="center"
             sortable
           >
@@ -63,11 +63,12 @@
           <el-table-column
             prop="overall_score"
             label="Score"
-            width="100"
+            width="90"
             align="center"
             sortable
           >
-            <template #default="{ row }">
+            {{ row?.overall_score || "0" }}
+            <!-- <template #default="{ row }">
               <el-rate
                 v-model="row.overall_score"
                 disabled
@@ -76,7 +77,7 @@
                 score-template="{value}"
                 text-color="#ff9900"
               />
-            </template>
+            </template> -->
           </el-table-column>
 
           <!-- <el-table-column
@@ -111,7 +112,7 @@ export default {
       searchQuery: "",
       filterMode: "",
       refreshKey: 0,
-      availableModes: ["Technical", "Behavioral", "Case Study", "Mixed"],
+      availableModes: ["common", "star", "tough", "mock"],
     };
   },
   computed: {
@@ -143,7 +144,7 @@ export default {
   },
   methods: {
     formatDate(dateString) {
-      return format(parseISO(dateString), "MMM d, yyyy - h:mm a");
+      return format(parseISO(dateString), "yyyy-MM-dd HH:MM");
     },
     formatDuration(seconds) {
       if (!seconds) return "N/A";
@@ -190,7 +191,7 @@ export default {
 <style lang="scss" scoped>
 .history-viewer-container {
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 430px 1fr;
   gap: 20px;
   padding: 100px 20px 20px 20px;
   background: linear-gradient(
