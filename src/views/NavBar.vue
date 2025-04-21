@@ -42,7 +42,7 @@
                   "
                   >{{ i.name }}</a
                 >
-                <ul class="dropdown-menu" v-if="i.name === 'Interview'">
+                <!-- <ul class="dropdown-menu" v-if="i.name === 'Interview'">
                   <li class="nav-item">
                     <a
                       class="nav-link"
@@ -65,7 +65,7 @@
                       >Mock Interview</a
                     >
                   </li>
-                </ul>
+                </ul> -->
               </li>
             </ul>
             <div
@@ -107,7 +107,7 @@
                     @click="redirectTo(i.navLink, i.sectionId)"
                     >{{ i.name }}</a
                   >
-                  <ul class="dropdown-menu" v-if="i.name === 'Interview'">
+                  <!-- <ul class="dropdown-menu" v-if="i.name === 'Interview'">
                     <li class="nav-item">
                       <a
                         class="nav-link"
@@ -130,7 +130,7 @@
                         >Mock Interview</a
                       >
                     </li>
-                  </ul>
+                  </ul> -->
                 </li>
               </ul>
               <div
