@@ -516,7 +516,7 @@ p:last-child {
   top: 43%;
   left: 0;
   right: 0;
-  width: 200px; /* 调整宽度以适应艺术字 */
+  width: 350px; /* 调整宽度以适应艺术字 */
   height: 50px;
   -webkit-transform: translateY(-43%);
   transform: translateY(-43%);
