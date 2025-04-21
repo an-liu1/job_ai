@@ -416,6 +416,7 @@ export default {
     "$route.params.mode": {
       handler(newValue, oldValue) {
         if (newValue !== oldValue) {
+          this.$store.commit("setPracticeMode", this.$route.params.mode);
           if (this.interviewStarted) {
             this.showEndInterviewDialog();
           }
