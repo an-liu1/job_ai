@@ -147,7 +147,7 @@
               >
                 <span>Hello,</span>
                 <el-avatar>
-                  {{ userProfile.username }}
+                  {{ userProfile.username.charAt(0).toUpperCase() }}
                 </el-avatar>
               </div>
             </div>
@@ -505,6 +505,7 @@ export default {
         font-weight: bold;
       }
       .el-avatar {
+        font-size: 16px;
         background: #7b68ee;
       }
       &:hover {

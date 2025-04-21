@@ -8,7 +8,7 @@
     </div>
     <!-- End Preloader Section -->
 
-    <NavBar />
+    <NavBar v-if="isRouterAlive" />
 
     <router-view v-if="isRouterAlive" />
 

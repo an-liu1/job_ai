@@ -4,11 +4,7 @@
       <!-- 用户头像和信息卡片 -->
       <el-card class="profile-card" shadow="hover">
         <div class="profile-header">
-          <el-avatar
-            :size="120"
-            :src="userProfile.avatar || defaultAvatar"
-            class="user-avatar"
-          >
+          <el-avatar :size="120" class="user-avatar">
             {{ userProfile.username.charAt(0).toUpperCase() }}
           </el-avatar>
           <h2 class="user-greeting">Hello, {{ userProfile.username }}!</h2>
@@ -218,13 +214,11 @@
 
 <script>
 import { format } from "date-fns";
-// import defaultAvatar from "@/assets/default-avatar.png";
 
 export default {
   data() {
     return {
       activeTab: "info",
-      defaultAvatar: "",
       emailDialogVisible: false,
       passwordUpdateForm: {
         email: "",
