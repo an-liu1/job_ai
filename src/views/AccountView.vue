@@ -14,15 +14,21 @@
         <!-- 用户统计信息 -->
         <div class="user-stats">
           <div class="stat-item">
-            <div class="stat-value">{{ userStats.interviewCount || 0 }}</div>
+            <div class="stat-value">
+              {{ userProfile.numbers_of_interview_practice || 0 }}
+            </div>
             <div class="stat-label">Interviews</div>
           </div>
           <div class="stat-item">
-            <div class="stat-value">{{ userStats.avgScore || "0.0" }}</div>
+            <div class="stat-value">
+              {{ userProfile.average_score || "0.0" }}
+            </div>
             <div class="stat-label">Avg Score</div>
           </div>
           <div class="stat-item">
-            <div class="stat-value">{{ userStats.improvement || "+0%" }}</div>
+            <div class="stat-value">
+              {{ userProfile.percentage_improvement || "+0%" }}
+            </div>
             <div class="stat-label">Improvement</div>
           </div>
         </div>
@@ -61,10 +67,10 @@
                 userProfile.id
               }}</el-descriptions-item>
               <el-descriptions-item label="Member Since">
-                {{ formatDate(userProfile.createdAt) }}
+                {{ formatDate(userProfile.date_joined || new Date()) }}
               </el-descriptions-item>
               <el-descriptions-item label="Last Login">
-                {{ formatDate(userProfile.lastLogin) }}
+                {{ formatDate(userProfile.last_login || new Date()) }}
               </el-descriptions-item>
               <el-descriptions-item label="Subscription">
                 <el-tag
@@ -258,11 +264,6 @@ export default {
       },
       darkMode: false,
       notificationSettings: ["email"],
-      userStats: {
-        interviewCount: 12,
-        avgScore: 7.8,
-        improvement: "+15%",
-      },
       userActivities: [
         {
           title: "Completed Technical Interview",
@@ -287,13 +288,7 @@ export default {
   },
   computed: {
     userProfile() {
-      return {
-        ...this.$store.state.userProfile,
-        createdAt: this.$store.state.userProfile.createdAt || new Date(),
-        lastLogin: this.$store.state.userProfile.lastLogin || new Date(),
-        subscription: this.$store.state.userProfile.subscription || false,
-        avatar: this.$store.state.userProfile.avatar || null,
-      };
+      return this.$store.state.userProfile;
     },
   },
   methods: {

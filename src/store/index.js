@@ -11,6 +11,7 @@ export default new Vuex.Store({
     loginResponse: {},
     signupResponse: {},
     verifyEmailResponse: {},
+    userProfile: {},
     blogs: [],
     practiceMode: "",
     chatInfo: {},
@@ -36,7 +37,7 @@ export default new Vuex.Store({
     verifyEmail(state, payload) {
       state.verifyEmailResponse = payload;
     },
-    getUserProfile(state, payload) {
+    getUserInfo(state, payload) {
       state.userProfile = payload;
     },
     getBlogs(state, payload) {
@@ -76,13 +77,9 @@ export default new Vuex.Store({
       let res = await request("get", `accounts/verify-email/${data}/`);
       commit("verifyEmail", res);
     },
-    // async getUserProfile({ commit }) {
-    //   let res = await request("get", "accounts/profile/");
-    //   commit("getUserProfile", res);
-    // },
     async getUserInfo({ commit }) {
       let res = await request("get", "accounts/userinfo/");
-      commit("getUserProfile", res);
+      commit("getUserInfo", res.data);
     },
     async getBlogs({ commit }) {
       let res = await request("get", "blog_posts/");
