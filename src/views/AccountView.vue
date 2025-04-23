@@ -27,7 +27,7 @@
           </div>
           <div class="stat-item">
             <div class="stat-value">
-              {{ userProfile.percentage_improvement || "+0%" }}
+              {{ userProfile.percentage_improvement + "%" || "+0%" }}
             </div>
             <div class="stat-label">Improvement</div>
           </div>
