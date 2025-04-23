@@ -908,6 +908,7 @@ export default {
     border-radius: 10px;
     width: 1300px;
     margin: 0 auto;
+    padding: 30px 0;
 
     .empty-content {
       max-width: 550px;
