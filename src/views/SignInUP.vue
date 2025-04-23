@@ -160,11 +160,16 @@ export default {
         ],
         password1: [
           { required: true, message: "Password required", trigger: "blur" },
+          { validator: this.validatePasswordComplexity, trigger: "blur" },
         ],
         password2: [
           {
             required: true,
             message: "Confirm password required",
+            trigger: "blur",
+          },
+          {
+            validator: this.validatePasswordMatch,
             trigger: "blur",
           },
         ],
@@ -180,6 +185,35 @@ export default {
     },
   },
   methods: {
+    validatePasswordComplexity(rule, value, callback) {
+      // 长度验证
+      if (value.length < 8) {
+        callback(new Error("Password must be at least 8 characters"));
+        return;
+      }
+
+      // 复杂度验证
+      const hasUpperCase = /[A-Z]/.test(value);
+      const hasLowerCase = /[a-z]/.test(value);
+      const hasNumber = /[0-9]/.test(value);
+
+      if (!hasUpperCase) {
+        callback(new Error("Must contain at least one uppercase letter"));
+      } else if (!hasLowerCase) {
+        callback(new Error("Must contain at least one lowercase letter"));
+      } else if (!hasNumber) {
+        callback(new Error("Must contain at least one number"));
+      } else {
+        callback(); // 验证通过
+      }
+    },
+    validatePasswordMatch(rule, value, callback) {
+      if (value !== this.signupFormRules.password1) {
+        callback(new Error("Passwords do not match"));
+      } else {
+        callback();
+      }
+    },
     validateEmail(rule, value, callback) {
       if (value !== "") {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

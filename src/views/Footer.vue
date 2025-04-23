@@ -22,7 +22,12 @@
       <!-- 底部Logo部分 -->
       <div class="row align-items-center">
         <div class="col-6">
-          <img src="../assets/img/logo.png" class="white-logo" alt="logo" />
+          <img
+            src="../assets/short_logo_white.png"
+            class="white-logo"
+            alt="logo"
+            style="width: 80px; height: 80px"
+          />
         </div>
         <div class="col-6 contact">
           Copyright © 2025 JobACE. All Rights Reserved.

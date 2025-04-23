@@ -10,16 +10,18 @@
             <div class="logo">
               <a @click="$router.push({ path: '/', hash: '#home' })">
                 <img
-                  src="../assets/img/logo.png"
+                  src="../assets/short_logo_white.png"
                   class="white-logo"
                   alt="logo"
                   v-show="!isSticky"
+                  style="width: 80px; height: 80px"
                 />
                 <img
-                  src="../assets/img/logo-black.png"
+                  src="../assets/short_logo_dark.png"
                   class="black-logo"
                   alt="logo"
                   v-show="isSticky"
+                  style="width: 80px; height: 80px"
                 />
               </a>
             </div>
@@ -92,11 +94,17 @@
               class="navbar-brand"
               @click="$router.push({ path: '/', hash: '#home' })"
             >
-              <img src="../assets/img/logo.png" class="white-logo" alt="logo" />
               <img
-                src="../assets/img/logo-black.png"
+                src="../assets/short_logo_white.png"
+                class="white-logo"
+                alt="logo"
+                style="width: 80px; height: 80px"
+              />
+              <img
+                src="../assets/short_logo_dark.png"
                 class="black-logo"
                 alt="logo"
+                style="width: 80px; height: 80px"
               />
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

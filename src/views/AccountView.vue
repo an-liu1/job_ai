@@ -253,11 +253,16 @@ export default {
         ],
         password1: [
           { required: true, message: "New password required", trigger: "blur" },
+          { validator: this.validatePasswordComplexity, trigger: "blur" },
         ],
         password2: [
           {
             required: true,
             message: "Confirm new password required",
+            trigger: "blur",
+          },
+          {
+            validator: this.validatePasswordMatch,
             trigger: "blur",
           },
         ],
@@ -292,6 +297,35 @@ export default {
     },
   },
   methods: {
+    validatePasswordComplexity(rule, value, callback) {
+      // 长度验证
+      if (value.length < 8) {
+        callback(new Error("Password must be at least 8 characters"));
+        return;
+      }
+
+      // 复杂度验证
+      const hasUpperCase = /[A-Z]/.test(value);
+      const hasLowerCase = /[a-z]/.test(value);
+      const hasNumber = /[0-9]/.test(value);
+
+      if (!hasUpperCase) {
+        callback(new Error("Must contain at least one uppercase letter"));
+      } else if (!hasLowerCase) {
+        callback(new Error("Must contain at least one lowercase letter"));
+      } else if (!hasNumber) {
+        callback(new Error("Must contain at least one number"));
+      } else {
+        callback(); // 验证通过
+      }
+    },
+    validatePasswordMatch(rule, value, callback) {
+      if (value !== this.passwordUpdateForm.password1) {
+        callback(new Error("Passwords do not match"));
+      } else {
+        callback();
+      }
+    },
     formatDate(date) {
       return format(new Date(date), "MMMM d, yyyy");
     },
@@ -312,8 +346,22 @@ export default {
       this.$refs.passwordUpdateForm.validate((valid) => {
         if (valid) {
           // API call to update email
-          this.$message.success("Email updated successfully");
-          this.passwordUpdateDialogVisible = false;
+          this.$store
+            .dispatch("changePassword", {
+              old_password: this.passwordUpdateForm.password,
+              new_password: this.passwordUpdateForm.password1,
+            })
+            .then(() => {
+              this.$message.success(
+                "Email updated successfully, please login again."
+              );
+              this.passwordUpdateDialogVisible = false;
+              this.logout();
+            })
+            .catch(() => {
+              this.$message.error("Email updated failed, please try again!");
+              this.passwordUpdateDialogVisible = false;
+            });
         }
       });
     },
