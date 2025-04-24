@@ -10,11 +10,17 @@
         </p>
       </div>
 
-      <el-collapse v-for="(i, index) of faqList" :key="index" class="mt-3">
+      <el-collapse v-for="(i, index) of visibleFaqs" :key="index" class="mt-3">
         <el-collapse-item :title="i.question" :name="index">
           <div class="text-left">{{ i.answer }}</div>
         </el-collapse-item>
       </el-collapse>
+
+      <div class="text-center mt-4">
+        <el-button type="primary" @click="toggleShowAll" class="show-all-btn">
+          {{ showAll ? "Show Less" : "Show All" }}
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +29,7 @@
 export default {
   data() {
     return {
+      showAll: false,
       faqList: [
         {
           question: "How do I start practicing interviews?",
@@ -32,7 +39,7 @@ export default {
         {
           question: "What equipment do I need to use this platform?",
           answer:
-            "You’ll need a device with a working microphone and speakers. A quiet environment also helps for better voice recognition and focus.",
+            "You'll need a device with a working microphone and speakers. A quiet environment also helps for better voice recognition and focus.",
         },
         {
           question: "Can I practice unlimited questions?",
@@ -45,7 +52,7 @@ export default {
             "Our AI listens to your spoken responses and gives you feedback on clarity, structure, and delivery based on industry best practices.",
         },
         {
-          question: "What’s the difference between Pro and Premium plans?",
+          question: "What's the difference between Pro and Premium plans?",
           answer:
             "Pro includes advanced modules and AI feedback. Premium adds personalized coaching tips, industry-specific questions, and access to exclusive events.",
         },
@@ -57,7 +64,7 @@ export default {
         {
           question: "Where can I get help or share feedback?",
           answer:
-            "Join our community via Discord or contact our support team. We’re always open to suggestions to improve your experience.",
+            "Join our community via Discord or contact our support team. We're always open to suggestions to improve your experience.",
         },
         {
           question: "Are the interview questions updated regularly?",
@@ -87,7 +94,16 @@ export default {
       ],
     };
   },
-  methods: {},
+  computed: {
+    visibleFaqs() {
+      return this.showAll ? this.faqList : this.faqList.slice(0, 5);
+    },
+  },
+  methods: {
+    toggleShowAll() {
+      this.showAll = !this.showAll;
+    },
+  },
 };
 </script>
 
@@ -138,6 +154,14 @@ export default {
   ::v-deep .el-collapse-item__wrap {
     transition: max-height 0.3s ease-in-out;
     overflow: hidden;
+  }
+
+  .show-all-btn {
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 12px 30px;
+    font-weight: bolder;
+    background: #0295ff;
   }
 }
 </style>

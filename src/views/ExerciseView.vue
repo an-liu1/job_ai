@@ -10,29 +10,25 @@
           Practice makes perfect! Get ready for your next job interview
         </p>
 
-        <div class="position-selector">
+        <div class="interviewMode-selector">
           <el-select
-            v-model="position"
+            v-model="interviewMode"
             filterable
             allow-create
-            placeholder="Select or enter a position"
-            class="position-input"
+            placeholder="Select a feature interview mode"
+            class="interviewMode-input"
           >
             <el-option
-              v-for="item in positionOptions"
+              v-for="item in interviewModeOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
             />
           </el-select>
 
-          <el-select
-            v-model="difficulty"
-            placeholder="Select difficulty"
-            class="difficulty-select"
-          >
+          <el-select v-model="questionNum" class="questionNum-select">
             <el-option
-              v-for="level in difficultyLevels"
+              v-for="level in questionNumList"
               :key="level.value"
               :label="level.label"
               :value="level.value"
@@ -254,17 +250,26 @@
 
     <!-- 空状态 -->
     <div v-else class="empty-state">
-      <div class="empty-content">
+      <div>
         <img
           src="@/assets/img/home-font.png"
           alt="Start Interview"
           class="empty-image"
           ref="tiltElement"
         />
-        <h3>Ready to practice your interview skills?</h3>
-        <p>
-          Select a position and difficulty level to begin your mock interview
-        </p>
+        <div v-if="!interviewMode" class="empty-content">
+          <h3>Ready to practice your interview skills?</h3>
+          <p>
+            Select a interview mode and rhe question number to begin your mock
+            interview
+          </p>
+        </div>
+        <div v-else class="mode-des">
+          <div v-for="(i, index) in practiceModeDesc" :key="index">
+            <h4 v-if="index === 0">{{ i }}</h4>
+            <p v-else>{{ i }}</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -295,8 +300,8 @@ export default {
   components: { VoiceRecorder, MiniAudioPlayer },
   data() {
     return {
-      position: "",
-      difficulty: "medium",
+      interviewMode: "",
+      questionNum: 5,
       loading: false,
       isRecording: false,
       recordingDuration: 0,
@@ -307,18 +312,10 @@ export default {
       timerInterval: null,
       expandedEvaluations: [],
       endInterviewDialogVisible: false,
-      positionOptions: [
-        { value: "frontend", label: "Frontend Developer" },
-        { value: "backend", label: "Backend Developer" },
-        { value: "fullstack", label: "Full Stack Developer" },
-        { value: "data", label: "Data Scientist" },
-        { value: "product", label: "Product Manager" },
-        { value: "marketing", label: "Marketing Specialist" },
-      ],
-      difficultyLevels: [
-        { value: "easy", label: "Easy (Junior)" },
-        { value: "medium", label: "Medium (Mid-level)" },
-        { value: "hard", label: "Hard (Senior)" },
+      questionNumList: [
+        { value: 5, label: "5 questions" },
+        { value: 8, label: "8 questions" },
+        { value: 10, label: "10 questions" },
       ],
       chatHistory: [],
       // chatHistory: [
@@ -360,20 +357,52 @@ export default {
   computed: {
     practiceModeText() {
       switch (this.$route.params.mode) {
-        case "common":
-          return "Common";
-        case "star":
-          return "Master Behavioral";
-        case "tough":
-          return "Tackle Tough";
+        case "feature":
+          return "Feature";
         case "mock":
           return "Mock";
         default:
           return null;
       }
     },
-    practiceMode() {
-      return this.$store.state.practiceMode;
+    interviewModeOptions() {
+      return this.$route.params.mode == "mock"
+        ? [{ value: "mock", label: "Mock Intervie" }]
+        : [
+            { value: "freestyle", label: "Free Style Questions" },
+            { value: "common", label: "Common Questions" },
+            { value: "star", label: "Master Behavioral Questions" },
+            { value: "tough", label: "Tough Questions" },
+          ];
+    },
+    practiceModeDesc() {
+      const modeDescriptions = {
+        common: [
+          "There is no way to predict what you will be asked during an interview, but there are some questions that are often brought up. Plan your answers for these questions as this will give your confidence a boost and make you feel you can be successful. Here are some of those frequently asked questions:",
+          "There is no way to predict what you will be asked during an interview, but there are some questions that are often brought up. Plan your answers for these questions as this will give your confidence a boost and make you feel you can be successful. Here are some of those frequently asked questions:",
+          "An interview process is an element of the hiring process...",
+          "During your interview, the recruiter is likely to ask you several common questions...",
+        ],
+        star: [
+          "The STAR interview method is a great way to give detailed answers that help hiring managers gauge how you may fit into an open position. You can use this technique when facing several possible common interview questions. Learning how to prepare STAR responses can help you deliver answers that impress employers and improve your chances of getting a job offer.",
+          "STAR stands for Situation, Task, Action and Result. The STAR method helps you create an easy-to-follow story with a clear conflict and resolution. By using this strategy, you can make sure you're fully addressing the interviewer's question while also demonstrating how you were able to overcome previous challenges and be successful.",
+          "Interviewers use a behavioural interview style to learn how you handled previous work situations. Employers will use your answers to anticipate how you will react to different challenges in the open role. Typically, these questions are more open-ended and require you to share stories or examples from your previous jobs or educational experience.",
+        ],
+        tough: [
+          "Whether you are going for a project management interview, a customer service, interview, a leadership interview, or even a teamworking interview, the questions in this practice will help you during your preparation.",
+          "The main reason interviewers ask tough questions is to get to know you and your thought process better. So, even if questions don't seem directly relevant to your role, employers are trying to assess your logic and critical thinking.",
+          "Employers also ask tough interview questions when you're applying to technical roles to test your knowledge. They want to see how you answer complex technical questions to ensure you have the necessary knowledge and confidence for the position.",
+          "Practice these TOUGH interview questions that you need to prepare for, if you are to pass any interview. The reason these questions are so tough is because they are designed to make you think, long and hard, about your own experience and situation!",
+        ],
+        mock: [
+          "Conducting a mock interview is a way to prepare for a job interview. A mock interview experience allows you to develop your nonverbal body language, craft responses to behavioural interview questions, and become comfortable in an interview environment. A mock interview can simulate any real-world interview experience, be it over the phone, in person, or leverage this powerfull mock interview training bot.",
+          "A mock interview can allow you to perfect your interviewing etiquette. You can ask your mock interviewer to give you feedback on how you introduce yourself. Use it to improve handshakes and body language. Be sure to prepare as you usually would for an interview by dressing appropriately and bringing copies of your résumé or portfolio. Be sure to ask your interview partner to give you feedback on your interview protocol and any areas you can improve.",
+          "Practising your communication skills is an essential part of becoming an exceptional communicator. A mock interview provides you with a safe space to develop your skills in answering questions effectively. It also helps you articulate thoughts on the spot and perfect nonverbal skills such as your posture and facial expression.",
+          "y conducting a mock interview, you increase your confidence for the big day. You'll go through the entire interview process, receive feedback, and adjust your responses to perform at your highest level during the actual meeting. By preparing for tough questions in advance, you automatically reduce the stress and anxiety of interviewing for a job.",
+        ],
+      };
+
+      return modeDescriptions[this.interviewMode] || [];
     },
     userInitial() {
       const username = this.$store.state.userProfile?.username || "U";
@@ -411,14 +440,23 @@ export default {
         "max-glare": 0.5, // 最大眩光强度
       });
     }
+    if (this.$route.params.mode == "mock") {
+      this.interviewMode = "mock";
+    } else {
+      this.interviewMode = "";
+    }
   },
   watch: {
     "$route.params.mode": {
       handler(newValue, oldValue) {
         if (newValue !== oldValue) {
-          this.$store.commit("setPracticeMode", this.$route.params.mode);
           if (this.interviewStarted) {
             this.showEndInterviewDialog();
+          }
+          if (this.$route.params.mode == "mock") {
+            this.interviewMode = "mock";
+          } else {
+            this.interviewMode = "";
           }
         }
       },
@@ -427,16 +465,15 @@ export default {
   },
   methods: {
     startInterview() {
-      if (!this.position) {
-        this.$message.warning("Please select or enter a position");
+      if (!this.interviewMode) {
+        this.$message.warning("Please select a interview mode!");
         return;
       }
 
       this.loading = true;
       const formData = new FormData();
-      formData.append("mode", this.practiceMode);
-      formData.append("position", this.position);
-      formData.append("difficulty", this.difficulty);
+      formData.append("mode", this.interviewMode);
+      formData.append("questionNum", this.questionNum);
       formData.append("new_conversation", true);
 
       this.$store
@@ -495,7 +532,7 @@ export default {
       this.loading = true;
       const formData = new FormData();
       formData.append("audio", blob, "recording.wav");
-      formData.append("mode", this.practiceMode);
+      formData.append("mode", this.interviewMode);
       formData.append("new_conversation", false);
       formData.append(
         "conversation_id",
@@ -630,15 +667,15 @@ export default {
       }
     }
 
-    .position-selector {
+    .interviewMode-selector {
       display: flex;
       gap: 10px;
 
-      .position-input {
+      .interviewMode-input {
         flex: 1;
       }
 
-      .difficulty-select {
+      .questionNum-select {
         width: 180px;
       }
 
@@ -910,16 +947,30 @@ export default {
     margin: 0 auto;
     padding: 30px 0;
 
+    .empty-image {
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 30px;
+    }
+
     .empty-content {
       max-width: 550px;
-
-      .empty-image {
-        width: 100%;
-        max-width: 300px;
-        margin-bottom: 30px;
+      h3 {
+        margin: 0 0 10px;
+        color: #303133;
       }
 
-      h3 {
+      p {
+        margin: 0;
+        color: #909399;
+        font-size: 16px;
+      }
+    }
+    .mode-des {
+      width: 80%;
+      margin: 0 auto;
+      text-align: left;
+      h4 {
         margin: 0 0 10px;
         color: #303133;
       }
@@ -956,10 +1007,10 @@ export default {
         font-size: 1.8rem !important;
       }
 
-      .position-selector {
+      .interviewMode-selector {
         flex-direction: column;
 
-        .difficulty-select {
+        .questionNum-select {
           width: 100% !important;
         }
       }

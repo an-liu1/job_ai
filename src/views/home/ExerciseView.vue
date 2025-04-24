@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <!-- 导航栏 -->
-    <nav class="nav-bar container mx-auto px-4 py-2">
+    <!-- <nav class="nav-bar container mx-auto px-4 py-2">
       <div class="d-flex justify-content-center gap-3 flex-wrap">
         <button
           v-for="(item, index) in navItems"
@@ -13,10 +13,10 @@
           <b>{{ item.label }}</b>
         </button>
       </div>
-    </nav>
+    </nav> -->
 
     <!-- 内容区动画 -->
-    <transition name="content-fade">
+    <!-- <transition name="content-fade">
       <div class="content-container container py-4" v-show="showContent">
         <div class="row g-4">
           <div class="col-12 col-lg-6">
@@ -57,6 +57,84 @@
           </div>
         </div>
       </div>
+    </transition> -->
+    <transition name="content-fade">
+      <div class="content-container container py-4" v-show="showContent">
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            <div class="image-section">
+              <img
+                :src="featureInfo[0].imgUrl"
+                alt="Team Image"
+                class="img-fluid animated fadeIn"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="info-section">
+              <h1 class="main-title">
+                {{ featureInfo[0].title }}
+              </h1>
+              <h5>{{ featureInfo[0].subTitle }}</h5>
+              <p
+                class="description animated fadeIn mt-4"
+                v-for="(i, index) in featureInfo[0].des"
+                :key="index"
+              >
+                <b>{{ i.title + " " }}</b> {{ i.des }}
+              </p>
+
+              <div class="d-flex justify-content-center gap-3 mt-5">
+                <button
+                  class="nav-btn btn active"
+                  @click="redirectTo(featureInfo[0].redirectURL)"
+                >
+                  {{ featureInfo[0].btnText }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <transition name="content-fade">
+      <div class="content-container container py-4" v-show="showContent">
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            <div class="info-section">
+              <h1 class="main-title">
+                {{ featureInfo[1].title }}
+              </h1>
+              <h5>{{ featureInfo[1].subTitle }}</h5>
+              <p
+                class="description animated fadeIn mt-4"
+                v-for="(i, index) in featureInfo[1].des"
+                :key="index"
+              >
+                <b>{{ i.title + " " }}</b> {{ i.des }}
+              </p>
+
+              <div class="d-flex justify-content-center gap-3 mt-5">
+                <button
+                  class="nav-btn btn active"
+                  @click="redirectTo(featureInfo[1].redirectURL)"
+                >
+                  {{ featureInfo[1].btnText }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="image-section">
+              <img
+                :src="featureInfo[1].imgUrl"
+                alt="Team Image"
+                class="img-fluid animated fadeIn"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </transition>
   </div>
 </template>
@@ -76,67 +154,68 @@ export default {
       featureInfo: [
         {
           imgUrl: require("@/assets/guide1.png"),
-          title: "Practice Common Questions",
-          subTitle: "Nail the Basics with Industry-Tested Prompts",
+          title: "Feature Practice Questions",
+          subTitle:
+            "Access 200+ frequently asked questions across tech, finance, consulting, and more—curated from top companies like Google, McKinsey, and Amazon.",
           des: [
             {
-              title: "Smart Question Bank:",
-              des: "Access 200+ frequently asked questions across tech, finance, consulting, and more—curated from top companies like Google, McKinsey, and Amazon.",
+              title: "Practice Common Questions",
+              des: "Nail the Basics with Industry-Tested Prompts",
             },
             {
-              title: "Role-Specific Drills:",
-              des: "Get tailored practice sessions based on your target job (e.g., 'Tell me about yourself' for sales vs. engineering roles).",
+              title: "Master Behavioral Questions",
+              des: "STAR Method Made Simple—Turn Stories into Success",
             },
             {
-              title: "Sample Answers:",
-              des: "Learn from high-scoring responses, with tips to avoid clichés and structure concise, compelling replies.",
+              title: "Tackle Tough Questions",
+              des: "Handle Curveball Questions with Confidence",
             },
           ],
           btnText: "Start Practice",
-          redirectURL: "exercise/common",
+          redirectURL: "exercise/feature",
         },
-        {
-          imgUrl: require("@/assets/guide2.png"),
-          title: "Master Behavioral Questions",
-          subTitle: "STAR Method Made Simple—Turn Stories into Success",
-          des: [
-            {
-              title: "Guided Frameworks:",
-              des: "Break down answers into Situation, Task, Action, Result with interactive templates that adapt to your experience level.",
-            },
-            {
-              title: "AI Story Builder:",
-              des: "Transform raw experiences into compelling narratives with metrics (e.g., 'Increased team efficiency by 30%').",
-            },
-            {
-              title: "Company-Specific Prep:",
-              des: "Practice behavioral questions tailored to target employers' core values (e.g., Amazon's Leadership Principles).",
-            },
-          ],
-          btnText: "Start Practice",
-          redirectURL: "exercise/star",
-        },
-        {
-          imgUrl: require("@/assets/guide3.png"),
-          title: "Tackle Tough Questions",
-          subTitle: "Handle Curveball Questions with Confidence",
-          des: [
-            {
-              title: "Red Flag Response Library:",
-              des: "Diplomatic answers for sensitive topics like employment gaps, job hopping, or salary expectations.",
-            },
-            {
-              title: "Pressure Test Mode:",
-              des: "Simulate stress interviews with rapid-fire questioning and interruptions.",
-            },
-            {
-              title: "Damage Control Coach:",
-              des: "Get real-time suggestions to recover from weak answers or mistakes during practice.",
-            },
-          ],
-          btnText: "Start Challenge",
-          redirectURL: "exercise/tough",
-        },
+        // {
+        //   imgUrl: require("@/assets/guide2.png"),
+        //   title: "Master Behavioral Questions",
+        //   subTitle: "STAR Method Made Simple—Turn Stories into Success",
+        //   des: [
+        //     {
+        //       title: "Guided Frameworks:",
+        //       des: "Break down answers into Situation, Task, Action, Result with interactive templates that adapt to your experience level.",
+        //     },
+        //     {
+        //       title: "AI Story Builder:",
+        //       des: "Transform raw experiences into compelling narratives with metrics (e.g., 'Increased team efficiency by 30%').",
+        //     },
+        //     {
+        //       title: "Company-Specific Prep:",
+        //       des: "Practice behavioral questions tailored to target employers' core values (e.g., Amazon's Leadership Principles).",
+        //     },
+        //   ],
+        //   btnText: "Start Practice",
+        //   redirectURL: "exercise/star",
+        // },
+        // {
+        //   imgUrl: require("@/assets/guide3.png"),
+        //   title: "Tackle Tough Questions",
+        //   subTitle: "Handle Curveball Questions with Confidence",
+        //   des: [
+        //     {
+        //       title: "Red Flag Response Library:",
+        //       des: "Diplomatic answers for sensitive topics like employment gaps, job hopping, or salary expectations.",
+        //     },
+        //     {
+        //       title: "Pressure Test Mode:",
+        //       des: "Simulate stress interviews with rapid-fire questioning and interruptions.",
+        //     },
+        //     {
+        //       title: "Damage Control Coach:",
+        //       des: "Get real-time suggestions to recover from weak answers or mistakes during practice.",
+        //     },
+        //   ],
+        //   btnText: "Start Challenge",
+        //   redirectURL: "exercise/tough",
+        // },
         {
           imgUrl: require("@/assets/guide3.png"),
           title: "Mock Interview Simulation",

@@ -13,7 +13,6 @@ export default new Vuex.Store({
     verifyEmailResponse: {},
     userProfile: {},
     blogs: [],
-    practiceMode: "",
     chatInfo: {},
     chatHistory: [],
     chatHistoryDetail: {},
@@ -42,9 +41,6 @@ export default new Vuex.Store({
     },
     getBlogs(state, payload) {
       state.blogs = payload;
-    },
-    setPracticeMode(state, payload) {
-      state.practiceMode = payload;
     },
     getChatInfo(state, payload) {
       state.chatInfo = payload;

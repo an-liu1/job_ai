@@ -186,18 +186,8 @@ export default {
             sectionId: "home",
           },
           {
-            navLink: "/exercise/common",
-            name: "Common",
-            sectionId: "",
-          },
-          {
-            navLink: "/exercise/star",
-            name: "Behavioral",
-            sectionId: "",
-          },
-          {
-            navLink: "/exercise/tough",
-            name: "Tough",
+            navLink: "/exercise/feature",
+            name: "Feature Interview",
             sectionId: "",
           },
           {
@@ -295,7 +285,7 @@ export default {
               const targetElement = document.getElementById(sectionId);
               if (targetElement) {
                 window.scrollTo({
-                  top: targetElement.offsetTop,
+                  top: targetElement.offsetTop - 120,
                   behavior: "smooth",
                 });
               }

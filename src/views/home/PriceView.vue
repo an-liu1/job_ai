@@ -1,35 +1,195 @@
 <template>
   <div class="pricing-plans">
     <div class="section-header">
-      <!-- <span class="sub-title">CHOOSE A PLAN</span> -->
-      <h2 class="main-title">CHOOSE A PLAN</h2>
+      <h2 class="main-title">Choose Your Perfect Plan</h2>
+      <p class="sub-desc">
+        Select the most suitable option based on your needs
+      </p>
     </div>
-    <div class="plan-list">
-      <div
-        class="plan-card"
-        v-for="(plan, index) in plans"
+
+    <div class="plan-tabs">
+      <button
+        v-for="(tab, index) in tabs"
         :key="index"
-        @mouseenter="handleHover(index)"
-        @mouseleave="handleHover(index)"
+        @click="activeTab = index"
+        :class="{ active: activeTab === index }"
       >
-        <h3 class="plan-title">{{ plan.title }}</h3>
-        <p class="plan-desc">{{ plan.desc }}</p>
-        <div class="price-wrap">
-          <span class="price-num">{{ plan.price }}</span>
-          <small class="price-unit">{{ plan.unit }}</small>
+        <span class="tab-icon" :class="'icon-' + index"></span>
+        {{ tab }}
+      </button>
+    </div>
+
+    <div class="plan-list">
+      <!-- Free Plan -->
+      <div class="plan-card free" :class="{ highlighted: activeTab === 0 }">
+        <div class="popular-badge">Best for Starters</div>
+        <div class="plan-header">
+          <h3 class="plan-title">Free</h3>
+          <p class="plan-desc">Experience basic features</p>
         </div>
-        <button
-          class="cta-btn"
-          :class="{ pulse: isHovering[index] }"
-          @click="handleClick"
-        >
-          {{ plan.ctaText }}
+
+        <div class="price-wrap">
+          <span class="price-num">$0</span>
+          <small class="price-unit">Forever Free</small>
+        </div>
+
+        <button class="cta-btn">
+          <span class="btn-icon">🚀</span>
+          Get Started
         </button>
-        <ul class="features-list" :class="{ visible: showFeatures }">
-          <li v-for="(feature, idx) in plan.features" :key="idx">
-            {{ feature }}
-          </li>
+
+        <div class="divider"></div>
+
+        <ul class="features-list">
+          <li><span class="feature-icon">✓</span>Basic interview questions</li>
+          <li><span class="feature-icon">✓</span>3 daily practice sessions</li>
+          <li><span class="feature-icon">✓</span>Basic voice feedback</li>
+          <li><span class="feature-icon">✓</span>Community support</li>
         </ul>
+      </div>
+
+      <!-- Pay-per-use -->
+      <div
+        class="plan-card pay-per-use"
+        :class="{ highlighted: activeTab === 1 }"
+      >
+        <div class="popular-badge">Most Flexible</div>
+        <div class="plan-header">
+          <h3 class="plan-title">Pay-per-use</h3>
+          <p class="plan-desc">Pay as you go</p>
+        </div>
+
+        <div class="price-wrap">
+          <span class="price-num">$1.8</span>
+          <small class="price-unit">per session</small>
+          <div class="original-price">Regular $2.0/session</div>
+        </div>
+
+        <div class="bulk-discount">
+          <div class="discount-option">
+            <span class="amount">10 sessions</span>
+            <span class="price">$18</span>
+            <span class="per-unit">($1.8/session)</span>
+          </div>
+          <div class="discount-option best-value">
+            <span class="amount">30 sessions</span>
+            <span class="price">$48</span>
+            <span class="per-unit">($1.6/session)</span>
+            <span class="best-tag">Best Value</span>
+          </div>
+          <div class="discount-option">
+            <span class="amount">100 sessions</span>
+            <span class="price">$150</span>
+            <span class="per-unit">($1.5/session)</span>
+          </div>
+        </div>
+
+        <button class="cta-btn">
+          <span class="btn-icon">💳</span>
+          Buy Sessions
+        </button>
+      </div>
+
+      <!-- Subscription -->
+      <div class="plan-card premium" :class="{ highlighted: activeTab === 2 }">
+        <div class="popular-badge">Best Deal</div>
+        <div class="plan-header">
+          <h3 class="plan-title">Pro</h3>
+          <p class="plan-desc">Unlimited access to all features</p>
+        </div>
+
+        <div class="price-wrap">
+          <span class="price-num">$29</span>
+          <small class="price-unit">per month</small>
+          <div class="saving-info">Only $0.97 per day</div>
+        </div>
+
+        <div class="trial-offer">
+          <span class="trial-icon">🎁</span>
+          7-day free trial
+        </div>
+
+        <button class="cta-btn">
+          <span class="btn-icon">⭐</span>
+          Subscribe Now
+        </button>
+
+        <div class="divider"></div>
+
+        <ul class="features-list">
+          <li><span class="feature-icon">✓</span>Unlimited practice</li>
+          <li><span class="feature-icon">✓</span>Advanced AI feedback</li>
+          <li>
+            <span class="feature-icon">✓</span>Industry-specific questions
+          </li>
+          <li><span class="feature-icon">✓</span>Interview analytics</li>
+          <li><span class="feature-icon">✓</span>Resume optimization</li>
+          <li><span class="feature-icon">✓</span>Priority support</li>
+        </ul>
+      </div>
+
+      <!-- Token -->
+      <div class="plan-card token" :class="{ highlighted: activeTab === 3 }">
+        <div class="plan-header">
+          <h3 class="plan-title">Token</h3>
+          <p class="plan-desc">Flexible access to premium features</p>
+        </div>
+
+        <div class="token-options">
+          <div
+            class="token-option"
+            v-for="(option, index) in tokenOptions"
+            :key="index"
+          >
+            <input
+              type="radio"
+              name="token"
+              :id="'token' + index"
+              :value="option.value"
+              :checked="index === 1"
+            />
+            <label :for="'token' + index">
+              <span class="amount">{{ option.amount }} Tokens</span>
+              <span class="price">${{ option.price }}</span>
+              <span class="bonus" v-if="option.bonus"
+                >+{{ option.bonus }} Bonus</span
+              >
+              <span class="per-unit"
+                >≈ ${{
+                  (
+                    option.price /
+                    (option.amount + (option.bonus || 0))
+                  ).toFixed(2)
+                }}/T</span
+              >
+            </label>
+          </div>
+        </div>
+
+        <button class="cta-btn">
+          <span class="btn-icon">🪙</span>
+          Get Tokens
+        </button>
+
+        <div class="token-usage">
+          <h4>Token Usage</h4>
+          <div class="usage-item">
+            <span class="usage-name">Standard practice</span>
+            <span class="usage-cost">1 Token/session</span>
+          </div>
+          <div class="usage-item">
+            <span class="usage-name">AI feedback</span>
+            <span class="usage-cost">2 Tokens/session</span>
+          </div>
+          <div class="usage-item">
+            <span class="usage-name">Mock interview</span>
+            <span class="usage-cost">5 Tokens/session</span>
+          </div>
+          <div class="usage-item">
+            <span class="usage-name">Resume analysis</span>
+            <span class="usage-cost">3 Tokens/session</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,260 +197,472 @@
 
 <script>
 export default {
-  name: "PricingComponent",
   data() {
     return {
-      plans: [
-        {
-          title: "Free",
-          desc: "Perfect for getting started",
-          price: "$0",
-          unit: "Per month",
-          ctaText: "Get Started Free",
-          features: [
-            "Access to Common Interview Questions",
-            "Voice-Based Practice (Microphone Required)",
-            "Record, Retry & Submit Answers",
-            "Basic Performance Feedback",
-            "Limited Daily Practice Sessions",
-            "Dashboard Access",
-            "Community Support",
-          ],
-        },
-        {
-          title: "Pro",
-          desc: "Sharpen your edge for real interviews",
-          price: "$19",
-          unit: "Per month",
-          ctaText: "Start 3 Days Free Trial",
-          features: [
-            "All Free Plan Features",
-            "Behavioral & Tough Question Modules",
-            "AI-Powered Feedback & Suggestions",
-            "Unlimited Daily Practice",
-            "Access to Progress Reports",
-            "Mock Interview Mode",
-            "Priority Email Support",
-          ],
-        },
-        {
-          title: "Premium",
-          desc: "Full access. Maximum preparation.",
-          price: "$29",
-          unit: "Per month",
-          ctaText: "Start 6 Days Free Trial",
-          features: [
-            "All Pro Plan Features",
-            "Personalized Coaching Suggestions",
-            "Industry-Specific Question Sets",
-            "Interview Analytics Dashboard",
-            "Resume & Elevator Pitch Review Tools",
-            "Invite-Only Live Mock Interview Events",
-            "24/7 Premium Support",
-          ],
-        },
+      activeTab: 0,
+      tabs: ["Free", "Pay-per-use", "Subscription", "Tokens"],
+      tokenOptions: [
+        { amount: 10, price: 10, bonus: 0, value: "10" },
+        { amount: 30, price: 27, bonus: 3, value: "30" },
+        { amount: 100, price: 80, bonus: 20, value: "100" },
+        { amount: 300, price: 210, bonus: 90, value: "300" },
       ],
-      isHovering: Array(3).fill(false),
-      showFeatures: false, // 新增控制变量
     };
-  },
-  mounted() {
-    this.showFeatures = true; // 组件加载后触发显示动画
-  },
-  methods: {
-    handleHover(index) {
-      this.isHovering[index] = !this.isHovering[index];
-    },
-    handleClick() {
-      // 按钮点击逻辑
-    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 .pricing-plans {
-  padding: 60px 20px;
-  background: #fff;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 auto;
 
   .section-header {
     text-align: center;
     margin-bottom: 50px;
 
-    .sub-title {
-      display: block;
-      color: #ff4444;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+    .main-title {
+      font-size: 36px;
+      color: #2c3e50;
+      font-weight: 700;
       margin-bottom: 10px;
+      background: linear-gradient(90deg, #3498db, #646cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
-    .main-title {
-      font-size: 28px;
-      color: #2c3e50;
+    .sub-desc {
+      color: #7f8c8d;
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  .plan-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 10px;
+
+    button {
+      padding: 12px 24px;
+      margin: 0 5px;
+      border: none;
+      background: white;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      color: #5a6a7e;
+
+      &.active {
+        background: #646cff;
+        color: white;
+        box-shadow: 0 4px 12px rgba(100, 108, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .tab-icon {
+        margin-right: 8px;
+        font-size: 18px;
+
+        &.icon-0 {
+          color: #3498db;
+        }
+        &.icon-1 {
+          color: #9b59b6;
+        }
+        &.icon-2 {
+          color: #2ecc71;
+        }
+        &.icon-3 {
+          color: #e67e22;
+        }
+      }
+
+      &.active .tab-icon {
+        color: white !important;
+      }
     }
   }
 
   .plan-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 0 20px;
+  }
 
-    .plan-card {
-      background: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
-      min-width: 360px;
-      text-align: left;
-      transform: translateY(0);
-      transition: all 0.3s ease;
+  .plan-card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 
-      &:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    &.highlighted {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      border-color: rgba(100, 108, 255, 0.2);
+    }
+
+    &.premium {
+      border-top: 4px solid #646cff;
+
+      .cta-btn {
+        background: linear-gradient(135deg, #646cff, #9b59b6);
       }
+    }
+
+    &.free {
+      border-top: 4px solid #3498db;
+
+      .cta-btn {
+        background: linear-gradient(135deg, #3498db, #2ecc71);
+      }
+    }
+
+    &.pay-per-use {
+      border-top: 4px solid #9b59b6;
+
+      .cta-btn {
+        background: linear-gradient(135deg, #9b59b6, #e67e22);
+      }
+    }
+
+    &.token {
+      border-top: 4px solid #e67e22;
+
+      .cta-btn {
+        background: linear-gradient(135deg, #e67e22, #f1c40f);
+      }
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: 15px;
+      right: -30px;
+      background: #ff4444;
+      color: white;
+      padding: 3px 30px;
+      font-size: 12px;
+      font-weight: 600;
+      transform: rotate(45deg);
+      width: 120px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .plan-header {
+      margin-bottom: 20px;
+      text-align: center;
 
       .plan-title {
-        font-size: 20px;
+        font-size: 24px;
         color: #2c3e50;
-        margin-bottom: 15px;
+        margin-bottom: 8px;
+        font-weight: 700;
       }
 
       .plan-desc {
         color: #7f8c8d;
-        font-size: 14px;
-        margin-bottom: 20px;
+        font-size: 15px;
       }
+    }
 
-      .price-wrap {
-        margin-bottom: 25px;
-        font-size: 28px;
+    .price-wrap {
+      text-align: center;
+      margin: 25px 0;
+
+      .price-num {
+        font-size: 42px;
+        font-weight: 800;
         color: #2c3e50;
-
-        .price-num {
-          font-weight: bold;
-          animation: bounce 2s infinite;
-        }
-
-        .price-unit {
-          font-size: 14px;
-          color: #7f8c8d;
-          margin-left: 10px;
-        }
+        line-height: 1;
       }
 
-      .cta-btn {
+      .price-unit {
+        font-size: 16px;
+        color: #7f8c8d;
         display: block;
-        width: 100%;
-        padding: 12px;
-        background: #646cff;
-        color: #fff;
-        border: none;
-        border-radius: 24px;
-        cursor: pointer;
-        margin-bottom: 20px;
-        transition: transform 0.2s, box-shadow 0.3s;
-        will-change: transform;
-
-        &.pulse {
-          animation: pulse 1.5s infinite;
-        }
-
-        &:hover {
-          transform: scale(1.03);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
+        margin-top: 5px;
       }
 
-      .features-list {
-        list-style: none;
-        padding: 0;
+      .original-price {
+        text-decoration: line-through;
+        color: #95a5a6;
+        font-size: 14px;
+        margin-top: 5px;
+      }
 
-        li {
-          margin: 10px 0;
-          position: relative;
-          padding-left: 25px;
-          opacity: 0;
-          transform: translateX(-20px);
-          transition: all 0.3s ease;
+      .saving-info {
+        font-size: 14px;
+        color: #2ecc71;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+    }
 
-          &:nth-child(1) {
-            transition-delay: 0.1s;
-          }
-          &:nth-child(2) {
-            transition-delay: 0.2s;
-          }
-          &:nth-child(3) {
-            transition-delay: 0.3s;
-          }
-          &:nth-child(4) {
-            transition-delay: 0.4s;
-          }
-          &:nth-child(5) {
-            transition-delay: 0.5s;
-          }
-          &:nth-child(6) {
-            transition-delay: 0.6s;
-          }
-          &:nth-child(7) {
-            transition-delay: 0.7s;
-          }
+    .trial-offer {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      padding: 8px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      margin: 15px 0;
+      font-size: 14px;
 
-          &::before {
-            content: "✓";
+      .trial-icon {
+        margin-right: 5px;
+      }
+    }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      margin: 25px 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-icon {
+        margin-right: 8px;
+        font-size: 18px;
+      }
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0)
+      );
+      margin: 20px 0;
+    }
+
+    .bulk-discount {
+      margin: 20px 0;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .discount-option {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 15px;
+        background: rgba(155, 89, 182, 0.05);
+        margin-bottom: 8px;
+        border-radius: 6px;
+        position: relative;
+        align-items: center;
+
+        &.best-value {
+          background: rgba(155, 89, 182, 0.1);
+          border: 1px solid rgba(155, 89, 182, 0.3);
+
+          .best-tag {
             position: absolute;
-            left: 0;
-            color: #2ecc71;
+            top: -10px;
+            right: -10px;
+            background: #e67e22;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
           }
         }
 
-        // 新增动画触发类
-        &.visible li {
-          opacity: 1;
-          transform: translateX(0);
+        .amount {
+          font-weight: 600;
+          color: #2c3e50;
+        }
+
+        .price {
+          font-weight: 700;
+          color: #9b59b6;
+        }
+
+        .per-unit {
+          font-size: 12px;
+          color: #7f8c8d;
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+
+      li {
+        margin: 12px 0;
+        display: flex;
+        align-items: center;
+        color: #34495e;
+
+        .feature-icon {
+          color: #2ecc71;
+          margin-right: 10px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .token-options {
+      margin: 20px 0;
+
+      .token-option {
+        margin-bottom: 10px;
+
+        input {
+          display: none;
+
+          &:checked + label {
+            border-color: #646cff;
+            background: rgba(100, 108, 255, 0.05);
+            box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
+          }
+        }
+
+        label {
+          display: block;
+          padding: 15px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s;
+          position: relative;
+
+          &:hover {
+            border-color: #646cff;
+          }
+
+          .amount {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 16px;
+          }
+
+          .price {
+            color: #646cff;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 5px 0;
+            display: block;
+          }
+
+          .bonus {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #2ecc71;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+          }
+
+          .per-unit {
+            font-size: 12px;
+            color: #7f8c8d;
+          }
+        }
+      }
+    }
+
+    .token-usage {
+      margin-top: 20px;
+      background: rgba(230, 126, 34, 0.05);
+      padding: 15px;
+      border-radius: 8px;
+
+      h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #e67e22;
+        font-size: 16px;
+      }
+
+      .usage-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+
+        .usage-name {
+          color: #5a6a7e;
+        }
+
+        .usage-cost {
+          color: #e67e22;
+          font-weight: 600;
         }
       }
     }
   }
+}
 
-  // 响应式设计
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .pricing-plans {
+    padding: 40px 15px;
+
+    .section-header {
+      .main-title {
+        font-size: 28px;
+      }
+
+      .sub-desc {
+        font-size: 16px;
+      }
+    }
+
+    .plan-tabs {
+      flex-wrap: wrap;
+
+      button {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+    }
+
     .plan-list {
-      gap: 20px;
+      grid-template-columns: 1fr;
     }
 
     .plan-card {
-      min-width: 100%;
-    }
+      padding: 25px;
 
-    .main-title {
-      font-size: 24px;
-    }
-  }
-
-  // 自定义动画
-  @keyframes bounce {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-5px);
-    }
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    100% {
-      transform: scale(1);
+      &.highlighted {
+        transform: none;
+      }
     }
   }
 }
