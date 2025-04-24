@@ -250,24 +250,37 @@
 
     <!-- 空状态 -->
     <div v-else class="empty-state">
-      <div>
-        <img
-          src="@/assets/img/home-font.png"
-          alt="Start Interview"
-          class="empty-image"
-          ref="tiltElement"
-        />
-        <div v-if="!interviewMode" class="empty-content">
-          <h3>Ready to practice your interview skills?</h3>
-          <p>
-            Select a interview mode and rhe question number to begin your mock
-            interview
-          </p>
+      <div class="empty-content-wrapper">
+        <div class="empty-image-container">
+          <img
+            src="@/assets/img/home-font.png"
+            alt="Start Interview"
+            class="empty-image"
+            ref="tiltElement"
+          />
         </div>
-        <div v-else class="mode-des">
-          <div v-for="(i, index) in practiceModeDesc" :key="index">
-            <h4 v-if="index === 0">{{ i }}</h4>
-            <p v-else>{{ i }}</p>
+
+        <div v-if="!interviewMode" class="empty-content">
+          <h3>Ready to Practice Your Interview Skills?</h3>
+          <p class="empty-subtitle">
+            Select an interview mode and question number to begin your mock
+            interview session
+          </p>
+          <div class="empty-cta">
+            <i class="el-icon-arrow-down"></i>
+          </div>
+        </div>
+
+        <div v-else class="mode-description">
+          <div class="mode-description-card">
+            <div
+              v-for="(item, index) in practiceModeDesc"
+              :key="index"
+              class="description-item"
+            >
+              <h4 v-if="index === 0" class="mode-title">{{ item }}</h4>
+              <p v-else class="mode-text">{{ item }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -940,46 +953,105 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    background: #f5f7fa;
-    border-radius: 10px;
-    width: 1300px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #ebf2ff 100%);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 30px 0;
+    padding: 40px 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 
-    .empty-image {
-      width: 100%;
-      max-width: 300px;
-      margin-bottom: 30px;
-    }
-
-    .empty-content {
-      max-width: 550px;
-      h3 {
-        margin: 0 0 10px;
-        color: #303133;
-      }
-
-      p {
-        margin: 0;
-        color: #909399;
-        font-size: 16px;
-      }
-    }
-    .mode-des {
+    .empty-content-wrapper {
       width: 80%;
-      margin: 0 auto;
-      text-align: left;
-      h4 {
-        margin: 0 0 10px;
-        color: #303133;
+      text-align: center;
+
+      .empty-image-container {
+        margin-bottom: 30px;
+
+        .empty-image {
+          width: 100%;
+          max-width: 280px;
+          height: auto;
+          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+        }
       }
 
-      p {
-        margin: 0;
-        color: #909399;
-        font-size: 16px;
+      .empty-content {
+        h3 {
+          margin: 0 0 16px;
+          font-size: 28px;
+          font-weight: 600;
+          color: #303133;
+          line-height: 1.3;
+        }
+
+        .empty-subtitle {
+          margin: 0 auto 24px;
+          color: #606266;
+          font-size: 16px;
+          max-width: 500px;
+          line-height: 1.6;
+        }
+
+        .empty-cta {
+          color: #409eff;
+          font-size: 24px;
+          animation: bounce 2s infinite;
+        }
       }
+
+      .mode-description {
+        .mode-description-card {
+          background: white;
+          border-radius: 12px;
+          padding: 30px;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+          text-align: left;
+
+          .description-item {
+            margin-bottom: 16px;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+
+          .mode-title {
+            margin: 0 0 20px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #409eff;
+            line-height: 1.4;
+          }
+
+          .mode-text {
+            margin: 0 0 16px;
+            color: #606266;
+            font-size: 15px;
+            line-height: 1.7;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    60% {
+      transform: translateY(-5px);
     }
   }
 }
@@ -997,6 +1069,35 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .empty-state {
+    padding: 30px 15px;
+
+    .empty-content-wrapper {
+      .empty-content {
+        h3 {
+          font-size: 22px;
+        }
+
+        .empty-subtitle {
+          font-size: 15px;
+        }
+      }
+
+      .mode-description {
+        .mode-description-card {
+          padding: 20px;
+
+          .mode-title {
+            font-size: 20px;
+          }
+
+          .mode-text {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
   .interview-container {
     padding: 15px;
 
