@@ -27,15 +27,54 @@
 
 <script>
 export default {
-  data() {
-    return {
-      stats: [
-        { value: "3250", label: "Evaluated conversations" },
-        { value: "10 k", label: "Completed practises" },
-        { value: "200 +", label: "Final Assessments" },
-        { value: "150", label: "Improvement Plans" },
-      ],
-    };
+  computed: {
+    achievementStats: function () {
+      return this.$store.state.achievementStats;
+    },
+    stats: function () {
+      // Define your mock data
+      const mockData = {
+        evaluated_conversations: 3250,
+        completed_practices: 10000, // "10 k" in your example
+        final_assessments: 200,
+        improvement_plans: 150,
+      };
+
+      // Combine real data with mock data
+      return [
+        {
+          value:
+            (parseInt(this.achievementStats.evaluated_conversations) || 0) +
+            mockData.evaluated_conversations +
+            "+",
+          label: "Evaluated conversations",
+        },
+        {
+          value:
+            (parseInt(this.achievementStats.completed_practices) || 0) +
+            mockData.completed_practices +
+            "+",
+          label: "Completed practises",
+        },
+        {
+          value:
+            (parseInt(this.achievementStats.final_assessments) || 0) +
+            mockData.final_assessments +
+            "+",
+          label: "Final Assessments",
+        },
+        {
+          value:
+            (parseInt(this.achievementStats.improvement_plans) || 0) +
+            mockData.improvement_plans +
+            "+",
+          label: "Improvement Plans",
+        },
+      ];
+    },
+  },
+  mounted() {
+    this.$store.dispatch("getAchievementStats");
   },
   methods: {
     onMouseEnter(index) {
