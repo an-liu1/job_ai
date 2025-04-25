@@ -6,7 +6,7 @@
         <div class="d-table-cell">
           <div class="container">
             <div class="row align-items-center">
-              <div class="col-lg-6 col-md-12">
+              <div class="col-lg-7 col-md-12">
                 <div class="main-banner-content">
                   <h1>Ace Your Interviews With Personalized AI Coaching</h1>
                   <p>
@@ -26,7 +26,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-6 col-md-12" ref="tiltElement">
+              <div class="col-lg-5 col-md-12" ref="tiltElement">
                 <div class="banner-image">
                   <img src="../../assets/img/home-font.png" alt="image" />
                 </div>
@@ -131,7 +131,7 @@ export default {
 
   p {
     color: #ffffff;
-    font-size: 16px;
+    font-size: 20px;
     margin: 0;
   }
 
