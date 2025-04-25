@@ -1,67 +1,9 @@
 <template>
   <div class="main-container">
-    <!-- 导航栏 -->
-    <!-- <nav class="nav-bar container mx-auto px-4 py-2">
-      <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <button
-          v-for="(item, index) in navItems"
-          :key="index"
-          class="nav-btn btn"
-          @click="activeIndex = index"
-          :class="{ active: activeIndex === index }"
-        >
-          <b>{{ item.label }}</b>
-        </button>
-      </div>
-    </nav> -->
-
-    <!-- 内容区动画 -->
-    <!-- <transition name="content-fade">
-      <div class="content-container container py-4" v-show="showContent">
-        <div class="row g-4">
-          <div class="col-12 col-lg-6">
-            <div class="image-section">
-              <img
-                :src="featureInfo[activeIndex].imgUrl"
-                alt="Team Image"
-                class="img-fluid animated fadeIn"
-              />
-            </div>
-          </div>
-          <div class="col-12 col-lg-6">
-            <div class="info-section">
-              <h1 class="main-title">
-                <span class="number text-primary animated fadeInUp"
-                  >{{ activeIndex + 1 }}.</span
-                >
-                {{ featureInfo[activeIndex].title }}
-              </h1>
-              <h5>{{ featureInfo[activeIndex].subTitle }}</h5>
-              <p
-                class="description animated fadeIn mt-4"
-                v-for="(i, index) in featureInfo[activeIndex].des"
-                :key="index"
-              >
-                <b>{{ i.title + " " }}</b> {{ i.des }}
-              </p>
-
-              <div class="d-flex justify-content-center gap-3 mt-5">
-                <button
-                  class="nav-btn btn active"
-                  @click="redirectTo(featureInfo[activeIndex].redirectURL)"
-                >
-                  {{ featureInfo[activeIndex].btnText }}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition> -->
     <transition name="content-fade">
       <div class="content-container container py-4" v-show="showContent">
         <div class="row g-4">
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-4">
             <div class="image-section">
               <img
                 :src="featureInfo[0].imgUrl"
@@ -70,7 +12,7 @@
               />
             </div>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-8">
             <div class="info-section">
               <h1 class="main-title">
                 {{ featureInfo[0].title }}
@@ -98,9 +40,9 @@
       </div>
     </transition>
     <transition name="content-fade">
-      <div class="content-container container py-4" v-show="showContent">
+      <div class="content-container container py-4 mt-3" v-show="showContent">
         <div class="row g-4">
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-8">
             <div class="info-section">
               <h1 class="main-title">
                 {{ featureInfo[1].title }}
@@ -124,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-4">
             <div class="image-section">
               <img
                 :src="featureInfo[1].imgUrl"
@@ -154,88 +96,46 @@ export default {
       featureInfo: [
         {
           imgUrl: require("@/assets/guide1.png"),
-          title: "Feature Practice Questions",
+          title: "The Complete Interview Preparation System",
           subTitle:
-            "Access 200+ frequently asked questions across tech, finance, consulting, and more—curated from top companies like Google, McKinsey, and Amazon.",
+            "From common questions to curveball challenges - master every interview scenario with our battle-tested framework",
           des: [
             {
               title: "Practice Common Questions",
-              des: "Nail the Basics with Industry-Tested Prompts",
+              des: "While you can’t predict every interview question, mastering frequently asked ones (like ‘Tell me about yourself’ or ‘Why this role?’) builds a strong foundation. Our curated list ensures you’re ready for the basics—so you can focus on standing out.",
             },
             {
               title: "Master Behavioral Questions",
-              des: "STAR Method Made Simple—Turn Stories into Success",
+              des: "Behavioral questions (‘Describe a challenge you faced…’) require structured answers. The STAR method (Situation, Task, Action, Result) helps you turn past experiences into compelling stories that impress recruiters.",
             },
             {
               title: "Tackle Tough Questions",
-              des: "Handle Curveball Questions with Confidence",
+              des: "Employers ask tough questions (e.g., ‘How would you handle a failed project?’) to test your critical thinking. Practice these to demonstrate resilience, adaptability, and technical expertise under pressure.",
             },
           ],
-          btnText: "Start Practice",
+          btnText: "Start practicing now",
           redirectURL: "exercise/feature",
         },
-        // {
-        //   imgUrl: require("@/assets/guide2.png"),
-        //   title: "Master Behavioral Questions",
-        //   subTitle: "STAR Method Made Simple—Turn Stories into Success",
-        //   des: [
-        //     {
-        //       title: "Guided Frameworks:",
-        //       des: "Break down answers into Situation, Task, Action, Result with interactive templates that adapt to your experience level.",
-        //     },
-        //     {
-        //       title: "AI Story Builder:",
-        //       des: "Transform raw experiences into compelling narratives with metrics (e.g., 'Increased team efficiency by 30%').",
-        //     },
-        //     {
-        //       title: "Company-Specific Prep:",
-        //       des: "Practice behavioral questions tailored to target employers' core values (e.g., Amazon's Leadership Principles).",
-        //     },
-        //   ],
-        //   btnText: "Start Practice",
-        //   redirectURL: "exercise/star",
-        // },
-        // {
-        //   imgUrl: require("@/assets/guide3.png"),
-        //   title: "Tackle Tough Questions",
-        //   subTitle: "Handle Curveball Questions with Confidence",
-        //   des: [
-        //     {
-        //       title: "Red Flag Response Library:",
-        //       des: "Diplomatic answers for sensitive topics like employment gaps, job hopping, or salary expectations.",
-        //     },
-        //     {
-        //       title: "Pressure Test Mode:",
-        //       des: "Simulate stress interviews with rapid-fire questioning and interruptions.",
-        //     },
-        //     {
-        //       title: "Damage Control Coach:",
-        //       des: "Get real-time suggestions to recover from weak answers or mistakes during practice.",
-        //     },
-        //   ],
-        //   btnText: "Start Challenge",
-        //   redirectURL: "exercise/tough",
-        // },
         {
           imgUrl: require("@/assets/guide3.png"),
-          title: "Mock Interview Simulation",
+          title: "AI-Powered Interview Rehearsal Studio",
           subTitle:
-            "Realistic Practice with AI That Thinks Like a Hiring Manager",
+            "Experience the closest thing to real interviews with our adaptive simulation technology",
           des: [
             {
-              title: "Adaptive Interviews:",
-              des: "AI probes deeper based on your answers, just like human interviewers would.",
+              title: "Dynamic Question Flow:",
+              des: "Our AI adapts in real-time to your responses, creating uniquely challenging interview paths that test your thinking depth",
             },
             {
-              title: "Multimodal Feedback:",
-              des: "Analysis of speech patterns (filler words, clarity) and video cues (eye contact, posture) if enabled.",
+              title: "360° Performance Analysis:",
+              des: "Get detailed feedback on verbal delivery (pace, clarity), nonverbal cues (eye contact, posture), and content quality",
             },
             {
-              title: "Performance Benchmarking:",
-              des: "Compare your scores with successful candidates in similar roles.",
+              title: "Confidence Builder:",
+              des: "Repeat until perfect - reduce anxiety by experiencing the full interview cycle in a risk-free environment",
             },
           ],
-          btnText: "Start Mock Interview",
+          btnText: "Start your mock interview",
           redirectURL: "exercise/mock",
         },
       ],

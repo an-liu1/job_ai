@@ -287,19 +287,6 @@
             <i class="fa-regular fa-thumbs-up"></i>
           </div>
         </div>
-
-        <!-- <div v-else class="mode-description">
-          <div class="mode-description-card">
-            <div
-              v-for="(item, index) in practiceModeDesc"
-              :key="index"
-              class="description-item"
-            >
-              <h4 v-if="index === 0" class="mode-title">{{ item }}</h4>
-              <p v-else class="mode-text">{{ item }}</p>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
 
@@ -431,35 +418,6 @@ export default {
             { value: "star", label: "Cultural Fit and Personality" },
           ]
         : [];
-    },
-    practiceModeDesc() {
-      const modeDescriptions = {
-        common: [
-          "There is no way to predict what you will be asked during an interview, but there are some questions that are often brought up. Plan your answers for these questions as this will give your confidence a boost and make you feel you can be successful. Here are some of those frequently asked questions:",
-          "There is no way to predict what you will be asked during an interview, but there are some questions that are often brought up. Plan your answers for these questions as this will give your confidence a boost and make you feel you can be successful. Here are some of those frequently asked questions:",
-          "An interview process is an element of the hiring process...",
-          "During your interview, the recruiter is likely to ask you several common questions...",
-        ],
-        star: [
-          "The STAR interview method is a great way to give detailed answers that help hiring managers gauge how you may fit into an open position. You can use this technique when facing several possible common interview questions. Learning how to prepare STAR responses can help you deliver answers that impress employers and improve your chances of getting a job offer.",
-          "STAR stands for Situation, Task, Action and Result. The STAR method helps you create an easy-to-follow story with a clear conflict and resolution. By using this strategy, you can make sure you're fully addressing the interviewer's question while also demonstrating how you were able to overcome previous challenges and be successful.",
-          "Interviewers use a behavioural interview style to learn how you handled previous work situations. Employers will use your answers to anticipate how you will react to different challenges in the open role. Typically, these questions are more open-ended and require you to share stories or examples from your previous jobs or educational experience.",
-        ],
-        tough: [
-          "Whether you are going for a project management interview, a customer service, interview, a leadership interview, or even a teamworking interview, the questions in this practice will help you during your preparation.",
-          "The main reason interviewers ask tough questions is to get to know you and your thought process better. So, even if questions don't seem directly relevant to your role, employers are trying to assess your logic and critical thinking.",
-          "Employers also ask tough interview questions when you're applying to technical roles to test your knowledge. They want to see how you answer complex technical questions to ensure you have the necessary knowledge and confidence for the position.",
-          "Practice these TOUGH interview questions that you need to prepare for, if you are to pass any interview. The reason these questions are so tough is because they are designed to make you think, long and hard, about your own experience and situation!",
-        ],
-        mock: [
-          "Conducting a mock interview is a way to prepare for a job interview. A mock interview experience allows you to develop your nonverbal body language, craft responses to behavioural interview questions, and become comfortable in an interview environment. A mock interview can simulate any real-world interview experience, be it over the phone, in person, or leverage this powerfull mock interview training bot.",
-          "A mock interview can allow you to perfect your interviewing etiquette. You can ask your mock interviewer to give you feedback on how you introduce yourself. Use it to improve handshakes and body language. Be sure to prepare as you usually would for an interview by dressing appropriately and bringing copies of your résumé or portfolio. Be sure to ask your interview partner to give you feedback on your interview protocol and any areas you can improve.",
-          "Practising your communication skills is an essential part of becoming an exceptional communicator. A mock interview provides you with a safe space to develop your skills in answering questions effectively. It also helps you articulate thoughts on the spot and perfect nonverbal skills such as your posture and facial expression.",
-          "y conducting a mock interview, you increase your confidence for the big day. You'll go through the entire interview process, receive feedback, and adjust your responses to perform at your highest level during the actual meeting. By preparing for tough questions in advance, you automatically reduce the stress and anxiety of interviewing for a job.",
-        ],
-      };
-
-      return modeDescriptions[this.interviewMode] || [];
     },
     userInitial() {
       const username = this.$store.state.userProfile?.username || "U";
@@ -1043,43 +1001,6 @@ export default {
           animation: bounce 2s infinite;
         }
       }
-
-      .mode-description {
-        .mode-description-card {
-          background: white;
-          border-radius: 12px;
-          padding: 30px;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-          text-align: left;
-
-          .description-item {
-            margin-bottom: 16px;
-
-            &:last-child {
-              margin-bottom: 0;
-            }
-          }
-
-          .mode-title {
-            margin: 0 0 20px;
-            font-size: 22px;
-            font-weight: 600;
-            color: #409eff;
-            line-height: 1.4;
-          }
-
-          .mode-text {
-            margin: 0 0 16px;
-            color: #606266;
-            font-size: 15px;
-            line-height: 1.7;
-
-            &:last-child {
-              margin-bottom: 0;
-            }
-          }
-        }
-      }
     }
   }
 
@@ -1124,20 +1045,6 @@ export default {
 
         .empty-subtitle {
           font-size: 15px;
-        }
-      }
-
-      .mode-description {
-        .mode-description-card {
-          padding: 20px;
-
-          .mode-title {
-            font-size: 20px;
-          }
-
-          .mode-text {
-            font-size: 14px;
-          }
         }
       }
     }

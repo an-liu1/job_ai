@@ -41,7 +41,7 @@ export default {
         },
         {
           title: "Track Your Growth",
-          desc: "Save and review all your sessions to see how far you’ve come./Re-listen to your answers, compare sessions, and hear your improvement over time.",
+          desc: "Save and review all your sessions to see how far you’ve come. Re-listen to your answers, compare sessions, and hear your improvement over time.",
           icon: "fa-solid fa-chart-column",
         },
         {
@@ -129,6 +129,8 @@ $gap-size: 40px;
       }
 
       p {
+        width: 80%;
+        margin: 0 auto;
         font-size: 16px;
         color: $desc-color;
       }
