@@ -277,18 +277,18 @@
           />
         </div>
 
-        <div v-if="!interviewMode" class="empty-content">
+        <div class="empty-content">
           <h3>Ready to Practice Your Interview Skills?</h3>
           <p class="empty-subtitle">
-            Select an interview mode and question number to begin your mock
-            interview session
+            Select an interview mode and catergroy to begin your mock interview
+            session
           </p>
           <div class="empty-cta">
-            <i class="el-icon-arrow-down"></i>
+            <i class="fa-regular fa-thumbs-up"></i>
           </div>
         </div>
 
-        <div v-else class="mode-description">
+        <!-- <div v-else class="mode-description">
           <div class="mode-description-card">
             <div
               v-for="(item, index) in practiceModeDesc"
@@ -299,7 +299,7 @@
               <p v-else class="mode-text">{{ item }}</p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -1033,7 +1033,7 @@ export default {
           margin: 0 auto 24px;
           color: #606266;
           font-size: 16px;
-          max-width: 500px;
+          max-width: 600px;
           line-height: 1.6;
         }
 
