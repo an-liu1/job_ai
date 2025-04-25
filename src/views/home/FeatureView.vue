@@ -43,24 +43,36 @@ export default {
       items: [
         {
           title: "Voice-Powered Practice",
-          subTitle: "Practice with your voice, just like a real interview.",
+          subTitle:
+            "Speak your answers out loud — just like in a real interview.",
           content:
-            "Speak naturally and get voice responses from your AI coach to build fluency and confidence. This hands-on approach helps you develop quick thinking, improve verbal delivery, and get comfortable answering questions out loud—just like you would in an actual interview.",
+            "Improve the way you speak in interviews by focusing on key elements of effective communication: tone, pacing, and clarity. With natural, real-time speaking practice guided by your AI coach, you'll build fluency and confidence every step of the way. Studies show that verbal training can improve pronunciation by up to 82%, helping you sound clearer and more professional in every interview.",
         },
         {
-          title: "Instant Evaluation",
+          title: "Targeted Questions",
+          subTitle:
+            "Get role-specific questions that match your goals and experience.",
           content:
-            "Get instant AI-powered feedback on grammar, clarity, and example quality. See a sample answer after each response to help you improve right away.",
+            "The AI Coach generates interview questions tailored to the role you're preparing for. It includes follow-up questions based on your answers, challenging prompts to test your problem-solving skills, and even tricky questions to assess your critical thinking. This helps ensure you're ready for anything an interviewer might throw your way.",
+        },
+        {
+          title: "Real-Time Evaluation",
+          subTitle:
+            "Get instant AI-powered feedback on grammar, clarity, and example quality.",
+          content:
+            "After each response, receive constructive suggestions to refine your language, clarify your structure, and strengthen your examples. A model answer is generated based on your reply, giving you clear, immediate direction for improvement and helping you perform better in future interviews.",
         },
         {
           title: "Assessment Report",
+          subTitle: "Receive a detailed report after each practice session.",
           content:
-            "After each interview practice, receive a detailed report analyzing your performance, including STAR method usage and key improvement areas.",
+            "Your report highlights key performance areas such as STAR method usage, communication effectiveness, and language accuracy—helping you identify strengths and track areas for improvement. The Assessment Report also provides a clear summary of your performance, including strengths, weaknesses, an improvement plan, and personalized career suggestions.",
         },
         {
           title: "Tracking Record",
+          subTitle: "All your sessions are saved for easy access.",
           content:
-            "All your sessions are saved. Review past practice, track your growth, and stay motivated with your personal progress history.",
+            "All your practice sessions—including audio recordings and transcripts—are saved to your account for easy access. This allows you to review your performance, listen to your responses, and identify patterns in your strengths and weaknesses. This tracking feature helps guide you on areas you need to focus on. You can use the feature to compare your performance from past practices to see how much you've improved.",
         },
       ],
     };
