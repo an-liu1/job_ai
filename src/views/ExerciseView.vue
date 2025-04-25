@@ -26,14 +26,31 @@
             />
           </el-select>
 
-          <el-select v-model="questionNum" class="questionNum-select">
+          <el-select
+            v-model="interviewSubMode"
+            filterable
+            allow-create
+            placeholder="Select a catergroy mode"
+            no-data-text="please select a feature interview mode"
+            class="interviewMode-input"
+            v-if="interviewMode !== 'mock'"
+          >
+            <el-option
+              v-for="item in interviewSubModeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+
+          <!-- <el-select v-model="questionNum" class="questionNum-select">
             <el-option
               v-for="level in questionNumList"
               :key="level.value"
               :label="level.label"
               :value="level.value"
             />
-          </el-select>
+          </el-select> -->
 
           <el-button
             type="primary"
@@ -314,6 +331,7 @@ export default {
   data() {
     return {
       interviewMode: "",
+      interviewSubMode: "",
       questionNum: 5,
       loading: false,
       isRecording: false,
@@ -382,11 +400,37 @@ export default {
       return this.$route.params.mode == "mock"
         ? [{ value: "mock", label: "Mock Intervie" }]
         : [
-            { value: "freestyle", label: "Free Style Questions" },
             { value: "common", label: "Common Questions" },
             { value: "star", label: "Master Behavioral Questions" },
             { value: "tough", label: "Tough Questions" },
           ];
+    },
+    interviewSubModeOptions() {
+      return this.interviewMode == "common"
+        ? [
+            { value: "mock", label: "Background and Experience" },
+            { value: "mock", label: "Skills and Qualifications" },
+            { value: "mock", label: "Knowledge of the Company and Role" },
+            { value: "mock", label: "Motivation and Goals" },
+            { value: "mock", label: "Salary and Logistics" },
+            { value: "mock", label: "Questions for the Interviewer" },
+          ]
+        : this.interviewMode == "star"
+        ? [
+            { value: "freestyle", label: "Teamwork and Collaboration" },
+            { value: "common", label: "Leadership and Management" },
+            { value: "star", label: "Behavioral Questions (STAR method)" },
+          ]
+        : this.interviewMode == "tough"
+        ? [
+            {
+              value: "freestyle",
+              label: "Problem-Solving and Critical Thinking",
+            },
+            { value: "common", label: "Situational or Scenario-Based" },
+            { value: "star", label: "Cultural Fit and Personality" },
+          ]
+        : [];
     },
     practiceModeDesc() {
       const modeDescriptions = {

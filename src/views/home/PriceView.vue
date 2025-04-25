@@ -7,7 +7,7 @@
       </p>
     </div>
 
-    <div class="plan-tabs">
+    <!-- <div class="plan-tabs">
       <button
         v-for="(tab, index) in tabs"
         :key="index"
@@ -17,21 +17,27 @@
         <span class="tab-icon" :class="'icon-' + index"></span>
         {{ tab }}
       </button>
-    </div>
+    </div> -->
 
     <div class="plan-list">
       <!-- Free Plan -->
       <div class="plan-card free" :class="{ highlighted: activeTab === 0 }">
         <div class="popular-badge">Best for Starters</div>
         <div class="plan-header">
-          <h3 class="plan-title">Free</h3>
+          <h3 class="plan-title">7-day Free Trial</h3>
           <p class="plan-desc">Experience basic features</p>
         </div>
 
         <div class="price-wrap">
           <span class="price-num">$0</span>
-          <small class="price-unit">Forever Free</small>
+          <!-- <small class="price-unit">7-day free trial</small> -->
+          <small class="price-unit"></small>
         </div>
+
+        <!-- <div class="trial-offer">
+          <span class="trial-icon">🎁</span>
+          7-day free trial
+        </div> -->
 
         <button class="cta-btn">
           <span class="btn-icon">🚀</span>
@@ -41,60 +47,97 @@
         <div class="divider"></div>
 
         <ul class="features-list">
-          <li><span class="feature-icon">✓</span>Basic interview questions</li>
-          <li><span class="feature-icon">✓</span>3 daily practice sessions</li>
-          <li><span class="feature-icon">✓</span>Basic voice feedback</li>
+          <li>
+            <span class="feature-icon">✓</span>6 Feature interviews (up to 5
+            questions)
+          </li>
+          <li>
+            <span class="feature-icon">✓</span>1 Mock interview (up to 10
+            questions)
+          </li>
+          <li>
+            <span class="feature-icon">✓</span>1 Mock interview final assessment
+            report
+          </li>
+          <li>
+            <span class="feature-icon">✓</span>Use on any day within 7 days
+            after sign up
+          </li>
+          <li><span class="feature-icon">✓</span>Real-time voice feedback</li>
+          <li><span class="feature-icon">✓</span>Instant evaluation details</li>
           <li><span class="feature-icon">✓</span>Community support</li>
+          <li><span class="feature-icon">✓</span>No credit card needed</li>
         </ul>
       </div>
 
-      <!-- Pay-per-use -->
-      <div
-        class="plan-card pay-per-use"
-        :class="{ highlighted: activeTab === 1 }"
-      >
+      <!-- Credit -->
+      <div class="plan-card credit" :class="{ highlighted: activeTab === 1 }">
         <div class="popular-badge">Most Flexible</div>
         <div class="plan-header">
-          <h3 class="plan-title">Pay-per-use</h3>
-          <p class="plan-desc">Pay as you go</p>
+          <h3 class="plan-title">Credit</h3>
+          <p class="plan-desc">Flexible access to premium features</p>
         </div>
 
-        <div class="price-wrap">
-          <span class="price-num">$1.8</span>
-          <small class="price-unit">per session</small>
-          <div class="original-price">Regular $2.0/session</div>
-        </div>
-
-        <div class="bulk-discount">
-          <div class="discount-option">
-            <span class="amount">10 sessions</span>
-            <span class="price">$18</span>
-            <span class="per-unit">($1.8/session)</span>
-          </div>
-          <div class="discount-option best-value">
-            <span class="amount">30 sessions</span>
-            <span class="price">$48</span>
-            <span class="per-unit">($1.6/session)</span>
-            <span class="best-tag">Best Value</span>
-          </div>
-          <div class="discount-option">
-            <span class="amount">100 sessions</span>
-            <span class="price">$150</span>
-            <span class="per-unit">($1.5/session)</span>
+        <div class="credit-options">
+          <div
+            class="credit-option"
+            v-for="(option, index) in tokenOptions"
+            :key="index"
+          >
+            <input
+              type="radio"
+              name="credit"
+              :id="'credit' + index"
+              :value="option.value"
+              :checked="index === 1"
+            />
+            <label :for="'credit' + index">
+              <span class="amount">{{ option.amount }} Credits</span>
+              <span class="price"
+                >${{ option.price }}
+                <span class="per-unit"
+                  >≈ ${{
+                    (
+                      option.price /
+                      (option.amount + (option.bonus || 0))
+                    ).toFixed(2)
+                  }}/C</span
+                ></span
+              >
+              <span class="bonus" v-if="option.bonus"
+                >+{{ option.bonus }} Bonus</span
+              >
+            </label>
           </div>
         </div>
 
         <button class="cta-btn">
-          <span class="btn-icon">💳</span>
-          Buy Sessions
+          <span class="btn-icon">🪙</span>
+          Get Credits
         </button>
+
+        <div class="credit-usage">
+          <h4>Credit Usage</h4>
+          <div class="usage-item">
+            <span class="usage-name">Feature interview practice</span>
+            <span class="usage-cost">2 Credits/session</span>
+          </div>
+          <div class="usage-item">
+            <span class="usage-name">Mock interview</span>
+            <span class="usage-cost">3 Credits/session</span>
+          </div>
+          <div class="usage-item">
+            <span class="usage-name">Final accessment</span>
+            <span class="usage-cost">1 Credit/session</span>
+          </div>
+        </div>
       </div>
 
       <!-- Subscription -->
       <div class="plan-card premium" :class="{ highlighted: activeTab === 2 }">
         <div class="popular-badge">Best Deal</div>
         <div class="plan-header">
-          <h3 class="plan-title">Pro</h3>
+          <h3 class="plan-title">Premium</h3>
           <p class="plan-desc">Unlimited access to all features</p>
         </div>
 
@@ -102,11 +145,6 @@
           <span class="price-num">$29</span>
           <small class="price-unit">per month</small>
           <div class="saving-info">Only $0.97 per day</div>
-        </div>
-
-        <div class="trial-offer">
-          <span class="trial-icon">🎁</span>
-          7-day free trial
         </div>
 
         <button class="cta-btn">
@@ -117,79 +155,26 @@
         <div class="divider"></div>
 
         <ul class="features-list">
-          <li><span class="feature-icon">✓</span>Unlimited practice</li>
+          <li>
+            <span class="feature-icon">✓</span>Unlimited practice sessions
+          </li>
+          <li>
+            <span class="feature-icon">✓</span>Unlimited Feature interview
+          </li>
+          <li><span class="feature-icon">✓</span>Unlimited Mock interview</li>
+          <li>
+            <span class="feature-icon">✓</span>Unlimited interview final
+            assessment
+          </li>
           <li><span class="feature-icon">✓</span>Advanced AI feedback</li>
+          <li><span class="feature-icon">✓</span>Real-time voice feedback</li>
+          <li><span class="feature-icon">✓</span>Instant evaluation details</li>
           <li>
             <span class="feature-icon">✓</span>Industry-specific questions
           </li>
           <li><span class="feature-icon">✓</span>Interview analytics</li>
-          <li><span class="feature-icon">✓</span>Resume optimization</li>
-          <li><span class="feature-icon">✓</span>Priority support</li>
+          <li><span class="feature-icon">✓</span>Community support</li>
         </ul>
-      </div>
-
-      <!-- Token -->
-      <div class="plan-card token" :class="{ highlighted: activeTab === 3 }">
-        <div class="plan-header">
-          <h3 class="plan-title">Token</h3>
-          <p class="plan-desc">Flexible access to premium features</p>
-        </div>
-
-        <div class="token-options">
-          <div
-            class="token-option"
-            v-for="(option, index) in tokenOptions"
-            :key="index"
-          >
-            <input
-              type="radio"
-              name="token"
-              :id="'token' + index"
-              :value="option.value"
-              :checked="index === 1"
-            />
-            <label :for="'token' + index">
-              <span class="amount">{{ option.amount }} Tokens</span>
-              <span class="price">${{ option.price }}</span>
-              <span class="bonus" v-if="option.bonus"
-                >+{{ option.bonus }} Bonus</span
-              >
-              <span class="per-unit"
-                >≈ ${{
-                  (
-                    option.price /
-                    (option.amount + (option.bonus || 0))
-                  ).toFixed(2)
-                }}/T</span
-              >
-            </label>
-          </div>
-        </div>
-
-        <button class="cta-btn">
-          <span class="btn-icon">🪙</span>
-          Get Tokens
-        </button>
-
-        <div class="token-usage">
-          <h4>Token Usage</h4>
-          <div class="usage-item">
-            <span class="usage-name">Standard practice</span>
-            <span class="usage-cost">1 Token/session</span>
-          </div>
-          <div class="usage-item">
-            <span class="usage-name">AI feedback</span>
-            <span class="usage-cost">2 Tokens/session</span>
-          </div>
-          <div class="usage-item">
-            <span class="usage-name">Mock interview</span>
-            <span class="usage-cost">5 Tokens/session</span>
-          </div>
-          <div class="usage-item">
-            <span class="usage-name">Resume analysis</span>
-            <span class="usage-cost">3 Tokens/session</span>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -199,13 +184,12 @@
 export default {
   data() {
     return {
-      activeTab: 0,
-      tabs: ["Free", "Pay-per-use", "Subscription", "Tokens"],
+      activeTab: 1,
+      tabs: ["Free", "Credits", "Subscription"],
       tokenOptions: [
         { amount: 10, price: 10, bonus: 0, value: "10" },
-        { amount: 30, price: 27, bonus: 3, value: "30" },
-        { amount: 100, price: 80, bonus: 20, value: "100" },
-        { amount: 300, price: 210, bonus: 90, value: "300" },
+        { amount: 18, price: 18, bonus: 2, value: "20" },
+        { amount: 24, price: 24, bonus: 6, value: "30" },
       ],
     };
   },
@@ -214,7 +198,7 @@ export default {
 
 <style scoped lang="scss">
 .pricing-plans {
-  padding: 80px 20px;
+  padding: 80px 100px;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   margin: 0 auto;
@@ -340,7 +324,7 @@ export default {
       }
     }
 
-    &.token {
+    &.credit {
       border-top: 4px solid #e67e22;
 
       .cta-btn {
@@ -535,10 +519,10 @@ export default {
       }
     }
 
-    .token-options {
+    .credit-options {
       margin: 20px 0;
 
-      .token-option {
+      .credit-option {
         margin-bottom: 10px;
 
         input {
@@ -598,7 +582,7 @@ export default {
       }
     }
 
-    .token-usage {
+    .credit-usage {
       margin-top: 20px;
       background: rgba(230, 126, 34, 0.05);
       padding: 15px;

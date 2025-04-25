@@ -10,7 +10,7 @@
     <transition-group name="fade" tag="div" class="feature-list">
       <div class="feature-item" v-for="item in features" :key="item.title">
         <div class="icon-box">
-          <img :src="item.icon" alt="icon" />
+          <i :class="item.icon"></i>
         </div>
         <h3>{{ item.title }}</h3>
         <p>{{ item.desc }}</p>
@@ -27,32 +27,32 @@ export default {
         {
           title: "Affordable Coaching",
           desc: "Get interview training at a fraction of the cost of a real job coach.",
-          icon: require("@/assets/img/whyUs1.jpg"), // Suggested icon: bar chart/graph
+          icon: "fa-solid fa-dollar-sign",
         },
         {
           title: "Perfect Your English",
           desc: "AI helps you improve grammar and fluency—great for ESL speakers and newcomers.",
-          icon: require("@/assets/img/whyUs2.jpg"), // Suggested icon: neural network/robot
+          icon: "fa-regular fa-comment-dots",
         },
         {
           title: "Your 24/7 AI Job Coach",
           desc: "Your AI coach is always on—practice whenever it fits your schedule.",
-          icon: require("@/assets/img/whyUs3.jpg"), // Suggested icon: coin/dollar sign
+          icon: "fa-regular fa-calendar-check",
         },
         {
           title: "Track Your Growth",
           desc: "Save and review all your sessions to see how far you’ve come./Re-listen to your answers, compare sessions, and hear your improvement over time.",
-          icon: require("@/assets/img/whyUs4.jpg"), // Suggested icon: headset/lifebuoy
+          icon: "fa-solid fa-chart-column",
         },
         {
           title: "Know What You're Good At",
           desc: "Receive a structured assessment report highlighting your strengths and what to improve.",
-          icon: require("@/assets/img/whyUs5.jpg"), // Suggested icon: virtual reality goggles
+          icon: "fa-regular fa-thumbs-up",
         },
         {
           title: "Practice That Feels Real",
           desc: "Simulate real interview pressure with voice-only mock interviews and no do-overs.",
-          icon: require("@/assets/img/whyUs6.jpg"), // Suggested icon: smartphone with checkmark
+          icon: "fa-solid fa-microphone",
         },
       ],
     };
@@ -84,7 +84,7 @@ $gap-size: 40px;
   p {
     font-size: 16px;
     color: $desc-color;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto 40px;
     position: relative;
     z-index: 1;
@@ -109,12 +109,13 @@ $gap-size: 40px;
         width: $icon-size;
         height: $icon-size;
         margin: 0 auto 20px;
-        background-color: #f5f5f5;
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: transform 0.3s ease;
+        font-size: 48px;
+        color: #0295ff;
 
         &:hover {
           transform: scale(1.1);

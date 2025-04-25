@@ -23,8 +23,8 @@
           <div class="accordion-content" v-show="activeIndex === index">
             <div class="content-inner">
               <h3 class="content-title">{{ item.title }}</h3>
+              <h5 class="content-subTitle">{{ item.subTitle }}</h5>
               <p class="content-text">{{ item.content }}</p>
-              <button class="action-button">Learn More</button>
             </div>
           </div>
         </el-collapse-transition>
@@ -42,9 +42,10 @@ export default {
       inactiveColor: "#3a7bd5",
       items: [
         {
-          title: "Verbal Based",
+          title: "Voice-Powered Practice",
+          subTitle: "Practice with your voice, just like a real interview.",
           content:
-            "Practice with your voice, just like a real interview. Speak naturally and get live responses from your AI coach to build fluency and confidence.",
+            "Speak naturally and get voice responses from your AI coach to build fluency and confidence. This hands-on approach helps you develop quick thinking, improve verbal delivery, and get comfortable answering questions out loud—just like you would in an actual interview.",
         },
         {
           title: "Instant Evaluation",
@@ -81,7 +82,7 @@ export default {
 
 .accordion-wrapper {
   display: flex;
-  min-height: 400px;
+  height: 300px;
   padding: 0 100px;
 }
 
@@ -162,7 +163,7 @@ export default {
   bottom: 0;
   background: white;
   border-radius: 15px;
-  padding: 30px;
+  padding: 0 30px;
   box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 1;
   overflow: hidden;
@@ -180,11 +181,11 @@ export default {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(-20px); /* 从左边20px开始 */
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0); /* 移动到原始位置 */
   }
 }
 
@@ -207,28 +208,15 @@ export default {
   background: linear-gradient(to right, #4facfe, #00f2fe);
 }
 
+.content-subTitle {
+  color: #2c3e50;
+}
+
 .content-text {
   color: #4a5568;
   font-size: 16px;
   line-height: 1.8;
   margin-bottom: 25px;
-}
-
-.action-button {
-  background: linear-gradient(to right, #4facfe, #00f2fe);
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 30px;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 15px rgba(74, 172, 254, 0.3);
-  transition: all 0.3s ease;
-}
-
-.action-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(74, 172, 254, 0.4);
 }
 
 /* 响应式设计 */
@@ -276,10 +264,6 @@ export default {
 
   .content-text {
     font-size: 15px;
-  }
-
-  .action-button {
-    padding: 10px 20px;
   }
 }
 </style>
