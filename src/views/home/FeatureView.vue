@@ -19,15 +19,13 @@
             <span class="accordion-title">{{ item.title }}</span>
           </div>
         </div>
-        <el-collapse-transition>
-          <div class="accordion-content" v-show="activeIndex === index">
-            <div class="content-inner">
-              <h3 class="content-title">{{ item.title }}</h3>
-              <h5 class="content-subTitle">{{ item.subTitle }}</h5>
-              <p class="content-text">{{ item.content }}</p>
-            </div>
+        <div class="accordion-content" v-show="activeIndex === index">
+          <div class="content-inner">
+            <h3 class="content-title">{{ item.title }}</h3>
+            <h5 class="content-subTitle">{{ item.subTitle }}</h5>
+            <p class="content-text">{{ item.content }}</p>
           </div>
-        </el-collapse-transition>
+        </div>
       </div>
     </div>
   </div>
@@ -125,7 +123,6 @@ export default {
   color: white;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  transform: rotate(180deg);
   padding: 20px 8px;
   background: linear-gradient(to top, #0295ff, #3cabff, #76c1ff, #b0d7ff);
   position: relative;
@@ -133,7 +130,7 @@ export default {
 }
 
 .accordion-header:hover {
-  transform: rotate(180deg) scale(1.03);
+  transform: scale(1.03);
 }
 
 .accordion-header::before {
@@ -186,7 +183,7 @@ export default {
 .content-inner {
   width: 100%;
   opacity: 0;
-  animation: fadeIn 0.5s ease forwards;
+  animation: fadeIn 1.5s ease forwards;
   animation-delay: 0.2s;
 }
 
