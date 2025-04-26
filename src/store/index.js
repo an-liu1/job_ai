@@ -115,7 +115,7 @@ export default new Vuex.Store({
       commit("getFinalAssessmentDetail", res);
     },
     async getAchievementStats({ commit }) {
-      let res = await request("get", "stats/");
+      let res = await request("get", "jobapp/stats/");
       commit("getAchievementStats", res.data);
     },
   },
