@@ -5,8 +5,7 @@
       <div class="text-center mb-5">
         <h1 class="display-5 mb-3">Got questions?</h1>
         <p class="fs-6 opacity-75 mb-4">
-          Our team and fellow users are here to help you succeed in every
-          interview. Your feedback helps us make the AI even smarter!
+          Our team is here to help you succeed in every interview.
         </p>
       </div>
 
@@ -34,62 +33,59 @@ export default {
         {
           question: "How do I start practicing interviews?",
           answer:
-            "Simply create a free account, choose a practice module, allow microphone access, and click the 'Start' button to begin speaking your answers.",
-        },
-        {
-          question: "What equipment do I need to use this platform?",
-          answer:
-            "You'll need a device with a working microphone and speakers. A quiet environment also helps for better voice recognition and focus.",
-        },
-        {
-          question: "Can I practice unlimited questions?",
-          answer:
-            "Yes, unlimited access is available on Pro and Premium plans. Free users have limited daily practice sessions.",
-        },
-        {
-          question: "How does the AI evaluate my answers?",
-          answer:
-            "Our AI listens to your spoken responses and gives you feedback on clarity, structure, and delivery based on industry best practices.",
-        },
-        {
-          question: "What's the difference between Pro and Premium plans?",
-          answer:
-            "Pro includes advanced modules and AI feedback. Premium adds personalized coaching tips, industry-specific questions, and access to exclusive events.",
+            "Just sign up or log in with Google, choose a practice module, enable your microphone, and hit 'Start' to begin speaking your answers—no extra setup needed.",
         },
         {
           question: "Is there a trial period?",
           answer:
-            "Yes! Pro includes a 3-day trial and Premium includes a 6-day trial so you can try full features risk-free.",
+            "Yes! All registered users get a 7-day free trial, giving you full access to all features without the need for a credit card.",
         },
         {
-          question: "Where can I get help or share feedback?",
+          question:
+            "What's the difference between Pay-per-use and Premium plans?",
           answer:
-            "Join our community via Discord or contact our support team. We're always open to suggestions to improve your experience.",
+            "The Pay-per-use plan allows you to pay for individual practice sessions and mock interviews as you go, offering flexibility for occasional users. The Premium plan provides unlimited access to all features, including practice sessions, mock interviews, and a final assessment report after each session.",
         },
         {
-          question: "Are the interview questions updated regularly?",
+          question: "Can I practice unlimited questions?",
           answer:
-            "Yes, we continuously update question banks based on real recruiter feedback and current industry trends.",
+            "During the free trial, you'll get 6 practice sessions and 1 mock interview to explore the platform. After that, you can either buy individual credits or upgrade to Premium for unlimited access to all features.",
         },
         {
-          question: "Can I download or save my audio responses?",
+          question: "How does the AI evaluate my answers?",
           answer:
-            "Yes, on Pro and Premium plans, you can download or revisit your past responses and track progress over time.",
+            "After each response, our AI coach evaluates your answer for grammar, clarity, sentence structure, and the strength of your examples. You'll also receive a model answer to guide your improvement and help you perform better in future interviews.",
         },
         {
-          question: "Is this suitable for non-native English speakers?",
+          question:
+            "Can I save or download my audio responses and assessments?",
           answer:
-            "Absolutely. Our AI is trained to recognize various accents and can help non-native speakers improve fluency and pronunciation.",
+            "Yes, you can download your audio responses on all plans and access your final assessments when available. You can also revisit past sessions and track your progress from the History tab.",
         },
         {
           question: "Does the mock interview simulate a real recruiter?",
           answer:
-            "Yes, the mock interview module mimics a real interview environment, including follow-up questions and time limits.",
+            "Yes, the mock interview simulates a real interview setting with follow-up questions, timed responses, and role-specific scenarios to help you prepare under realistic conditions.",
         },
         {
-          question: "Can I get feedback from real coaches?",
+          question: "Are the interview questions updated regularly?",
           answer:
-            "Premium users may get access to live events and coach-guided sessions. We're also planning to integrate more human-in-the-loop feedback soon.",
+            "Our questions are dynamically generated by us based on your responses and practice goals. We don't rely on a fixed question bank, so each session is personalized and keeps evolving with you.",
+        },
+        {
+          question: "Is this suitable for non-native English speakers?",
+          answer:
+            "Absolutely! Our model is designed to understand a wide range of speaking styles. It's especially helpful for non-native English speakers looking to improve fluency, pronunciation, and overall confidence in interviews.",
+        },
+        {
+          question: "What equipment do I need to use this platform?",
+          answer:
+            "You'll need a device with a working microphone and speakers, a stable internet connection, and a quiet space to help with clear voice recognition and better focus.",
+        },
+        {
+          question: "How can I get support or give feedback?",
+          answer:
+            "If you need help or would like to share feedback, feel free to reach out to us at customerservice@jobace.ca. Our team is here to assist you and improve your experience!",
         },
       ],
     };
