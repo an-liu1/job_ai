@@ -7,21 +7,19 @@
         <div class="container">
           <div class="techvio-responsive-menu">
             <!--  logo  -->
-            <div class="logo">
+            <div>
               <a @click="$router.push({ path: '/', hash: '#home' })">
                 <img
-                  src="../assets/short_logo_white.png"
-                  class="white-logo"
+                  src="../assets/long_logo_white.png"
+                  class="white-logo logo"
                   alt="logo"
                   v-show="!isSticky"
-                  style="width: 80px; height: 80px"
                 />
                 <img
-                  src="../assets/short_logo_dark.png"
-                  class="black-logo"
+                  src="../assets/long_logo_dark.png"
+                  class="black-logo logo"
                   alt="logo"
                   v-show="isSticky"
-                  style="width: 80px; height: 80px"
                 />
               </a>
             </div>
@@ -95,16 +93,14 @@
               @click="$router.push({ path: '/', hash: '#home' })"
             >
               <img
-                src="../assets/short_logo_white.png"
-                class="white-logo"
+                src="../assets/long_logo_white.png"
+                class="white-logo logo"
                 alt="logo"
-                style="width: 80px; height: 80px"
               />
               <img
-                src="../assets/short_logo_dark.png"
-                class="black-logo"
+                src="../assets/long_logo_dark.png"
+                class="black-logo logo"
                 alt="logo"
-                style="width: 80px; height: 80px"
               />
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -317,7 +313,10 @@ export default {
 .techvio-nav {
   padding: 15px 0;
   background-color: transparent;
-
+  .logo {
+    width: 170px !important;
+    height: 40px !important;
+  }
   .navbar {
     padding: 0;
 
@@ -582,7 +581,10 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
-
+  .logo {
+    width: 170px !important;
+    height: 40px !important;
+  }
   .hamburger-menu {
     display: flex;
     flex-direction: column;

@@ -22,12 +22,7 @@
       <!-- 底部Logo部分 -->
       <div class="row align-items-center">
         <div class="col-6">
-          <img
-            src="../assets/short_logo_white.png"
-            class="white-logo"
-            alt="logo"
-            style="width: 80px; height: 80px"
-          />
+          <img src="../assets/long_logo_white.png" class="logo" alt="logo" />
         </div>
         <div class="col-6 contact">
           Copyright © 2025 JobACE. All Rights Reserved.
@@ -46,11 +41,14 @@ export default {
 <!-- height: 123px -->
 <style scoped>
 .footer-container {
-  background: #0295ff;
+  background: #3cabff;
   color: white;
   padding: 20px 0;
 }
-
+.logo {
+  width: 170px !important;
+  height: 40px !important;
+}
 .upload-icon {
   font-size: 30px;
 }
