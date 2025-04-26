@@ -24,6 +24,21 @@ Vue.prototype.$moment = moment;
 
 import "animate.css";
 
+import { jwtDecode } from "jwt-decode";
+setInterval(() => {
+  const token = localStorage.getItem("Authorization");
+  if (token) {
+    const decoded = jwtDecode(token); // if using JWT
+    const now = Date.now() / 1000;
+    if (decoded.exp < now) {
+      store.commit("setLoginStatus", false);
+      sessionStorage.clear();
+      localStorage.clear();
+      router.push("/");
+    }
+  }
+}, 3600000);
+
 // const publicRoutes = ["/account", "/"];
 
 // router.beforeEach((to, from, next) => {
