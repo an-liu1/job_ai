@@ -76,6 +76,16 @@ export default new Vuex.Store({
     async changePassword(commit, data) {
       await request("post", "accounts/change-password/", data);
     },
+    async forgotPassword(commit, data) {
+      await request("post", "accounts/password-reset/", data);
+    },
+    async passwordResetConfirm(commit, data) {
+      await request(
+        "post",
+        `accounts/password-reset-confirm/${data.id}/${data.token}`,
+        data
+      );
+    },
     async verifyEmail({ commit }, data) {
       let res = await request("get", `accounts/verify-email/${data}/`);
       commit("verifyEmail", res);

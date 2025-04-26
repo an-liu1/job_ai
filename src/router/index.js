@@ -20,7 +20,7 @@ const routes = [
     component: () => import("../views/HistoryView.vue"),
   },
   {
-    path: "/signinup",
+    path: "/signinup/:id?/:token?",
     name: "SignInUP View",
     component: () => import("../views/SignInUP.vue"),
   },

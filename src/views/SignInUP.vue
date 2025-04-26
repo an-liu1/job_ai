@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <div class="login-card" v-if="loginFlag">
+    <div class="login-card" v-if="loginFlag && !forgotPasswordFlag">
       <h2 class="title">Welcome back.</h2>
       <el-button
         class="google-btn"
@@ -33,6 +33,9 @@
             style="width: 100%"
           ></el-input>
         </el-form-item>
+        <p class="forgot-password">
+          <span @click="forgotPasswordFlag = true">Forgot your password?</span>
+        </p>
       </el-form>
       <el-button
         class="continue-btn"
@@ -120,7 +123,81 @@
       </p>
       <p class="signup-link">
         Already a member?
-        <span @click="loginFlag = true">Log in</span>
+        <span
+          @click="
+            loginFlag = true;
+            reload();
+          "
+          >Log in</span
+        >
+      </p>
+    </div>
+
+    <div class="login-card" v-if="forgotPasswordFlag">
+      <h2 class="title">Forgot password</h2>
+      <el-button
+        class="google-btn"
+        @click="handleGoogleLogin"
+        style="width: 100%; padding: 0.8rem"
+      >
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google Logo"
+          class="google-logo me-2"
+        />
+        Continue with Google
+      </el-button>
+      <div class="or-divider">OR</div>
+      <el-form
+        :model="forgotPasswordForm"
+        :rules="forgotPasswordFormRules"
+        ref="forgotPasswordForm"
+      >
+        <el-form-item prop="email" v-if="!isPasswordReset">
+          <el-input
+            v-model="forgotPasswordForm.email"
+            placeholder="Enter your email"
+            class="field-input"
+            style="width: 100%"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="newPassword1" v-if="isPasswordReset">
+          <el-input
+            v-model="forgotPasswordForm.newPassword1"
+            type="password"
+            class="field-input"
+            placeholder="Enter password"
+            style="width: 100%"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="newPassword2" v-if="isPasswordReset">
+          <el-input
+            v-model="forgotPasswordForm.newPassword2"
+            type="password"
+            class="field-input"
+            placeholder="Re-enter the password above"
+            style="width: 100%"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <el-button
+        class="continue-btn"
+        @click="handleForgotPassword"
+        style="width: 100%"
+      >
+        Submit
+      </el-button>
+      <p class="signup-link">
+        Already a member?
+        <span
+          @click="
+            $router.push('/signinup');
+            loginFlag = true;
+            forgotPasswordFlag = false;
+            reload();
+          "
+          >Log in</span
+        >
       </p>
     </div>
   </div>
@@ -128,11 +205,14 @@
 
 <script>
 export default {
+  inject: ["reload"],
   data() {
     return {
       loginFlag: true,
+      forgotPasswordFlag: false,
       loginForm: { email: "", password: "" },
       signupForm: { username: "", email: "", password1: "", password2: "" },
+      forgotPasswordForm: { email: "", newPassword1: "", newPassword2: "" },
       loginFormRules: {
         email: [
           {
@@ -174,6 +254,40 @@ export default {
           },
         ],
       },
+      forgotPasswordFormRules: {
+        ...(this.$route.params.id && this.$route.params.token
+          ? {
+              newPassword1: [
+                {
+                  required: true,
+                  message: "Password required",
+                  trigger: "blur",
+                },
+                { validator: this.validatePasswordComplexity, trigger: "blur" },
+              ],
+              newPassword2: [
+                {
+                  required: true,
+                  message: "Confirm password required",
+                  trigger: "blur",
+                },
+                {
+                  validator: this.validatePasswordResetMatch,
+                  trigger: "blur",
+                },
+              ],
+            }
+          : {
+              email: [
+                {
+                  required: true,
+                  message: "Email required",
+                  trigger: "blur",
+                },
+                { validator: this.validateEmail, trigger: "blur" },
+              ],
+            }),
+      },
     };
   },
   computed: {
@@ -183,6 +297,20 @@ export default {
     signupResponse: function () {
       return this.$store.state.signupResponse;
     },
+    id: function () {
+      return this.$route.params.id;
+    },
+    token: function () {
+      return this.$route.params.token;
+    },
+    isPasswordReset: function () {
+      return this.id && this.token;
+    },
+  },
+  mounted() {
+    if (this.isPasswordReset) {
+      this.forgotPasswordFlag = true;
+    }
   },
   methods: {
     validatePasswordComplexity(rule, value, callback) {
@@ -209,6 +337,13 @@ export default {
     },
     validatePasswordMatch(rule, value, callback) {
       if (value !== this.signupFormRules.password1) {
+        callback(new Error("Passwords do not match"));
+      } else {
+        callback();
+      }
+    },
+    validatePasswordResetMatch(rule, value, callback) {
+      if (value !== this.forgotPasswordForm.newPassword1) {
         callback(new Error("Passwords do not match"));
       } else {
         callback();
@@ -287,6 +422,55 @@ export default {
           });
         } else {
           console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    handleForgotPassword() {
+      this.$refs.forgotPasswordForm.validate((valid) => {
+        if (valid) {
+          if (this.isPasswordReset) {
+            let data = {
+              id: this.id,
+              token: this.token,
+              new_password: this.forgotPasswordForm.newPassword1,
+            };
+            this.$store.dispatch("passwordResetConfirm", data).then(() => {
+              this.$confirm(
+                "Password reset successfully, please login.",
+                "Success",
+                {
+                  confirmButtonText: "Okay",
+                  cancelButtonText: "Cancel",
+                  type: "warning",
+                  center: true,
+                }
+              ).then(() => {
+                this.loginFlag = true;
+                this.forgotPasswordFlag = false;
+              });
+            });
+          } else {
+            this.$store
+              .dispatch("forgotPassword", {
+                email: this.forgotPasswordForm.email,
+              })
+              .then(() => {
+                this.$confirm(
+                  "Password reset link sent, please check you email.",
+                  "Success",
+                  {
+                    confirmButtonText: "Okay",
+                    cancelButtonText: "Cancel",
+                    type: "warning",
+                    center: true,
+                  }
+                ).then(() => {
+                  this.$router.push("/");
+                });
+              });
+          }
+        } else {
           return false;
         }
       });
@@ -385,6 +569,25 @@ export default {
       &:not(:disabled) {
         background: #409eff;
         color: white;
+      }
+    }
+
+    .forgot-password {
+      text-align: right;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      .link {
+        color: #409eff;
+        text-decoration: none;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      span {
+        color: #409eff;
+        text-decoration: none;
+        cursor: pointer;
       }
     }
 
