@@ -5,8 +5,16 @@
       <div class="row align-items-center mb-4">
         <div class="col-md-6">
           <div class="link-group">
-            <span class="me-3">Terms of Service</span>
-            <span class="me-3">Privacy Policy</span>
+            <router-link
+              to="/termofuse"
+              class="me-3 text-white text-decoration-none"
+              >Terms of Service</router-link
+            >
+            <router-link
+              to="/privacypolicy"
+              class="me-3 text-white text-decoration-none"
+              >Privacy Policy</router-link
+            >
           </div>
         </div>
         <div class="col-md-6 text-md-end">
@@ -57,5 +65,8 @@ export default {
 }
 .social-icons:hover {
   cursor: pointer;
+}
+.link-group a:hover {
+  text-decoration: none !important;
 }
 </style>

@@ -117,9 +117,17 @@
       </el-button>
       <p class="signup-link">
         By clicking "Create account" or "Continue with Google", you agree to the
-        <span @click="loginFlag = true">Terms & Conditions</span>
+        <router-link
+          to="/termofuse"
+          class="term"
+          >Terms of Service</router-link
+        >
         and
-        <span @click="loginFlag = true">Privacy Policy</span>.
+        <router-link
+          to="/privacypolicy"
+          class="term"
+          >Privacy Policy</router-link
+        >.
       </p>
       <p class="signup-link">
         Already a member?
@@ -604,6 +612,11 @@ export default {
         }
       }
       span {
+        color: #409eff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .term {
         color: #409eff;
         text-decoration: none;
         cursor: pointer;

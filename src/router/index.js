@@ -39,6 +39,16 @@ const routes = [
     name: "GoogleCallback",
     component: () => import("../views/GoogleCallback.vue"),
   },
+  {
+    path: "/termofuse",
+    name: "Term of use",
+    component: () => import("../views/TermOfUse.vue"),
+  },
+  {
+    path: "/privacypolicy",
+    name: "Privacy Policy",
+    component: () => import("../views/PrivacyPolicy.vue"),
+  },
 ];
 
 const router = new VueRouter({
