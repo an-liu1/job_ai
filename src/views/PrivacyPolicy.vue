@@ -317,6 +317,7 @@ export default {
 
 @media (max-width: 768px) {
   .privacy-container {
+    margin-top: 120px;
     padding: 10px;
   }
 

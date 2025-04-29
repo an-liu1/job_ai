@@ -17,6 +17,9 @@
         >
           <div class="header-content">
             <span class="accordion-title">{{ item.title }}</span>
+            <span class="accordion-icon">
+              {{ activeIndex === index ? "−" : "+" }}
+            </span>
           </div>
         </div>
         <div class="accordion-content" v-show="activeIndex === index">
@@ -38,6 +41,7 @@ export default {
       activeIndex: 0,
       activeColor: "#4facfe",
       inactiveColor: "#3a7bd5",
+      isMobile: false,
       items: [
         {
           title: "Voice-Powered Practice",
@@ -90,6 +94,7 @@ export default {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* 桌面端样式 - 水平布局 */
 .accordion-wrapper {
   display: flex;
   height: 300px;
@@ -133,28 +138,90 @@ export default {
   transform: scale(1.03);
 }
 
-.accordion-header::before {
-  content: "";
+.accordion-content {
   position: absolute;
-  top: 0;
-  left: 0;
+  left: 100px;
   right: 0;
+  top: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.1);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  background: white;
+  border-radius: 15px;
+  padding: 20px 30px;
+  box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
 }
 
-.accordion-header:hover::before {
-  opacity: 1;
+/* 移动端样式 - 垂直布局 */
+@media (max-width: 992px) {
+  .accordion-wrapper {
+    flex-direction: column;
+    height: auto;
+    padding: 0;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .accordion-item {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+    flex: 1 1 auto !important;
+    display: block;
+  }
+
+  .accordion-header {
+    width: 100%;
+    height: 60px;
+    writing-mode: horizontal-tb;
+    padding: 0 20px;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 8px;
+    align-self: auto;
+    flex: 0 0 auto;
+  }
+
+  .accordion-title {
+    writing-mode: horizontal-tb;
+    text-align: left;
+  }
+
+  .accordion-icon {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .accordion-content {
+    position: static !important;
+    width: 100% !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    margin-top: 5px;
+    padding: 15px;
+    border-radius: 8px;
+    height: auto;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .content-inner {
+    animation: none;
+  }
 }
 
+/* 公共样式 */
 .header-content {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  width: 100%;
 }
 
 .accordion-title {
@@ -164,20 +231,8 @@ export default {
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.accordion-content {
-  position: absolute;
-  left: 100px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: white;
-  border-radius: 15px;
-  padding: 0 30px;
-  box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
+.accordion-icon {
+  display: none;
 }
 
 .content-inner {
@@ -190,11 +245,11 @@ export default {
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(-20px); /* 从左边20px开始 */
+    transform: translateX(-20px);
   }
   to {
     opacity: 1;
-    transform: translateX(0); /* 移动到原始位置 */
+    transform: translateX(0);
   }
 }
 
@@ -219,6 +274,7 @@ export default {
 
 .content-subTitle {
   color: #2c3e50;
+  margin-bottom: 15px;
 }
 
 .content-text {
@@ -228,51 +284,29 @@ export default {
   margin-bottom: 25px;
 }
 
-/* 响应式设计 */
-@media (max-width: 992px) {
-  .accordion-wrapper {
-    flex-direction: column;
-    min-height: auto;
-    padding: 20px;
-  }
-
-  .accordion-item {
-    flex: 0 0 60px;
-    margin-right: 0;
-    margin-bottom: 15px;
-    width: 100%;
-  }
-
-  .accordion-item.active {
-    flex: 0 0 auto;
-    min-height: 200px;
-  }
-
+/* 小手机优化 */
+@media (max-width: 576px) {
   .accordion-header {
-    width: 100%;
-    height: 60px;
-    writing-mode: horizontal-tb;
-    transform: none;
-    padding: 0 25px;
-    flex: 0 0 60px;
-    justify-content: space-between;
+    height: 50px;
+    padding: 0 15px;
+  }
+
+  .accordion-title {
+    font-size: 14px;
   }
 
   .accordion-content {
-    position: static;
-    margin-top: 15px;
-    left: 0;
-    width: 100%;
+    padding: 12px;
+    max-height: 250px;
   }
-}
 
-@media (max-width: 576px) {
   .content-title {
-    font-size: 20px;
+    padding-top: 100px;
+    font-size: 18px;
   }
 
   .content-text {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 </style>

@@ -340,6 +340,7 @@ export default {
 @media (max-width: 768px) {
   .terms-container {
     padding: 10px;
+    margin-top: 120px;
   }
 
   .terms-card {

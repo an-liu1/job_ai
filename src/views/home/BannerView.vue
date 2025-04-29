@@ -144,4 +144,14 @@ export default {
     padding-top: 260px;
   }
 }
+@media (max-width: 431px) {
+  .home-section {
+    padding-top: 300px;
+  }
+}
+@media (max-width: 391px) {
+  .home-section {
+    padding-top: 380px;
+  }
+}
 </style>

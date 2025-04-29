@@ -132,6 +132,11 @@ export default {
     @media only screen and (max-width: 991px) {
       font-size: 12px;
     }
+    @media only screen and (max-width: 431px) {
+      font-size: 12px;
+      line-height: 1;
+      text-align: left;
+    }
   }
 
   ::v-deep .el-collapse-item__header:hover {
