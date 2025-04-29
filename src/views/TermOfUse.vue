@@ -45,6 +45,20 @@
               Email: <a :href="`mailto:${section.link}`">{{ section.link }}</a>
             </p>
           </template>
+
+          <template v-if="section.id === 8">
+            <p>
+              We collect and process your data in accordance with our
+              <router-link to="/privacypolicy" class="privacy-link"
+                >Privacy Policy</router-link
+              >.
+            </p>
+            <p>
+              By using our Services, you consent to this processing, including
+              storing your practice recordings, transcripts, and progress
+              history.
+            </p>
+          </template>
         </div>
       </div>
     </el-card>
@@ -155,10 +169,7 @@ export default {
           {
             id: 8,
             title: "User Data and Privacy",
-            paragraphs: [
-              "We collect and process your data in accordance with our Privacy Policy.",
-              "By using our Services, you consent to this processing, including storing your practice recordings, transcripts, and progress history.",
-            ],
+            // This section is now handled in the template with router-link
           },
           {
             id: 9,
@@ -309,6 +320,16 @@ export default {
   a {
     color: #409eff;
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .privacy-link {
+    color: #409eff;
+    text-decoration: none;
+    font-weight: 500;
 
     &:hover {
       text-decoration: underline;
