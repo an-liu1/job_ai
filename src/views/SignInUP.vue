@@ -117,15 +117,9 @@
       </el-button>
       <p class="signup-link">
         By clicking "Create account" or "Continue with Google", you agree to the
-        <router-link
-          to="/termofuse"
-          class="term"
-          >Terms of Service</router-link
-        >
+        <router-link to="/termofuse" class="term">Terms of Service</router-link>
         and
-        <router-link
-          to="/privacypolicy"
-          class="term"
+        <router-link to="/privacypolicy" class="term"
           >Privacy Policy</router-link
         >.
       </p>
@@ -344,7 +338,7 @@ export default {
       }
     },
     validatePasswordMatch(rule, value, callback) {
-      if (value !== this.signupFormRules.password1) {
+      if (value !== this.signupForm.password1) {
         callback(new Error("Passwords do not match"));
       } else {
         callback();
