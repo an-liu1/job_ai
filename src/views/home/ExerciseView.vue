@@ -88,7 +88,7 @@ export default {
       showContent: true,
       featureInfo: [
         {
-          imgUrl: require("@/assets/guide1.png"),
+          imgUrl: require("@/assets/interview1.png"),
           title: "The Complete Interview Preparation System",
           subTitle:
             "From common questions to curveball challenges - master every interview scenario with our battle-tested framework",
@@ -110,7 +110,7 @@ export default {
           redirectURL: "exercise/feature",
         },
         {
-          imgUrl: require("@/assets/guide3.png"),
+          imgUrl: require("@/assets/interview2.png"),
           title: "AI-Powered Interview Rehearsal Studio",
           subTitle:
             "Experience the closest thing to real interviews with our adaptive simulation technology",

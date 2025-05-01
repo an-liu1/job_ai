@@ -62,7 +62,7 @@ export default {
           desc: "Satisfied with your answer? <br />· Click 'Submit' to send your audio to our backend server for feedback or analysis.",
         },
       ],
-      img: require("@/assets/step.png"),
+      img: require("@/assets/interview1.png"),
     };
   },
 };
