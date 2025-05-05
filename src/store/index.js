@@ -19,6 +19,8 @@ export default new Vuex.Store({
     finalAssessmentDetail: {},
     conversationID: "",
     achievementStats: {},
+    checkOutUrl: {},
+    consumeCreditsResponse: {},
   },
   getters: {},
   mutations: {
@@ -60,6 +62,12 @@ export default new Vuex.Store({
     },
     getAchievementStats(state, payload) {
       state.achievementStats = payload;
+    },
+    createCheckoutSession(state, payload) {
+      state.checkOutUrl = payload;
+    },
+    consumeCredits(state, payload) {
+      state.consumeCreditsResponse = payload;
     },
   },
   actions: {
@@ -117,6 +125,16 @@ export default new Vuex.Store({
     async getAchievementStats({ commit }) {
       let res = await request("get", "jobapp/stats/");
       commit("getAchievementStats", res.data);
+    },
+    //price
+    async createCheckoutSession({ commit }, data) {
+      let res = await request("post", "billing/create-checkout-session/", data);
+      commit("createCheckoutSession", res.data);
+    },
+
+    async consumeCredits({ commit }, data) {
+      let res = await request("post", "billing/consume-credits/", data);
+      commit("consumeCredits", res.data);
     },
   },
 

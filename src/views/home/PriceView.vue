@@ -89,7 +89,7 @@
               name="credit"
               :id="'credit' + index"
               :value="option.value"
-              :checked="index === 1"
+              v-model="selectedCreditOption"
             />
             <label :for="'credit' + index">
               <span class="amount">{{ option.amount }} Credits</span>
@@ -111,7 +111,7 @@
           </div>
         </div>
 
-        <button class="cta-btn">
+        <button class="cta-btn" @click="handleGetCredits(false)">
           <span class="btn-icon">🪙</span>
           Get Credits
         </button>
@@ -147,7 +147,7 @@
           <div class="saving-info">Only $0.97 per day</div>
         </div>
 
-        <button class="cta-btn">
+        <button class="cta-btn" @click="handleGetCredits(true)">
           <span class="btn-icon">⭐</span>
           Subscribe Now
         </button>
@@ -186,12 +186,34 @@ export default {
     return {
       activeTab: 1,
       tabs: ["Free", "Credits", "Subscription"],
+      selectedCreditOption: "10_credits",
       tokenOptions: [
-        { amount: 10, price: 10, bonus: 0, value: "10" },
-        { amount: 18, price: 18, bonus: 2, value: "20" },
-        { amount: 24, price: 24, bonus: 6, value: "30" },
+        { amount: 10, price: 10, bonus: 0, value: "10_credits" },
+        { amount: 18, price: 18, bonus: 2, value: "20_credits" },
+        { amount: 24, price: 24, bonus: 6, value: "30_credits" },
       ],
     };
+  },
+  computed: {
+    checkOutUrl() {
+      return this.$$store.state.checkOutUrl;
+    },
+  },
+  methods: {
+    handleGetCredits(isMonthlyPlan) {
+      let key = isMonthlyPlan ? "monthly_unlimited" : this.selectedCreditOption;
+      this.$store
+        .dispatch("createCheckoutSession", {
+          item_type: "CREDIT_PACKAGES",
+          item_key: key,
+        })
+        .then(() => {
+          if (this.checkOutUrl) {
+            window.location.href = this.checkOutUrl; // Redirect in the same tab
+            // window.open(this.checkOutUrl, "_blank"); // Open in a new tab
+          }
+        });
+    },
   },
 };
 </script>
