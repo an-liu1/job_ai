@@ -363,7 +363,22 @@ export default {
       }
     },
     handleGoogleLogin() {
-      window.location.href = "https://jobcoach.top/api/google_authentication/";
+      const clientId =
+        "1031504744342-761b45kg0q0d7c31s1udvsqovqqo71of.apps.googleusercontent.com";
+      const redirectUri = "https://jobcoach.top/GoogleCallback";
+      const scope = "openid email profile";
+      const state = Math.random().toString(36).substring(2);
+
+      const url =
+        "https://accounts.google.com/o/oauth2/v2/auth" +
+        `?client_id=${clientId}` +
+        `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+        `&response_type=code` +
+        `&scope=${encodeURIComponent(scope)}` +
+        `&access_type=offline` +
+        `&state=${state}`;
+
+      window.location.href = url;
     },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
@@ -371,12 +386,8 @@ export default {
           this.$store
             .dispatch("login", this.loginForm)
             .then(() => {
-              this.$store.dispatch("getUserInfo").then(() => {
-                this.$store.dispatch("getBillingProfile").then(() => {
-                  this.$store.commit("setLoginStatus", true);
-                  this.$router.push("/account");
-                });
-              });
+              this.$store.commit("setLoginStatus", true);
+              this.$router.push("/account");
             })
             .catch(() => {
               this.$alert(

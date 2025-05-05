@@ -291,6 +291,15 @@ export default {
       ],
     };
   },
+  mounted() {
+    Promise.all([
+      this.$store.dispatch("getUserInfo"),
+      this.$store.dispatch("getBillingProfile"),
+      this.$store.dispatch("getBillingTransactions"),
+    ]).then(() => {
+      console.error("1223");
+    });
+  },
   computed: {
     userProfile() {
       return this.$store.state.userProfile;

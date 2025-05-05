@@ -85,6 +85,11 @@ export default new Vuex.Store({
       commit("setLoginStatus", true);
       commit("login", res);
     },
+    async googleLogin({ commit }, data) {
+      let res = await request("post", "auth/google/", data);
+      localStorage.setItem("Authorization", res.access_token);
+      commit("setLoginStatus", true);
+    },
     async signup({ commit }, data) {
       let res = await request("post", "accounts/register/", data);
       commit("signup", res);
