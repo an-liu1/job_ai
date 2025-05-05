@@ -29,7 +29,7 @@
 
       <!-- 底部Logo部分 -->
       <div class="row align-items-center">
-        <div class="col-6">
+        <div class="col-6" @click="$router.push({ path: '/', hash: '#home' })">
           <img src="../assets/long_logo_white.png" class="logo" alt="logo" />
         </div>
         <div class="col-6 contact">
