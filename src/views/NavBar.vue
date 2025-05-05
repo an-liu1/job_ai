@@ -78,7 +78,7 @@
             <div class="accountAvatar" @click="$router.push('/account')" v-else>
               <span>Hello,</span>
               <el-avatar>
-                {{ userProfile.username }}
+                {{ userProfile.username?.charAt(0).toUpperCase() || "A" }}
               </el-avatar>
             </div>
           </div>
@@ -151,7 +151,7 @@
               >
                 <span>Hello,</span>
                 <el-avatar>
-                  {{ userProfile.username.charAt(0).toUpperCase() }}
+                  {{ userProfile.username?.charAt(0).toUpperCase() || "A" }}
                 </el-avatar>
               </div>
             </div>
