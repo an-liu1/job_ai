@@ -308,6 +308,9 @@ export default {
     isPasswordReset: function () {
       return this.id && this.token;
     },
+    billingProfile: function () {
+      return this.$store.state.billingProfile;
+    },
   },
   mounted() {
     if (this.isPasswordReset) {
@@ -369,8 +372,10 @@ export default {
             .dispatch("login", this.loginForm)
             .then(() => {
               this.$store.dispatch("getUserInfo").then(() => {
-                this.$store.commit("setLoginStatus", true);
-                this.$router.push("/account");
+                this.$store.dispatch("getBillingProfile").then(() => {
+                  this.$store.commit("setLoginStatus", true);
+                  this.$router.push("/account");
+                });
               });
             })
             .catch(() => {

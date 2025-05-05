@@ -295,6 +295,9 @@ export default {
     userProfile() {
       return this.$store.state.userProfile;
     },
+    billingTransactions() {
+      return this.$store.state.billingTransactions;
+    },
   },
   methods: {
     validatePasswordComplexity(rule, value, callback) {

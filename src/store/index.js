@@ -21,6 +21,8 @@ export default new Vuex.Store({
     achievementStats: {},
     checkOutUrl: {},
     consumeCreditsResponse: {},
+    billingTransactions: {},
+    billingProfile: {},
   },
   getters: {},
   mutations: {
@@ -69,11 +71,17 @@ export default new Vuex.Store({
     consumeCredits(state, payload) {
       state.consumeCreditsResponse = payload;
     },
+    getBillingTransactions(state, payload) {
+      state.billingTransactions = payload;
+    },
+    getBillingProfile(state, payload) {
+      state.billingProfile = payload;
+    },
   },
   actions: {
     async login({ commit }, data) {
       let res = await request("post", "accounts/login/", data);
-      localStorage.setItem("Authorization", res.data.tokens.access);
+      localStorage.setItem("Authorization", res.access);
       commit("setLoginStatus", true);
       commit("login", res);
     },
@@ -135,6 +143,14 @@ export default new Vuex.Store({
     async consumeCredits({ commit }, data) {
       let res = await request("post", "billing/consume-credits/", data);
       commit("consumeCredits", res.data);
+    },
+    async getBillingTransactions({ commit }) {
+      let res = await request("get", "billing/transactions/");
+      commit("getBillingTransactions", res.data);
+    },
+    async getBillingProfile({ commit }) {
+      let res = await request("get", "billing/profile/");
+      commit("getBillingProfile", res.data);
     },
   },
 
