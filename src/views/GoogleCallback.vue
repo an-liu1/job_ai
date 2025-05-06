@@ -70,7 +70,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 128px);
   background: linear-gradient(
     to bottom,
     #0295ff,
@@ -79,7 +79,6 @@ export default {
     #b0d7ff,
     #ebefff
   );
-  background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
   padding: 20px;
 }
@@ -90,7 +89,7 @@ export default {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   padding: 40px;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   text-align: center;
   transition: all 0.3s ease;
 }
