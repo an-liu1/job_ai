@@ -417,7 +417,7 @@ export default {
 
 <style lang="scss" scoped>
 .account-dashboard {
-  min-height: calc(100vh - 123px);
+  min-height: calc(100vh - 128px);
   // background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   justify-content: center;

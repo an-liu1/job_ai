@@ -641,7 +641,7 @@ export default {
 <style lang="scss" scoped>
 .interview-container {
   margin: 0 auto;
-  min-height: calc(100vh - 123px);
+  min-height: calc(100vh - 128px);
   padding: 100px 20px 20px 20px;
   display: flex;
   flex-direction: column;

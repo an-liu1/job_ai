@@ -112,7 +112,7 @@
         </div>
 
         <button class="cta-btn" @click="handleGetCredits(false)">
-          <span class="btn-icon">🪙</span>
+          <span class="btn-icon">🎁</span>
           Get Credits
         </button>
 
@@ -177,6 +177,39 @@
         </ul>
       </div>
     </div>
+
+    <!-- Payment Confirmation Dialog -->
+    <el-dialog
+      title="Payment in Progress"
+      :visible.sync="paymentDialogVisible"
+      width="500px"
+      class="beautified-payment-dialog"
+    >
+      <div class="payment-modal">
+        <p>We've opened the payment page in a new tab.</p>
+        <p>After completing your payment:</p>
+        <ol>
+          <li>Return to this window</li>
+          <li>Click the button below when payment is complete</li>
+        </ol>
+        <p class="note">
+          Note: It may take a few moments to process your payment.
+        </p>
+      </div>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button class="cancel-btn" @click="closePaymentDialog">
+          Cancel
+        </el-button>
+        <el-button
+          type="primary"
+          class="confirm-btn"
+          @click="handlePaymentComplete"
+        >
+          I've Completed Payment
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -192,27 +225,43 @@ export default {
         { amount: 18, price: 18, bonus: 2, value: "20_credits" },
         { amount: 24, price: 24, bonus: 6, value: "30_credits" },
       ],
+      paymentDialogVisible: false,
     };
   },
   computed: {
     checkOutUrl() {
-      return this.$$store.state.checkOutUrl;
+      return this.$store.state.checkOutUrl.checkout_url;
+    },
+    loginStatus: function () {
+      return this.$store.state.loginStatus;
     },
   },
   methods: {
     handleGetCredits(isMonthlyPlan) {
+      if (!this.loginStatus) {
+        this.$router.push("/signinup");
+        return;
+      }
       let key = isMonthlyPlan ? "monthly_unlimited" : this.selectedCreditOption;
+      let type = isMonthlyPlan ? "SUBSCRIPTIONS" : "CREDIT_PACKAGES";
       this.$store
         .dispatch("createCheckoutSession", {
-          item_type: "CREDIT_PACKAGES",
+          item_type: type,
           item_key: key,
         })
         .then(() => {
-          if (this.checkOutUrl) {
-            window.location.href = this.checkOutUrl; // Redirect in the same tab
-            // window.open(this.checkOutUrl, "_blank"); // Open in a new tab
+          if (!this.checkOutUrl) {
+            throw new Error("No checkout URL received from server");
           }
+          window.open(this.checkOutUrl, "_blank");
+          this.paymentDialogVisible = true;
         });
+    },
+    handlePaymentComplete() {
+      this.$router.push("/account");
+    },
+    closePaymentDialog() {
+      this.paymentDialogVisible = false;
     },
   },
 };
@@ -668,6 +717,86 @@ export default {
 
       &.highlighted {
         transform: none;
+      }
+    }
+  }
+}
+/* Payment Dialog Styles */
+.beautified-payment-dialog {
+  ::v-deep .el-dialog {
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 35vh !important;
+  }
+
+  ::v-deep .el-dialog__header {
+    border-bottom: 1px solid #eee;
+    padding: 15px 20px;
+
+    .el-dialog__title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+  }
+
+  ::v-deep .el-dialog__body {
+    padding: 20px;
+  }
+
+  .payment-modal {
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #5a5a5a;
+
+    p {
+      margin: 8px 0;
+    }
+
+    ol {
+      padding-left: 24px;
+      margin: 12px 0;
+
+      li {
+        margin-bottom: 6px;
+        padding-left: 4px;
+      }
+    }
+
+    .note {
+      font-size: 13px;
+      color: #888;
+      margin-top: 16px;
+      font-style: italic;
+    }
+  }
+
+  .dialog-footer {
+    text-align: right;
+
+    .el-button {
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .confirm-btn {
+      background-color: #409eff;
+      border-color: #409eff;
+
+      &:hover {
+        background-color: #66b1ff;
+        border-color: #66b1ff;
+      }
+    }
+
+    .cancel-btn {
+      &:hover {
+        color: #409eff;
+        border-color: #c6e2ff;
+        background-color: #ecf5ff;
       }
     }
   }

@@ -74,7 +74,7 @@ export default {
     window.addEventListener("load", () => {
       setTimeout(() => {
         this.isPageLoaded = true;
-      }, 1000);
+      }, 500);
     });
   },
   beforeDestroy() {
