@@ -47,7 +47,7 @@ export default {
       }
 
       try {
-        await this.$store.dispatch("googleLogin", { code });
+        await this.$store.dispatch("googleLogin", code);
         this.$router.push("/account");
       } catch (err) {
         console.error("Google login failed:", err);
