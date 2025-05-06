@@ -86,7 +86,11 @@ export default new Vuex.Store({
       commit("login", res);
     },
     async googleLogin({ commit }, data) {
-      let res = await request("post", "auth/google/callback/", data);
+      // Send as form-urlencoded data
+      const params = new URLSearchParams();
+      params.append("code", data);
+
+      let res = await request("post", "auth/google/callback/", params);
       localStorage.setItem("Authorization", res.access_token);
       commit("setLoginStatus", true);
     },
