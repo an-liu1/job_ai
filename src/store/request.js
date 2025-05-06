@@ -13,6 +13,8 @@ axios.interceptors.request.use(
     }
     if (config.url.endsWith("/jobapp/chat/")) {
       config.headers["Content-Type"] = "multipart/form-data";
+    } else if (config.url.endsWith("/auth/google/callback/")) {
+      config.headers["Content-Type"] = "application/x-www-form-urlencoded";
     } else {
       config.headers["Content-Type"] = "application/json";
     }
