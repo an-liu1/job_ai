@@ -296,6 +296,9 @@ export default {
     loginResponse: function () {
       return this.$store.state.loginResponse;
     },
+    loginFromRoute: function () {
+      return this.$store.state.loginFromRoute;
+    },
     signupResponse: function () {
       return this.$store.state.signupResponse;
     },
@@ -387,7 +390,7 @@ export default {
             .dispatch("login", this.loginForm)
             .then(() => {
               this.$store.commit("setLoginStatus", true);
-              this.$router.push("/account");
+              this.$router.push(this.loginFromRoute);
             })
             .catch(() => {
               this.$alert(

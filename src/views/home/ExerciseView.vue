@@ -150,6 +150,7 @@ export default {
       if (this.loginStatus) {
         this.$router.push(url);
       } else {
+        this.$store.commit("setLogininFrom", this.$route.fullPath);
         this.$router.push("/signinup");
       }
     },

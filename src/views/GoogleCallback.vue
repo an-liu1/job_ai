@@ -35,6 +35,11 @@ export default {
   mounted() {
     this.handleGoogleAuth();
   },
+  computed: {
+    loginFromRoute: function () {
+      return this.$store.state.loginFromRoute;
+    },
+  },
   methods: {
     async handleGoogleAuth() {
       const query = new URLSearchParams(window.location.search);
@@ -48,7 +53,7 @@ export default {
 
       try {
         await this.$store.dispatch("googleLogin", code);
-        this.$router.push("/account");
+        this.$router.push(this.loginFromRoute);
       } catch (err) {
         console.error("Google login failed:", err);
         this.error =

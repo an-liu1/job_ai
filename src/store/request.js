@@ -37,6 +37,7 @@ axios.interceptors.response.use(
         localStorage.clear();
         sessionStorage.clear();
         store.commit("setLoginStatus", false);
+        store.commit("setLogininFrom", "/account");
         router.push("/signinup");
         return Promise.resolve();
       }

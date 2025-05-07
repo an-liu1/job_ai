@@ -235,10 +235,14 @@ export default {
     loginStatus: function () {
       return this.$store.state.loginStatus;
     },
+    loginFromRoute: function () {
+      return this.$store.state.loginFromRoute;
+    },
   },
   methods: {
     handleGetCredits(isMonthlyPlan) {
       if (!this.loginStatus) {
+        this.$store.commit("setLogininFrom", this.$route.fullPath);
         this.$router.push("/signinup");
         return;
       }

@@ -42,37 +42,9 @@
                   "
                   >{{ i.name }}</a
                 >
-                <!-- <ul class="dropdown-menu" v-if="i.name === 'Interview'">
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      @click="
-                        $router.push(
-                          loginStatus ? '/exercise/common' : '/signinup'
-                        )
-                      "
-                      >Practice</a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      @click="
-                        $router.push(
-                          loginStatus ? '/exercise/mock' : '/signinup'
-                        )
-                      "
-                      >Mock Interview</a
-                    >
-                  </li>
-                </ul> -->
               </li>
             </ul>
-            <div
-              class="other-option"
-              @click="$router.push('/signinup')"
-              v-if="!loginStatus"
-            >
+            <div class="other-option" @click="login" v-if="!loginStatus">
               <a class="default-btn">Sign in<span></span></a>
             </div>
             <div class="accountAvatar" @click="$router.push('/account')" v-else>
@@ -111,37 +83,9 @@
                     @click="redirectTo(i.navLink, i.sectionId)"
                     >{{ i.name }}</a
                   >
-                  <!-- <ul class="dropdown-menu" v-if="i.name === 'Interview'">
-                    <li class="nav-item">
-                      <a
-                        class="nav-link"
-                        @click="
-                          $router.push(
-                            loginStatus ? '/exercise/common' : '/signinup'
-                          )
-                        "
-                        >Practice</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a
-                        class="nav-link"
-                        @click="
-                          $router.push(
-                            loginStatus ? '/exercise/mock' : '/signinup'
-                          )
-                        "
-                        >Mock Interview</a
-                      >
-                    </li>
-                  </ul> -->
                 </li>
               </ul>
-              <div
-                class="other-option"
-                @click="$router.push('/signinup')"
-                v-if="!loginStatus"
-              >
+              <div class="other-option" @click="login" v-if="!loginStatus">
                 <a class="default-btn">Sign in<span></span></a>
               </div>
               <div
@@ -266,6 +210,10 @@ export default {
     }
   },
   methods: {
+    login() {
+      this.$store.commit("setLogininFrom", this.$route.fullPath);
+      this.$router.push("/signinup");
+    },
     handleScroll() {
       // 使用 requestAnimationFrame 优化性能
       requestAnimationFrame(() => {

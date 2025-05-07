@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     loading: false,
     loginStatus: false,
+    loginFromRoute: "",
     loginResponse: {},
     signupResponse: {},
     verifyEmailResponse: {},
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     setLoginStatus(state, payload) {
       state.loginStatus = payload;
+    },
+    setLogininFrom(state, payload) {
+      state.loginFromRoute = payload;
     },
     login(state, payload) {
       state.loginResponse = payload;
