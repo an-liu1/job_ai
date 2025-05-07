@@ -96,16 +96,19 @@
               <span class="price"
                 >${{ option.price }}
                 <span class="per-unit"
+                  >= ${{ (option.price / option.amount).toFixed(2) }}/C</span
+                >
+                <!-- <span class="per-unit"
                   >≈ ${{
                     (
                       option.price /
                       (option.amount + (option.bonus || 0))
                     ).toFixed(2)
                   }}/C</span
-                ></span
-              >
+                > -->
+              </span>
               <span class="bonus" v-if="option.bonus"
-                >+{{ option.bonus }} Bonus</span
+                >{{ option.bonus }} Bonus</span
               >
             </label>
           </div>
@@ -222,8 +225,8 @@ export default {
       selectedCreditOption: "10_credits",
       tokenOptions: [
         { amount: 10, price: 10, bonus: 0, value: "10_credits" },
-        { amount: 18, price: 18, bonus: 2, value: "20_credits" },
-        { amount: 24, price: 24, bonus: 6, value: "30_credits" },
+        { amount: 20, price: 18, bonus: 2, value: "20_credits" },
+        { amount: 30, price: 24, bonus: 6, value: "30_credits" },
       ],
       paymentDialogVisible: false,
     };
