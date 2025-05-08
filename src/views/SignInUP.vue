@@ -366,22 +366,24 @@ export default {
       }
     },
     handleGoogleLogin() {
-      const clientId =
-        "1031504744342-761b45kg0q0d7c31s1udvsqovqqo71of.apps.googleusercontent.com";
-      const redirectUri = "https://jobcoach.top/api/auth/google/callback/";
-      const scope = "openid email profile";
-      const state = Math.random().toString(36).substring(2);
+      // const clientId =
+      //   "1031504744342-761b45kg0q0d7c31s1udvsqovqqo71of.apps.googleusercontent.com";
+      // const redirectUri = "https://jobcoach.top/api/auth/google/callback/";
+      // const scope = "openid email profile";
+      // const state = Math.random().toString(36).substring(2);
 
-      const url =
-        "https://accounts.google.com/o/oauth2/v2/auth" +
-        `?client_id=${clientId}` +
-        `&redirect_uri=${encodeURIComponent(redirectUri)}` +
-        `&response_type=code` +
-        `&scope=${encodeURIComponent(scope)}` +
-        `&access_type=offline` +
-        `&state=${state}`;
+      // const url =
+      //   "https://accounts.google.com/o/oauth2/v2/auth" +
+      //   `?client_id=${clientId}` +
+      //   `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+      //   `&response_type=code` +
+      //   `&scope=${encodeURIComponent(scope)}` +
+      //   `&access_type=offline` +
+      //   `&state=${state}`;
 
-      window.location.href = url;
+      // window.location.href = url;
+
+      window.location.href = "https://jobcoach.top/api/google_authentication/";
     },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {

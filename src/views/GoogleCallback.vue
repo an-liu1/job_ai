@@ -42,24 +42,31 @@ export default {
   },
   methods: {
     async handleGoogleAuth() {
-      const query = new URLSearchParams(window.location.search);
-      const code = query.get("code");
+      // const query = new URLSearchParams(window.location.search);
+      // const code = query.get("code");
 
-      if (!code) {
-        this.error =
-          "Authorization code not found. Please try logging in again.";
-        return;
-      }
+      // if (!code) {
+      //   this.error =
+      //     "Authorization code not found. Please try logging in again.";
+      //   return;
+      // }
 
-      try {
-        await this.$store.dispatch("googleLogin", code);
+      // try {
+      //   await this.$store.dispatch("googleLogin", code);
+      //   this.$router.push(this.loginFromRoute);
+      // } catch (err) {
+      //   console.error("Google login failed:", err);
+      //   this.error =
+      //     "Login failed: " +
+      //     (err.response?.data?.message ||
+      //       "Please check your connection and try again");
+      // }
+
+      let token = this.$route.query.access;
+      if (token) {
+        localStorage.setItem("Authorization", token);
+        this.$store.commit("setLoginStatus", true);
         this.$router.push(this.loginFromRoute);
-      } catch (err) {
-        console.error("Google login failed:", err);
-        this.error =
-          "Login failed: " +
-          (err.response?.data?.message ||
-            "Please check your connection and try again");
       }
     },
     retryLogin() {
