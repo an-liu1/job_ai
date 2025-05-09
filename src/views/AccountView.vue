@@ -159,32 +159,86 @@
             </div>
           </el-tab-pane>
 
-          <!-- Activity Tab -->
-          <el-tab-pane label="Activity" name="activity">
-            <div class="activity-section">
-              <h4>Recent Activity</h4>
+          <!-- Transactions Tab -->
+          <el-tab-pane label="Transactions" name="transactions">
+            <div class="transactions-section">
+              <div class="transaction-filters">
+                <el-select
+                  v-model="transactionFilter"
+                  placeholder="Filter Transactions"
+                  clearable
+                >
+                  <el-option label="All" value="all"></el-option>
+                  <el-option
+                    label="Credit Purchases"
+                    value="credit"
+                  ></el-option>
+                  <el-option
+                    label="Subscriptions"
+                    value="subscription"
+                  ></el-option>
+                </el-select>
+              </div>
+
               <el-timeline>
                 <el-timeline-item
-                  v-for="(activity, index) in userActivities"
+                  v-for="(transaction, index) in filteredTransactions"
                   :key="index"
-                  :timestamp="formatTime(activity.timestamp)"
+                  :timestamp="formatTime(transaction.created_at)"
                   placement="top"
+                  :type="getTransactionType(transaction)"
+                  :color="getTransactionColor(transaction)"
                 >
-                  <el-card>
-                    <h4>{{ activity.title }}</h4>
-                    <p>{{ activity.description }}</p>
-                    <div v-if="activity.score" class="activity-score">
-                      <el-rate
-                        v-model="activity.score"
-                        disabled
-                        :max="10"
-                        :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                        score-template="{value}"
-                      />
+                  <el-card shadow="hover" class="transaction-card">
+                    <div class="transaction-header">
+                      <div class="transaction-type">
+                        <el-tag :type="getTransactionTagType(transaction)">
+                          {{ formatTransactionType(transaction.item_type) }}
+                        </el-tag>
+                      </div>
+                      <div class="transaction-amount">
+                        <span
+                          v-if="transaction.credits_purchased"
+                          class="credit-amount"
+                        >
+                          +{{ transaction.credits_purchased }} credits
+                        </span>
+                        <span
+                          v-if="transaction.subscription_plan"
+                          class="subscription-plan"
+                        >
+                          {{ transaction.subscription_plan }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="transaction-details">
+                      <div class="transaction-id">
+                        <span>Transaction #{{ transaction.id }}</span>
+                      </div>
+                      <div
+                        class="transaction-package"
+                        v-if="transaction.item_key"
+                      >
+                        <span>{{ formatItemKey(transaction.item_key) }}</span>
+                      </div>
                     </div>
                   </el-card>
                 </el-timeline-item>
               </el-timeline>
+
+              <div
+                class="transaction-pagination"
+                v-if="billingTransactions.length > 5"
+              >
+                <el-pagination
+                  small
+                  layout="prev, pager, next"
+                  :total="billingTransactions.length"
+                  :page-size="5"
+                  @current-change="handlePageChange"
+                ></el-pagination>
+              </div>
             </div>
           </el-tab-pane>
 
@@ -334,26 +388,9 @@ export default {
       },
       darkMode: false,
       notificationSettings: ["email"],
-      userActivities: [
-        {
-          title: "Completed Technical Interview",
-          description:
-            "You completed a technical interview for Frontend Developer position",
-          timestamp: new Date(Date.now() - 3600000),
-          score: 8,
-        },
-        {
-          title: "Received Feedback",
-          description: "Your last interview feedback is now available",
-          timestamp: new Date(Date.now() - 86400000),
-          score: 7,
-        },
-        {
-          title: "Account Updated",
-          description: "You changed your profile picture",
-          timestamp: new Date(Date.now() - 172800000),
-        },
-      ],
+      transactionFilter: "all",
+      currentPage: 1,
+      pageSize: 5,
     };
   },
   mounted() {
@@ -374,6 +411,30 @@ export default {
     },
     billingTransactions() {
       return this.$store.state.billingTransactions;
+    },
+    filteredTransactions() {
+      let transactions = this.billingTransactions.slice().reverse(); // Show newest first
+
+      if (this.transactionFilter === "credit") {
+        return transactions
+          .filter((t) => t.item_type === "CREDIT_PACKAGES")
+          .slice(
+            (this.currentPage - 1) * this.pageSize,
+            this.currentPage * this.pageSize
+          );
+      } else if (this.transactionFilter === "subscription") {
+        return transactions
+          .filter((t) => t.item_type === "SUBSCRIPTIONS")
+          .slice(
+            (this.currentPage - 1) * this.pageSize,
+            this.currentPage * this.pageSize
+          );
+      }
+
+      return transactions.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.currentPage * this.pageSize
+      );
     },
   },
   methods: {
@@ -408,7 +469,7 @@ export default {
       return format(new Date(date), "MMMM d, yyyy");
     },
     formatTime(date) {
-      return format(new Date(date), "h:mm a, MMM d");
+      return format(new Date(date), "h:mm a, MMMM d, yyyy");
     },
     logout() {
       this.$store.commit("setLoginStatus", false);
@@ -457,6 +518,29 @@ export default {
     },
     saveSettings() {
       this.$message.success("Settings saved successfully");
+    },
+
+    formatTransactionType(type) {
+      const types = {
+        CREDIT_PACKAGES: "Credit Purchase",
+        SUBSCRIPTIONS: "Subscription",
+      };
+      return types[type] || type;
+    },
+    formatItemKey(key) {
+      return key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+    },
+    getTransactionType(transaction) {
+      return transaction.item_type === "SUBSCRIPTIONS" ? "primary" : "success";
+    },
+    getTransactionColor(transaction) {
+      return transaction.item_type === "SUBSCRIPTIONS" ? "#409EFF" : "#67C23A";
+    },
+    getTransactionTagType(transaction) {
+      return transaction.item_type === "SUBSCRIPTIONS" ? "" : "success";
+    },
+    handlePageChange(page) {
+      this.currentPage = page;
     },
   },
 };
@@ -548,16 +632,6 @@ export default {
     }
   }
 
-  .activity-section {
-    max-height: 500px;
-    overflow-y: auto;
-    padding-right: 10px;
-
-    .activity-score {
-      margin-top: 10px;
-    }
-  }
-
   .settings-section {
     .danger-zone {
       margin-top: 40px;
@@ -581,12 +655,73 @@ export default {
       margin-bottom: 20px;
     }
   }
-}
+  .subscription-details {
+    margin-top: 8px;
+    margin: 4px 0;
+    font-size: 13px;
+    color: #606266;
+  }
 
-.subscription-details {
-  margin-top: 8px;
-  margin: 4px 0;
-  font-size: 13px;
-  color: #606266;
+  .transactions-section {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    .transaction-filters {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .transaction-card {
+      margin-bottom: 15px;
+      border-left: 3px solid #409eff;
+
+      .transaction-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+
+        .transaction-type {
+          flex: 1;
+        }
+
+        .transaction-amount {
+          font-weight: bold;
+
+          .credit-amount {
+            color: #67c23a;
+          }
+
+          .subscription-plan {
+            color: #409eff;
+          }
+        }
+      }
+
+      .transaction-details {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 13px;
+        color: #909399;
+
+        .transaction-id {
+          flex: 1;
+        }
+
+        .transaction-package {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  .transaction-pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>
