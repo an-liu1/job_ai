@@ -1,7 +1,7 @@
 <template>
   <div class="account-dashboard">
     <div class="user-profile-container">
-      <!-- 用户头像和信息卡片 -->
+      <!-- User Profile Card -->
       <el-card class="profile-card" shadow="hover">
         <div class="profile-header">
           <el-avatar :size="120" class="user-avatar">
@@ -11,7 +11,6 @@
           <p class="user-role">{{ userProfile.role || "Premium Member" }}</p>
         </div>
 
-        <!-- 用户统计信息 -->
         <div class="user-stats">
           <div class="stat-item">
             <div class="stat-value">
@@ -44,9 +43,10 @@
         </div>
       </el-card>
 
-      <!-- 用户详细信息 -->
+      <!-- Details Card with Tabs -->
       <el-card class="details-card" shadow="hover">
         <el-tabs v-model="activeTab" class="profile-tabs">
+          <!-- Personal Info Tab -->
           <el-tab-pane label="Personal Info" name="info">
             <el-descriptions title="Account Details" :column="1" border>
               <el-descriptions-item label="Username">
@@ -72,24 +72,90 @@
               <el-descriptions-item label="Last Login">
                 {{ formatDate(userProfile.last_login || new Date()) }}
               </el-descriptions-item>
-              <el-descriptions-item label="Subscription">
-                <el-tag
-                  :type="userProfile.subscription ? 'success' : 'warning'"
-                >
-                  {{ userProfile.subscription ? "Active" : "Free Tier" }}
-                </el-tag>
-                <el-button
-                  v-if="!userProfile.subscription"
-                  type="text"
-                  size="mini"
-                  @click="showUpgradeDialog"
-                >
-                  Upgrade
-                </el-button>
-              </el-descriptions-item>
             </el-descriptions>
           </el-tab-pane>
 
+          <!-- Subscription Tab -->
+          <el-tab-pane label="Subscription" name="subscription">
+            <div class="subscription-section">
+              <el-descriptions title="Membership Plans" :column="1" border>
+                <!-- Monthly Unlimited Plan -->
+                <el-descriptions-item label="Monthly Unlimited">
+                  <el-tag
+                    :type="
+                      userProfile.subscription_status === 'active'
+                        ? 'success'
+                        : 'info'
+                    "
+                  >
+                    {{
+                      userProfile.subscription_status === "active"
+                        ? "ACTIVE"
+                        : "INACTIVE"
+                    }}
+                  </el-tag>
+                  <div class="subscription-details">
+                    <p>
+                      Start Date:
+                      {{ formatDate(userProfile.subscription_created) }}
+                    </p>
+                  </div>
+                  <el-button
+                    v-if="userProfile.subscription_status !== 'active'"
+                    type="text"
+                    size="mini"
+                    @click="upgradePlan"
+                  >
+                    Subscribe
+                  </el-button>
+                </el-descriptions-item>
+
+                <!-- Credit Balance (from billingProfile) -->
+                <el-descriptions-item label="Credit Balance">
+                  <el-tag type="warning">
+                    {{ billingProfile.credit_balance || 0 }} credits
+                  </el-tag>
+                  <el-button type="text" size="mini" @click="upgradePlan">
+                    Add Credits
+                  </el-button>
+                </el-descriptions-item>
+
+                <!-- Trial Information (from billingProfile) -->
+                <el-descriptions-item label="Free Trial Practice Sessions">
+                  {{ billingProfile.trial_practice_used || 0 }} used of
+                  {{
+                    (billingProfile.trial_practice_left || 0) +
+                    (billingProfile.trial_practice_used || 0)
+                  }}
+                  total
+                </el-descriptions-item>
+
+                <el-descriptions-item label="Free Trial Mock Interviews">
+                  {{ billingProfile.trial_mock_used || 0 }} used of
+                  {{
+                    (billingProfile.trial_mock_left || 0) +
+                    (billingProfile.trial_mock_used || 0)
+                  }}
+                  total
+                </el-descriptions-item>
+
+                <el-descriptions-item label="Free Trial End Date">
+                  {{ formatDate(billingProfile.trial_end_date) }}
+                </el-descriptions-item>
+              </el-descriptions>
+
+              <div
+                class="subscription-actions"
+                v-if="userProfile.subscription_status === 'active'"
+              >
+                <el-button type="danger" plain @click="showCancelDialog">
+                  Cancel Subscription
+                </el-button>
+              </div>
+            </div>
+          </el-tab-pane>
+
+          <!-- Activity Tab -->
           <el-tab-pane label="Activity" name="activity">
             <div class="activity-section">
               <h4>Recent Activity</h4>
@@ -118,6 +184,7 @@
             </div>
           </el-tab-pane>
 
+          <!-- Settings Tab -->
           <el-tab-pane label="Settings" name="settings">
             <div class="settings-section">
               <el-form label-position="top">
@@ -145,39 +212,15 @@
                   >
                 </el-form-item>
               </el-form>
-
-              <!-- <div class="danger-zone">
-                <h4>Danger Zone</h4>
-                <el-button type="danger" plain @click="showDeleteDialog">
-                  Delete Account
-                </el-button>
-              </div> -->
             </div>
           </el-tab-pane>
         </el-tabs>
       </el-card>
-
-      <!-- 底部操作按钮 -->
-      <!-- <div class="action-buttons">
-        <el-button type="primary" icon="el-icon-edit" @click="showEditProfile">
-          Edit Profile
-        </el-button>
-        <el-button
-          type="info"
-          icon="el-icon-setting"
-          @click="activeTab = 'settings'"
-        >
-          Settings
-        </el-button>
-        <el-button type="warning" icon="el-icon-switch-button" @click="logout">
-          Logout
-        </el-button>
-      </div> -->
     </div>
 
-    <!-- 各种对话框 -->
+    <!-- Password Update Dialog -->
     <el-dialog
-      title="Update Passowrd"
+      title="Update Password"
       :visible.sync="passwordUpdateDialogVisible"
       width="40%"
       :close-on-click-modal="false"
@@ -217,7 +260,24 @@
       </span>
     </el-dialog>
 
-    <!-- 其他对话框类似... -->
+    <!-- Cancel Subscription Dialog -->
+    <el-dialog
+      title="Cancel Subscription"
+      :visible.sync="cancelDialogVisible"
+      width="40%"
+      :close-on-click-modal="false"
+    >
+      <p>
+        Are you sure you want to cancel your subscription? You'll lose access to
+        premium features at the end of your billing period.
+      </p>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelDialogVisible = false">No, Keep It</el-button>
+        <el-button type="danger" @click="cancelSubscription"
+          >Yes, Cancel</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -229,6 +289,7 @@ export default {
     return {
       activeTab: "info",
       passwordUpdateDialogVisible: false,
+      cancelDialogVisible: false,
       passwordUpdateForm: {
         email: "",
         password: "",
@@ -297,12 +358,15 @@ export default {
       this.$store.dispatch("getBillingProfile"),
       this.$store.dispatch("getBillingTransactions"),
     ]).then(() => {
-      console.error("1223");
+      console.log("User data loaded");
     });
   },
   computed: {
     userProfile() {
       return this.$store.state.userProfile;
+    },
+    billingProfile() {
+      return this.$store.state.billingProfile;
     },
     billingTransactions() {
       return this.$store.state.billingTransactions;
@@ -310,13 +374,11 @@ export default {
   },
   methods: {
     validatePasswordComplexity(rule, value, callback) {
-      // 长度验证
       if (value.length < 8) {
         callback(new Error("Password must be at least 8 characters"));
         return;
       }
 
-      // 复杂度验证
       const hasUpperCase = /[A-Z]/.test(value);
       const hasLowerCase = /[a-z]/.test(value);
       const hasNumber = /[0-9]/.test(value);
@@ -328,7 +390,7 @@ export default {
       } else if (!hasNumber) {
         callback(new Error("Must contain at least one number"));
       } else {
-        callback(); // 验证通过
+        callback();
       }
     },
     validatePasswordMatch(rule, value, callback) {
@@ -354,10 +416,12 @@ export default {
       this.passwordUpdateForm.email = this.userProfile.email;
       this.passwordUpdateDialogVisible = true;
     },
+    showCancelDialog() {
+      this.cancelDialogVisible = true;
+    },
     updatePassword() {
       this.$refs.passwordUpdateForm.validate((valid) => {
         if (valid) {
-          // API call to update email
           this.$store
             .dispatch("changePassword", {
               old_password: this.passwordUpdateForm.password,
@@ -365,48 +429,27 @@ export default {
             })
             .then(() => {
               this.$message.success(
-                "Email updated successfully, please login again."
+                "Password updated successfully, please login again."
               );
               this.passwordUpdateDialogVisible = false;
               this.logout();
             })
             .catch(() => {
-              this.$message.error("Email updated failed, please try again!");
+              this.$message.error("Password update failed, please try again!");
               this.passwordUpdateDialogVisible = false;
             });
         }
       });
     },
-    showEditProfile() {
-      this.$message.info("Edit profile feature coming soon!");
+    cancelSubscription() {
+      // In a real app, you would call an API here
+      this.$message.success(
+        "Subscription will be canceled at the end of current billing period"
+      );
+      this.cancelDialogVisible = false;
     },
-    showUpgradeDialog() {
-      // this.$message.info("Subscription upgrade feature coming soon!");
+    upgradePlan() {
       this.$router.push({ path: "/", hash: `#price` });
-    },
-    showDeleteDialog() {
-      this.$confirm(
-        "This will permanently delete your account. Continue?",
-        "Warning",
-        {
-          confirmButtonText: "Delete",
-          cancelButtonText: "Cancel",
-          type: "warning",
-          center: true,
-        }
-      )
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "Account deleted",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "Deletion canceled",
-          });
-        });
     },
     saveSettings() {
       this.$message.success("Settings saved successfully");
@@ -418,7 +461,6 @@ export default {
 <style lang="scss" scoped>
 .account-dashboard {
   min-height: calc(100vh - 128px);
-  // background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -524,18 +566,25 @@ export default {
       }
     }
   }
+
+  .subscription-section {
+    .subscription-actions {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .el-descriptions {
+      margin-bottom: 20px;
+    }
+  }
 }
 
-.action-buttons {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
+.subscription-details {
+  margin-top: 8px;
+  p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #606266;
   }
 }
 </style>
