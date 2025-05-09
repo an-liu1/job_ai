@@ -112,7 +112,7 @@
 
                 <!-- Credit Balance (from billingProfile) -->
                 <el-descriptions-item label="Credit Balance">
-                  <el-tag type="warning">
+                  <el-tag type="warning" style="margin-right: 10px">
                     {{ billingProfile.credit_balance || 0 }} credits
                   </el-tag>
                   <el-button type="text" size="mini" @click="upgradePlan">
