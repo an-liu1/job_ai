@@ -83,23 +83,18 @@
                 <el-descriptions-item label="Monthly Unlimited">
                   <el-tag
                     :type="
-                      userProfile.subscription_status === 'active'
+                      userProfile.subscription_status == 'active'
                         ? 'success'
                         : 'info'
                     "
+                    style="margin-right: 10px"
                   >
                     {{
-                      userProfile.subscription_status === "active"
+                      userProfile.subscription_status == "active"
                         ? "ACTIVE"
                         : "INACTIVE"
                     }}
                   </el-tag>
-                  <div class="subscription-details">
-                    <p>
-                      Start Date:
-                      {{ formatDate(userProfile.subscription_created) }}
-                    </p>
-                  </div>
                   <el-button
                     v-if="userProfile.subscription_status !== 'active'"
                     type="text"
@@ -108,6 +103,15 @@
                   >
                     Subscribe
                   </el-button>
+                </el-descriptions-item>
+
+                <el-descriptions-item
+                  label="Monthly Unlimited Start Date"
+                  v-if="userProfile.subscription_status == 'active'"
+                >
+                  <div class="subscription-details">
+                    {{ formatDate(userProfile.subscription_created) }}
+                  </div>
                 </el-descriptions-item>
 
                 <!-- Credit Balance (from billingProfile) -->
@@ -581,10 +585,8 @@ export default {
 
 .subscription-details {
   margin-top: 8px;
-  p {
-    margin: 4px 0;
-    font-size: 13px;
-    color: #606266;
-  }
+  margin: 4px 0;
+  font-size: 13px;
+  color: #606266;
 }
 </style>
