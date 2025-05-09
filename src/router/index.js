@@ -49,6 +49,11 @@ const routes = [
     name: "Privacy Policy",
     component: () => import("../views/PrivacyPolicy.vue"),
   },
+  {
+    path: "/payment-success",
+    name: "Payment success",
+    component: () => import("../views/paymentSuccess.vue"),
+  },
 ];
 
 const router = new VueRouter({
