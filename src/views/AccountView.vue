@@ -170,6 +170,10 @@
                 >
                   <el-option label="All" value="all"></el-option>
                   <el-option
+                    label="Consumption"
+                    value="consumption"
+                  ></el-option>
+                  <el-option
                     label="Credit Purchases"
                     value="credit"
                   ></el-option>
@@ -204,6 +208,12 @@
                           +{{ transaction.credits_purchased }} credits
                         </span>
                         <span
+                          v-if="transaction.credits_consumed"
+                          class="credit-consume"
+                        >
+                          -{{ transaction.credits_consumed }} credits
+                        </span>
+                        <span
                           v-if="transaction.subscription_plan"
                           class="subscription-plan"
                         >
@@ -215,12 +225,6 @@
                     <div class="transaction-details">
                       <div class="transaction-id">
                         <span>Transaction #{{ transaction.id }}</span>
-                      </div>
-                      <div
-                        class="transaction-package"
-                        v-if="transaction.item_key"
-                      >
-                        <span>{{ formatItemKey(transaction.item_key) }}</span>
                       </div>
                     </div>
                   </el-card>
@@ -413,7 +417,7 @@ export default {
       return this.$store.state.billingTransactions;
     },
     filteredTransactions() {
-      let transactions = this.billingTransactions.slice().reverse(); // Show newest first
+      let transactions = this.billingTransactions; // Show newest first
 
       if (this.transactionFilter === "credit") {
         return transactions
@@ -425,6 +429,13 @@ export default {
       } else if (this.transactionFilter === "subscription") {
         return transactions
           .filter((t) => t.item_type === "SUBSCRIPTIONS")
+          .slice(
+            (this.currentPage - 1) * this.pageSize,
+            this.currentPage * this.pageSize
+          );
+      } else if (this.transactionFilter === "consumption") {
+        return transactions
+          .filter((t) => t.type === "consumption")
           .slice(
             (this.currentPage - 1) * this.pageSize,
             this.currentPage * this.pageSize
@@ -524,11 +535,12 @@ export default {
       const types = {
         CREDIT_PACKAGES: "Credit Purchase",
         SUBSCRIPTIONS: "Subscription",
+        mock: "Mock Interview Consume",
+        common: "Common Practice Consume",
+        star: "Master Behavioral Practice Consume",
+        tough: "Tough Practice Consume",
       };
       return types[type] || type;
-    },
-    formatItemKey(key) {
-      return key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
     },
     getTransactionType(transaction) {
       return transaction.item_type === "SUBSCRIPTIONS" ? "primary" : "success";
@@ -693,7 +705,9 @@ export default {
           .credit-amount {
             color: #67c23a;
           }
-
+          .credit-consume {
+            color: red;
+          }
           .subscription-plan {
             color: #409eff;
           }
@@ -709,10 +723,6 @@ export default {
 
         .transaction-id {
           flex: 1;
-        }
-
-        .transaction-package {
-          text-align: right;
         }
       }
     }

@@ -385,7 +385,7 @@ export default {
     },
     interviewModeOptions() {
       return this.$route.params.mode == "mock"
-        ? [{ value: "mock", label: "Mock Intervie" }]
+        ? [{ value: "mock", label: "Mock Interview" }]
         : [
             { value: "common", label: "Common Questions" },
             { value: "star", label: "Master Behavioral Questions" },
