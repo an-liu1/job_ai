@@ -125,7 +125,7 @@
                 </el-descriptions-item>
 
                 <!-- Trial Information (from billingProfile) -->
-                <el-descriptions-item label="Free Trial Practice Sessions">
+                <el-descriptions-item label="Free Trial Feature interviews">
                   {{ billingProfile.trial_practice_used || 0 }} used of
                   {{
                     (billingProfile.trial_practice_left || 0) +
@@ -139,6 +139,17 @@
                   {{
                     (billingProfile.trial_mock_left || 0) +
                     (billingProfile.trial_mock_used || 0)
+                  }}
+                  total
+                </el-descriptions-item>
+
+                <el-descriptions-item
+                  label="Free Mock interview Final Assessment Report"
+                >
+                  {{ billingProfile.trial_assessment_report_used || 0 }} used of
+                  {{
+                    (billingProfile.trial_assessment_report_left || 0) +
+                    (billingProfile.trial_assessment_report_used || 0)
                   }}
                   total
                 </el-descriptions-item>
