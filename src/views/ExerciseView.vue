@@ -1,5 +1,47 @@
 <template>
   <div class="interview-container">
+    <!-- 订阅状态显示区域 -->
+    <div class="subscription-status-container">
+      <div class="status-card">
+        <div class="status-icon">
+          <i v-if="isMonthlyUser" class="el-icon-success"></i>
+          <i v-else-if="isTrialUser" class="el-icon-time"></i>
+          <i v-else class="el-icon-coin"></i>
+        </div>
+
+        <div class="status-content">
+          <div class="status-header">
+            <h4 class="status-title">{{ subscriptionStatusText }}</h4>
+            <el-tag v-if="isTrialUser" type="warning" size="mini">
+              Ends {{ formatDate(billingProfile.trial_end_date) }}
+            </el-tag>
+          </div>
+          <div class="status-details">
+            <div v-if="showCreditBalance" class="detail-item">
+              <span class="detail-label">Credits:</span>
+              <span class="detail-value">{{
+                billingProfile.credit_balance
+              }}</span>
+            </div>
+
+            <div v-if="showTrialRemaining" class="detail-item">
+              <span class="detail-label">Trial Feature Interview Left:</span>
+              <span class="detail-value">{{
+                billingProfile.trial_practice_left
+              }}</span>
+            </div>
+
+            <div v-if="showTrialRemaining" class="detail-item">
+              <span class="detail-label">Trial Mocks Interview Left:</span>
+              <span class="detail-value">{{
+                billingProfile.trial_mock_left
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 面试准备区域 -->
     <div class="interview-header">
       <div class="header-content">
@@ -33,7 +75,6 @@
             placeholder="Select a catergroy mode"
             no-data-text="please select a feature interview mode"
             class="interviewMode-input"
-            v-if="interviewMode !== 'mock'"
           >
             <el-option
               v-for="item in interviewSubModeOptions"
@@ -336,40 +377,6 @@ export default {
         { value: 10, label: "10 questions" },
       ],
       chatHistory: [],
-      // chatHistory: [
-      //   {
-      //     type: "user",
-      //     user_text: "let's start",
-      //     text: "Great! Let's dive into the interview. \n\n**Question 1:** Tell me about yourself.",
-      //     audio: "/media/tts/dbdc22b7-d24d-4978-a1e2-d03b560755ea.wav",
-      //     conversation_id: 401,
-      //     mode: "common",
-      //     evaluation: null,
-      //   },
-      //   {
-      //     type: "ai",
-      //     user_text:
-      //       "Hello, I'm Yia Sen, and I would like to find a job at Web2MI5.\n",
-      //     text: "Thank you for your response, Yia Sen. I appreciate the introduction, but it's beneficial to provide more detail about your background, experience, and skills that relate to the job you're applying for.\n\n**Revised Response:** \"Hello, my name is Yia Sen. I have a background in [your field/industry], with experience in [relevant skills or experiences]. I am interested in finding a job at Web2MI5 because I believe my expertise aligns well with the company's goals.\"\n\n**Score:** 3/10 - The response is very brief and lacks depth.\n\n**Question 2:** What is your greatest accomplishment?",
-      //     audio: "/media/tts/689f950a-c32c-4259-9fad-b2b6d8a7ac38.wav",
-      //     conversation_id: 401,
-      //     mode: "common",
-      //     evaluation: {
-      //       question_category: "Behavioral Questions (STAR method)",
-      //       question_difficulty: "intermediate",
-      //       revised_example:
-      //         "One of my greatest accomplishments was when I led a project that resulted in a 20% increase in efficiency by implementing a new workflow system.",
-      //       assessment:
-      //         "The initial response lacks specific details about the accomplishment. It should follow the STAR method to provide context, actions taken, and results achieved.",
-      //       score: 4,
-      //       advice:
-      //         "Use the STAR method to structure your answer: describe the Situation, Task, Action, and Result clearly.",
-      //       is_relevant: true,
-      //     },
-      //     user_audio_url:
-      //       "/media/user_audio/72e5fd9d-2450-4687-abf1-3e5d7dad2f0a.wav",
-      //   },
-      // ],
     };
   },
   computed: {
@@ -395,27 +402,34 @@ export default {
     interviewSubModeOptions() {
       return this.interviewMode == "common"
         ? [
-            { value: "mock", label: "Background and Experience" },
-            { value: "mock", label: "Skills and Qualifications" },
-            { value: "mock", label: "Knowledge of the Company and Role" },
-            { value: "mock", label: "Motivation and Goals" },
-            { value: "mock", label: "Salary and Logistics" },
-            { value: "mock", label: "Questions for the Interviewer" },
+            { value: "C-be", label: "Background and Experience" },
+            { value: "C-sq", label: "Skills and Qualifications" },
+            { value: "C-kc", label: "Knowledge of the Company and Role" },
+            { value: "C-mq", label: "Motivation and Goals" },
+            { value: "C-sl", label: "Salary and Logistics" },
+            { value: "C-qi", label: "Questions for the Interviewer" },
           ]
         : this.interviewMode == "star"
         ? [
-            { value: "freestyle", label: "Teamwork and Collaboration" },
-            { value: "common", label: "Leadership and Management" },
-            { value: "star", label: "Behavioral Questions (STAR method)" },
+            { value: "S-tc", label: "Teamwork and Collaboration" },
+            { value: "S-lm", label: "Leadership and Management" },
+            { value: "S-bq", label: "Behavioral Questions (STAR method)" },
           ]
         : this.interviewMode == "tough"
         ? [
             {
-              value: "freestyle",
+              value: "T-pc",
               label: "Problem-Solving and Critical Thinking",
             },
-            { value: "common", label: "Situational or Scenario-Based" },
-            { value: "star", label: "Cultural Fit and Personality" },
+            { value: "T-ss", label: "Situational or Scenario-Based" },
+            { value: "T-cp", label: "Cultural Fit and Personality" },
+          ]
+        : this.interviewMode == "mock"
+        ? [
+            { value: "M-gm", label: "General Mock" },
+            { value: "M-jd", label: "Job Description (input)" },
+            { value: "M-ru", label: "Resume upload (doc or txt)" },
+            { value: "M-jr", label: "Job Description(input) & Resume(upload)" },
           ]
         : [];
     },
@@ -437,6 +451,45 @@ export default {
       return `${minutes.toString().padStart(2, "0")}:${seconds
         .toString()
         .padStart(2, "0")}`;
+    },
+    billingProfile() {
+      return this.$store.state.billingProfile || {};
+    },
+    isMonthlyUser() {
+      return this.billingProfile.has_active_subscription;
+    },
+    isTrialUser() {
+      return this.billingProfile.is_trial_active;
+    },
+    subscriptionStatusText() {
+      if (this.isMonthlyUser) {
+        return "Monthly Subscription Active - Unlimited Practice";
+      } else if (this.isTrialUser) {
+        return "Free Trial Active";
+      } else {
+        return "Credit Plan - Credits will be deducted for practice";
+      }
+    },
+    showCreditBalance() {
+      return !this.isMonthlyUser && !this.isTrialUser;
+    },
+    showTrialRemaining() {
+      return this.isTrialUser;
+    },
+    // 根据面试模式获取消耗的credit数量
+    creditCost() {
+      switch (this.interviewMode) {
+        case "common":
+          return 2;
+        case "star":
+          return 2;
+        case "tough":
+          return 2;
+        case "mock":
+          return 3;
+        default:
+          return 0;
+      }
     },
   },
   beforeRouteLeave(to, from, next) {
@@ -481,19 +534,124 @@ export default {
   methods: {
     startInterview() {
       if (!this.interviewMode) {
-        this.$message.warning("Please select a interview mode!");
+        this.$message.error("Please select a interview mode!");
         return;
       }
 
+      if (!this.interviewSubMode) {
+        this.$message.error("Please select a interview catergory!");
+        return;
+      }
+
+      // 检查用户订阅状态并处理
+      if (this.isMonthlyUser) {
+        // 月度用户直接开始
+        this.confirmMonthlyUsage();
+      } else if (this.isTrialUser) {
+        // 试用用户检查剩余次数
+        this.handleTrialUsage();
+      } else {
+        // 信用用户检查余额
+        this.handleCreditUsage();
+      }
+    },
+    // 月度用户确认
+    confirmMonthlyUsage() {
+      this.$confirm(
+        "Your monthly subscription allows unlimited practice sessions. Continue?",
+        "Monthly Subscription Active",
+        {
+          confirmButtonText: "Continue",
+          cancelButtonText: "Cancel",
+          type: "success",
+        }
+      )
+        .then(() => {
+          this.startInterviewSession();
+        })
+        .catch(() => {
+          console.log("User cancel the prictice");
+        });
+    },
+    // 试用用户处理
+    handleTrialUsage() {
+      const isMock = this.interviewMode === "mock";
+      const remaining = isMock
+        ? this.billingProfile.trial_mock_left
+        : this.billingProfile.trial_practice_left;
+
+      if (remaining <= 0) {
+        this.promptCreditPurchase(
+          "Your trial sessions have been used up. Would you like to purchase credits to continue?"
+        );
+      } else {
+        const type = isMock ? "Mock" : "Feature";
+        const confirmText = `This will use 1 of your remaining trial ${type} interviews. Continue?`;
+
+        this.$confirm(confirmText, "Free Trial Session", {
+          confirmButtonText: "Continue",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        })
+          .then(() => {
+            this.startInterviewSession();
+          })
+          .catch(() => {
+            console.log("User cancel the prictice");
+          });
+      }
+    },
+    // 信用用户处理
+    handleCreditUsage() {
+      if (this.billingProfile.credit_balance >= this.creditCost) {
+        this.$confirm(
+          `This session will cost ${this.creditCost} credits. Continue?`,
+          "Credit Deduction",
+          {
+            confirmButtonText: "Continue",
+            cancelButtonText: "Cancel",
+            type: "info",
+          }
+        )
+          .then(() => {
+            this.startInterviewSession();
+          })
+          .catch(() => {
+            console.log("User canceled the action");
+          });
+      } else {
+        this.promptCreditPurchase(
+          `You don't have enough credits (needed: ${this.creditCost}). Would you like to purchase more credits?`
+        );
+      }
+    },
+
+    // 提示用户购买信用
+    promptCreditPurchase(message) {
+      this.$confirm(message, "Insufficient Credits", {
+        confirmButtonText: "Purchase Credits",
+        cancelButtonText: "Cancel",
+        type: "warning",
+      })
+        .then(() => {
+          this.$router.push({ path: "/", hash: "#price" });
+        })
+        .catch(() => {
+          console.log("User chose not to purchase credits");
+        });
+    },
+    // 开始面试会话
+    startInterviewSession() {
       this.loading = true;
       const formData = new FormData();
       formData.append("mode", this.interviewMode);
+      formData.append("sub_mode", this.interviewSubMode);
       formData.append("questionNum", this.questionNum);
       formData.append("new_conversation", true);
-
       this.$store
         .dispatch("getChatInfo", formData)
         .then(() => {
+          this.$store.dispatch("getBillingProfile");
           this.chatHistory = [];
           this.addAIMessage(
             this.$store.state.chatInfo.response_text,
@@ -505,6 +663,7 @@ export default {
           this.loading = false;
         })
         .catch(() => {
+          this.$message.error("Failed to start interview session");
           this.loading = false;
         });
     },
@@ -548,6 +707,7 @@ export default {
       const formData = new FormData();
       formData.append("audio", blob, "recording.wav");
       formData.append("mode", this.interviewMode);
+      formData.append("sub_mode", this.interviewSubMode);
       formData.append("new_conversation", false);
       formData.append(
         "conversation_id",
@@ -603,6 +763,15 @@ export default {
       if (!timestamp) return "";
       return format(new Date(timestamp), "h:mm a");
     },
+    formatDate(dateString) {
+      if (!dateString) return "";
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    },
     getScoreTagType(score) {
       if (score >= 8) return "success";
       if (score >= 6) return "warning";
@@ -653,6 +822,80 @@ export default {
     #b0d7ff,
     #ebefff
   );
+
+  .subscription-status-container {
+    width: 1300px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+
+    .status-card {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+
+      .status-icon {
+        margin-right: 16px;
+        i {
+          font-size: 28px;
+        }
+      }
+
+      .status-content {
+        flex: 1;
+
+        .status-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 8px;
+
+          .status-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #303133;
+          }
+
+          .el-tag {
+            font-size: 12px;
+            height: 20px;
+            line-height: 18px;
+            padding: 0 6px;
+          }
+        }
+
+        .status-details {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+
+          .detail-item {
+            display: flex;
+            align-items: center;
+            background: #f5f7fa;
+            padding: 6px 12px;
+            border-radius: 16px;
+
+            .detail-label {
+              font-size: 13px;
+              color: #909399;
+              margin-right: 6px;
+            }
+
+            .detail-value {
+              font-size: 14px;
+              font-weight: 500;
+              color: #606266;
+            }
+          }
+        }
+      }
+    }
+  }
 
   .interview-header {
     width: 1300px;
@@ -1022,6 +1265,9 @@ export default {
 }
 
 @media (max-width: 1300px) {
+  .subscription-status-container {
+    width: 90% !important;
+  }
   .interview-header {
     width: 90% !important;
   }
@@ -1034,6 +1280,41 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .subscription-status-container {
+    width: 100%;
+    padding-top: 70px;
+
+    .status-card {
+      .status-icon i {
+        font-size: 24px;
+      }
+
+      .status-content {
+        .status-header {
+          flex-wrap: wrap;
+          .status-title {
+            font-size: 15px;
+          }
+        }
+
+        .status-details {
+          gap: 8px;
+
+          .detail-item {
+            padding: 4px 10px;
+
+            .detail-label {
+              font-size: 12px;
+            }
+
+            .detail-value {
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+  }
   .empty-state {
     padding: 30px 15px;
 

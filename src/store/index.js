@@ -21,7 +21,6 @@ export default new Vuex.Store({
     conversationID: "",
     achievementStats: {},
     checkOutUrl: {},
-    consumeCreditsResponse: {},
     billingTransactions: {},
     billingProfile: {},
   },
@@ -71,9 +70,6 @@ export default new Vuex.Store({
     },
     createCheckoutSession(state, payload) {
       state.checkOutUrl = payload;
-    },
-    consumeCredits(state, payload) {
-      state.consumeCreditsResponse = payload;
     },
     getBillingTransactions(state, payload) {
       state.billingTransactions = payload;
@@ -151,11 +147,6 @@ export default new Vuex.Store({
     async createCheckoutSession({ commit }, data) {
       let res = await request("post", "billing/create-checkout-session/", data);
       commit("createCheckoutSession", res.data);
-    },
-
-    async consumeCredits({ commit }, data) {
-      let res = await request("post", "billing/consume-credits/", data);
-      commit("consumeCredits", res.data);
     },
     async getBillingTransactions({ commit }) {
       let res = await request("get", "billing/transactions/");
