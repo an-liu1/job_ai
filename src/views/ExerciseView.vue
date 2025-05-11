@@ -564,7 +564,7 @@ export default {
         {
           confirmButtonText: "Confirm",
           cancelButtonText: "Cancel",
-          type: "success",
+          type: "info",
         }
       )
         .then(() => {
@@ -592,7 +592,7 @@ export default {
         this.$confirm(confirmText, "Free Trial Session", {
           confirmButtonText: "Confirm",
           cancelButtonText: "Cancel",
-          type: "warning",
+          type: "info",
         })
           .then(() => {
             this.startInterviewSession();
@@ -632,7 +632,7 @@ export default {
       this.$confirm(message, "Insufficient Credits", {
         confirmButtonText: "Purchase Credits",
         cancelButtonText: "Cancel",
-        type: "warning",
+        type: "info",
       })
         .then(() => {
           this.$router.push({ path: "/", hash: "#price" });
