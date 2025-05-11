@@ -43,7 +43,7 @@
     </div>
 
     <!-- 面试准备区域 -->
-    <div class="interview-header">
+    <div class="interview-header" v-if="!interviewStarted">
       <div class="header-content">
         <h1 class="interview-title">
           {{ practiceModeText }} Interview Practice
@@ -526,6 +526,7 @@ export default {
           } else {
             this.interviewMode = "";
           }
+          this.interviewSubMode = "";
         }
       },
       immediate: true, // 组件创建时立即执行一次 handler
@@ -561,7 +562,7 @@ export default {
         "Your monthly subscription allows unlimited practice sessions. Continue?",
         "Monthly Subscription Active",
         {
-          confirmButtonText: "Continue",
+          confirmButtonText: "Confirm",
           cancelButtonText: "Cancel",
           type: "success",
         }
@@ -589,7 +590,7 @@ export default {
         const confirmText = `This will use 1 of your remaining trial ${type} interviews. Continue?`;
 
         this.$confirm(confirmText, "Free Trial Session", {
-          confirmButtonText: "Continue",
+          confirmButtonText: "Confirm",
           cancelButtonText: "Cancel",
           type: "warning",
         })
@@ -608,7 +609,7 @@ export default {
           `This session will cost ${this.creditCost} credits. Continue?`,
           "Credit Deduction",
           {
-            confirmButtonText: "Continue",
+            confirmButtonText: "Confirm",
             cancelButtonText: "Cancel",
             type: "info",
           }
