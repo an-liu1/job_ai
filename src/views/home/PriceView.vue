@@ -39,7 +39,7 @@
           7-day free trial
         </div> -->
 
-        <button class="cta-btn">
+        <button class="cta-btn" @click="handleStartFree">
           <span class="btn-icon">🚀</span>
           Get Started
         </button>
@@ -243,6 +243,14 @@ export default {
     },
   },
   methods: {
+    handleStartFree() {
+      if (!this.loginStatus) {
+        this.$store.commit("setLogininFrom", this.$route.fullPath);
+        this.$router.push("/signinup");
+        return;
+      }
+      this.$router.push("/exercise/feature");
+    },
     handleGetCredits(isMonthlyPlan) {
       if (!this.loginStatus) {
         this.$store.commit("setLogininFrom", this.$route.fullPath);
@@ -265,7 +273,7 @@ export default {
         });
     },
     handlePaymentComplete() {
-      this.$router.push("/account");
+      this.$router.push("/account/subscription");
     },
     closePaymentDialog() {
       this.paymentDialogVisible = false;

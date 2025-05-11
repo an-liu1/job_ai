@@ -25,7 +25,7 @@ const routes = [
     component: () => import("../views/SignInUP.vue"),
   },
   {
-    path: "/account",
+    path: "/account/:tab?",
     name: "Account View",
     component: () => import("../views/AccountView.vue"),
   },

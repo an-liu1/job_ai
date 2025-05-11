@@ -63,9 +63,9 @@
                   @click="showPasswordUpdateDialog"
                 ></el-button>
               </el-descriptions-item>
-              <el-descriptions-item label="User ID">{{
+              <!-- <el-descriptions-item label="User ID">{{
                 userProfile.id
-              }}</el-descriptions-item>
+              }}</el-descriptions-item> -->
               <el-descriptions-item label="Member Since">
                 {{ formatDate(userProfile.date_joined || new Date()) }}
               </el-descriptions-item>
@@ -78,7 +78,7 @@
           <!-- Subscription Tab -->
           <el-tab-pane label="Subscription" name="subscription">
             <div class="subscription-section">
-              <el-descriptions title="Membership Plans" :column="1" border>
+              <el-descriptions title="Subscription Plans" :column="1" border>
                 <!-- Monthly Unlimited Plan -->
                 <el-descriptions-item label="Monthly Unlimited">
                   <el-tag
@@ -403,7 +403,10 @@ export default {
       this.$store.dispatch("getBillingProfile"),
       this.$store.dispatch("getBillingTransactions"),
     ]).then(() => {
-      console.log("User data loaded");
+      let tab = this.$route.params.tab;
+      if (tab) {
+        this.activeTab = tab;
+      }
     });
   },
   computed: {
