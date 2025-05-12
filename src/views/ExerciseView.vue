@@ -53,55 +53,97 @@
         </p>
 
         <div class="interviewMode-selector">
-          <el-select
-            v-model="interviewMode"
-            filterable
-            allow-create
-            placeholder="Select a feature interview mode"
-            class="interviewMode-input"
-          >
-            <el-option
-              v-for="item in interviewModeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
+          <div class="select-row">
+            <el-select
+              v-model="interviewMode"
+              filterable
+              allow-create
+              placeholder="Select a feature interview mode"
+              class="interviewMode-input"
+            >
+              <el-option
+                v-for="item in interviewModeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
 
-          <el-select
-            v-model="interviewSubMode"
-            filterable
-            allow-create
-            placeholder="Select a catergroy mode"
-            no-data-text="please select a feature interview mode"
-            class="interviewMode-input"
-          >
-            <el-option
-              v-for="item in interviewSubModeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
+            <el-select
+              v-model="interviewSubMode"
+              filterable
+              allow-create
+              placeholder="Select a category mode"
+              no-data-text="please select a feature interview mode"
+              class="interviewMode-input"
+              @change="handleSubModeChange"
+            >
+              <el-option
+                v-for="item in interviewSubModeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
 
-          <!-- <el-select v-model="questionNum" class="questionNum-select">
-            <el-option
-              v-for="level in questionNumList"
-              :key="level.value"
-              :label="level.label"
-              :value="level.value"
-            />
-          </el-select> -->
+          <!-- Dynamic fields container -->
+          <div class="dynamic-fields-container" v-if="showDynamicFields">
+            <!-- Job Description Field -->
+            <div class="dynamic-field" v-if="showJobDescriptionField">
+              <el-input
+                type="textarea"
+                v-model="jobDescription"
+                :rows="4"
+                placeholder="Enter job description"
+                resize="none"
+                class="job-description-input"
+              ></el-input>
+              <p
+                class="field-hint"
+                v-if="!jobDescription && jobDescriptionRequired"
+              >
+                <i class="el-icon-warning"></i> Job description is required for
+                this mode
+              </p>
+            </div>
 
-          <el-button
-            type="primary"
-            class="start-btn"
-            :loading="loading"
-            @click="startInterview"
-          >
-            <i class="el-icon-video-play"></i> Start Practice
-          </el-button>
+            <!-- Resume Upload Field -->
+            <div class="dynamic-field" v-if="showResumeUploadField">
+              <el-upload
+                class="resume-upload"
+                action="#"
+                :file-list="resumeFileList"
+                :on-change="handleResumeChange"
+                :auto-upload="false"
+                :multiple="false"
+                accept=".doc, .docx, .txt"
+              >
+                <el-button size="medium" type="primary" plain>
+                  <i class="el-icon-upload"></i> Upload Resume
+                </el-button>
+                <div slot="tip" class="upload-tip">
+                  Supported formats: .doc, .docx, .txt (max 3MB)
+                </div>
+              </el-upload>
+              <p
+                class="field-hint"
+                v-if="resumeFileList.length === 0 && resumeUploadRequired"
+              >
+                <i class="el-icon-warning"></i> Resume upload is required for
+                this mode
+              </p>
+            </div>
+          </div>
         </div>
+        <el-button
+          type="primary"
+          class="start-btn"
+          :loading="loading"
+          @click="startInterview"
+        >
+          <i class="el-icon-video-play"></i> Start Practice
+        </el-button>
       </div>
     </div>
 
@@ -361,6 +403,10 @@ export default {
       interviewMode: "",
       interviewSubMode: "",
       questionNum: 5,
+      jobDescription: "",
+      resumeFileList: [],
+      jobDescriptionRequired: false,
+      resumeUploadRequired: false,
       loading: false,
       isRecording: false,
       recordingDuration: 0,
@@ -432,6 +478,15 @@ export default {
             { value: "M-jr", label: "Job Description(input) & Resume(upload)" },
           ]
         : [];
+    },
+    showDynamicFields() {
+      return this.showJobDescriptionField || this.showResumeUploadField;
+    },
+    showJobDescriptionField() {
+      return ["M-jd", "M-jr"].includes(this.interviewSubMode);
+    },
+    showResumeUploadField() {
+      return ["M-ru", "M-jr"].includes(this.interviewSubMode);
     },
     userInitial() {
       const username = this.$store.state.userProfile?.username || "U";
@@ -544,6 +599,30 @@ export default {
         return;
       }
 
+      if (this.jobDescriptionRequired && !this.jobDescription.trim()) {
+        this.$message.error("Please enter the job description!");
+        return;
+      }
+
+      if (this.resumeUploadRequired && this.resumeFileList.length === 0) {
+        this.$message.error("Please upload your resume!");
+        return;
+      }
+
+      const isAllowedFormat = [".txt", ".doc", ".docx"].some((ext) =>
+        this.resumeFileList[0].raw.name.toLowerCase().endsWith(ext)
+      );
+      if (!isAllowedFormat) {
+        this.$message.error("Resume can only be in txt/doc/docx format!");
+        return;
+      }
+
+      const isSizeValid = this.resumeFileList[0].raw.size / (1024 * 1024) <= 3; // 3MB
+      if (!isSizeValid) {
+        this.$message.error("Resume size cannot exceed 200KB!");
+        return;
+      }
+
       // 检查用户订阅状态并处理
       if (this.isMonthlyUser) {
         // 月度用户直接开始
@@ -641,13 +720,34 @@ export default {
           console.log("User chose not to purchase credits");
         });
     },
+    handleSubModeChange(value) {
+      this.jobDescriptionRequired = ["M-jd", "M-jr"].includes(value);
+      this.resumeUploadRequired = ["M-ru", "M-jr"].includes(value);
+
+      // Clear fields when switching modes
+      if (!this.showJobDescriptionField) {
+        this.jobDescription = "";
+      }
+      if (!this.showResumeUploadField) {
+        this.resumeFileList = [];
+      }
+    },
+    handleResumeChange(file, fileList) {
+      this.resumeFileList = [fileList[fileList.length - 1]];
+    },
     // 开始面试会话
     startInterviewSession() {
       this.loading = true;
       const formData = new FormData();
+      let jobDescription = this.jobDescription
+        .replace(/[^\x20-\x7E]/g, "") // \x20 (space) to \x7E (~)
+        .replace(/\s+/g, " ")
+        .trim();
       formData.append("mode", this.interviewMode);
       formData.append("sub_mode", this.interviewSubMode);
       formData.append("questionNum", this.questionNum);
+      formData.append("job_description", jobDescription);
+      formData.append("resume_file", this.resumeFileList[0].raw);
       formData.append("new_conversation", true);
       this.$store
         .dispatch("getChatInfo", formData)
@@ -734,7 +834,6 @@ export default {
           }
           this.loading = false; // 确保加载状态结束
           this.interviewStarted = true; // 确保面试状态保持
-          console.log(this.$refs.voiceRecorderRef);
           this.$refs.voiceRecorderRef.loading = false;
         })
         .catch(() => {
@@ -928,23 +1027,85 @@ export default {
 
     .interviewMode-selector {
       display: flex;
-      gap: 10px;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
 
-      .interviewMode-input {
-        flex: 1;
+      .select-row {
+        display: flex;
+        gap: 15px;
+
+        @media (max-width: 768px) {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .interviewMode-input {
+          flex: 1;
+
+          @media (max-width: 768px) {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .dynamic-fields-container {
+      width: 100%;
+      background: #f5f7fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+      .dynamic-field {
+        margin-bottom: 20px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
 
-      .questionNum-select {
-        width: 180px;
+      .job-description-input {
+        margin-bottom: 5px;
+
+        textarea {
+          font-family: inherit;
+        }
       }
 
-      .start-btn {
-        padding-left: 25px;
-        padding-right: 25px;
+      .resume-upload {
+        margin-bottom: 5px;
+
+        .el-upload {
+          display: block;
+        }
+      }
+
+      .upload-tip {
+        font-size: 12px;
+        color: #909399;
+        margin-top: 8px;
+      }
+
+      .field-hint {
+        font-size: 13px;
+        color: #f56c6c;
+        margin: 5px 0 0;
+        display: flex;
+        align-items: center;
 
         i {
-          margin-right: 8px;
+          margin-right: 5px;
         }
+      }
+    }
+    .start-btn {
+      padding-left: 25px;
+      padding-right: 25px;
+      margin-top: 10px;
+      i {
+        margin-right: 8px;
       }
     }
   }
