@@ -609,20 +609,22 @@ export default {
         return;
       }
 
-      const isAllowedFormat = [".txt", ".doc", ".docx"].some((ext) =>
-        this.resumeFileList[0].raw.name.toLowerCase().endsWith(ext)
-      );
-      if (!isAllowedFormat) {
-        this.$message.error("Resume can only be in txt/doc/docx format!");
-        return;
-      }
+      if (this.showResumeUploadField) {
+        const isAllowedFormat = [".txt", ".doc", ".docx"].some((ext) =>
+          this.resumeFileList[0].raw.name.toLowerCase().endsWith(ext)
+        );
+        if (!isAllowedFormat) {
+          this.$message.error("Resume can only be in txt/doc/docx format!");
+          return;
+        }
 
-      const isSizeValid = this.resumeFileList[0].raw.size / (1024 * 1024) <= 3; // 3MB
-      if (!isSizeValid) {
-        this.$message.error("Resume size cannot exceed 200KB!");
-        return;
+        const isSizeValid =
+          this.resumeFileList[0].raw.size / (1024 * 1024) <= 3; // 3MB
+        if (!isSizeValid) {
+          this.$message.error("Resume size cannot exceed 200KB!");
+          return;
+        }
       }
-
       // 检查用户订阅状态并处理
       if (this.isMonthlyUser) {
         // 月度用户直接开始
@@ -739,15 +741,20 @@ export default {
     startInterviewSession() {
       this.loading = true;
       const formData = new FormData();
-      let jobDescription = this.jobDescription
-        .replace(/[^\x20-\x7E]/g, "") // \x20 (space) to \x7E (~)
-        .replace(/\s+/g, " ")
-        .trim();
+
       formData.append("mode", this.interviewMode);
       formData.append("sub_mode", this.interviewSubMode);
       formData.append("questionNum", this.questionNum);
-      formData.append("job_description", jobDescription);
-      formData.append("resume_file", this.resumeFileList[0].raw);
+      if (this.showJobDescriptionField) {
+        let jobDescription = this.jobDescription
+          ?.replace(/[^\x20-\x7E]/g, "") // \x20 (space) to \x7E (~)
+          .replace(/\s+/g, " ")
+          .trim();
+        formData.append("job_description", jobDescription);
+      }
+      if (this.showResumeUploadField) {
+        formData.append("resume_file", this.resumeFileList[0].raw);
+      }
       formData.append("new_conversation", true);
       this.$store
         .dispatch("getChatInfo", formData)
