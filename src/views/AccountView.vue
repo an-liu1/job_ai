@@ -173,7 +173,7 @@
                 v-if="userProfile.subscription_status === 'active'"
               >
                 <el-button type="danger" plain @click="showCancelDialog">
-                  Cancel Subscription
+                  Cancel Monthly Subscription
                 </el-button>
               </div>
             </div>
