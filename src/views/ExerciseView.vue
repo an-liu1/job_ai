@@ -483,10 +483,10 @@ export default {
           ]
         : this.interviewMode == "mock"
         ? [
-            { value: "M-gm", label: "General Mock" },
-            { value: "M-jd", label: "Job Description (input)" },
-            { value: "M-ru", label: "Resume upload (doc or txt)" },
-            { value: "M-jr", label: "Job Description(input) & Resume(upload)" },
+            { value: "M-gm", label: "General Mock Interview" },
+            { value: "M-jd", label: "Job Description-Based" },
+            { value: "M-ru", label: "Resume-Based" },
+            { value: "M-jr", label: "JD + Resume Combo" },
           ]
         : [];
     },
