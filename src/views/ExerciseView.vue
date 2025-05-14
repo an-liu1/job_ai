@@ -13,7 +13,7 @@
           <div class="status-header">
             <h4 class="status-title">{{ subscriptionStatusText }}</h4>
             <el-tag v-if="isTrialUser" type="warning" size="mini">
-              Ends {{ formatDate(billingProfile.trial_end_date) }}
+              Free Trial Ends At {{ formatDate(billingProfile.trial_end_date) }}
             </el-tag>
           </div>
           <div class="status-details">
@@ -151,6 +151,14 @@
     <div class="interview-content" v-if="chatHistory.length > 0">
       <!-- 面试计时和统计 -->
       <div class="interview-meta">
+        <div class="meta-item">
+          <i class="el-icon-document"></i>
+          <span>{{
+            interviewSubModeOptions.find(
+              (option) => option.value == interviewSubMode
+            ).label
+          }}</span>
+        </div>
         <div class="meta-item">
           <i class="el-icon-time"></i>
           <span>{{ formattedTime }}</span>
