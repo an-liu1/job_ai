@@ -23,6 +23,7 @@ export default new Vuex.Store({
     checkOutUrl: {},
     billingTransactions: {},
     billingProfile: {},
+    cancelSubscriptionResponse: {},
   },
   getters: {},
   mutations: {
@@ -76,6 +77,9 @@ export default new Vuex.Store({
     },
     getBillingProfile(state, payload) {
       state.billingProfile = payload;
+    },
+    cancelSubscription(state, payload) {
+      state.cancelSubscriptionResponse = payload;
     },
   },
   actions: {
@@ -155,6 +159,12 @@ export default new Vuex.Store({
     async getBillingProfile({ commit }) {
       let res = await request("get", "billing/profile/");
       commit("getBillingProfile", res.data);
+    },
+    async cancelSubscription({ commit }) {
+      let res = await request("post", "billing/subscription/cancel/", {
+        cancel_immediately: false,
+      });
+      commit("cancelSubscription", res.data);
     },
   },
 

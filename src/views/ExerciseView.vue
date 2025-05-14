@@ -234,14 +234,17 @@
               />
 
               <!-- 评估部分 -->
-              <div v-if="msg.evaluation?.score" class="evaluation-badge">
+              <div
+                v-if="msg.evaluation?.score && $route.params.mode !== 'mock'"
+                class="evaluation-badge"
+              >
                 <el-tag :type="getScoreTagType(msg.evaluation.score)">
                   {{ msg.evaluation.score }} / 10
                 </el-tag>
               </div>
 
               <el-collapse
-                v-if="msg.evaluation"
+                v-if="msg.evaluation && $route.params.mode !== 'mock'"
                 class="evaluation-collapse"
                 :value="
                   expandedEvaluations.includes(index) ? 'evaluation' : null

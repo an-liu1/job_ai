@@ -114,6 +114,15 @@
                   </div>
                 </el-descriptions-item>
 
+                <el-descriptions-item
+                  label="Monthly Unlimited End Date"
+                  v-if="userProfile.subscription_status !== 'active'"
+                >
+                  <div class="subscription-details">
+                    {{ formatDate(userProfile.subscription_period_end) }}
+                  </div>
+                </el-descriptions-item>
+
                 <!-- Credit Balance (from billingProfile) -->
                 <el-descriptions-item label="Credit Balance">
                   <el-tag type="warning" style="margin-right: 10px">
@@ -430,8 +439,17 @@ export default {
     billingTransactions() {
       return this.$store.state.billingTransactions;
     },
+    cancelSubscriptionResponse() {
+      return this.$store.state.cancelSubscriptionResponse;
+    },
     filteredTransactions() {
-      let transactions = this.billingTransactions; // Show newest first
+      // Ensure billingTransactions is always an array
+      let transactions = this.billingTransactions || [];
+
+      // Additional safety check
+      if (!Array.isArray(transactions)) {
+        transactions = [];
+      }
 
       if (this.transactionFilter === "credit") {
         return transactions
@@ -491,7 +509,14 @@ export default {
       }
     },
     formatDate(date) {
-      return format(new Date(date), "MMMM d, yyyy");
+      // Return empty string for invalid inputs
+      if (!date) return "";
+
+      const parsedDate = new Date(date);
+      // Check if the date is valid
+      if (isNaN(parsedDate.getTime())) return "";
+
+      return format(parsedDate, "MMMM d, yyyy");
     },
     formatTime(date) {
       return format(new Date(date), "h:mm a, MMMM d, yyyy");
@@ -532,10 +557,13 @@ export default {
       });
     },
     cancelSubscription() {
-      // In a real app, you would call an API here
-      this.$message.success(
-        "Subscription will be canceled at the end of current billing period"
-      );
+      this.$store.dispatch("cancelSubscription").then(() => {
+        if (this.cancelSubscriptionResponse.period_end_date) {
+          this.$message.success(
+            "Subscription will be canceled at the end of current billing period"
+          );
+        }
+      });
       this.cancelDialogVisible = false;
     },
     upgradePlan() {
