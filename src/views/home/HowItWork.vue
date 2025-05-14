@@ -53,12 +53,12 @@ export default {
         },
         {
           icon: "el-icon-right",
-          title: "Get Feedback",
+          title: "Get Instant Feedback",
           desc: "· Replay your answer anytime <br />· Hear AI voice feedback: score, tips & sample answer <br />· Tap <b>Evaluation Details</b> for full insights",
         },
         {
           icon: "el-icon-right",
-          title: "Submit Your Response",
+          title: "Review Final Assessment",
           desc: "· Get your overall score, strengths & weaknesses <br />· See improvement tips & career suggestions <br />· Access anytime in <b>History</b>",
         },
       ],
