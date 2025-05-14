@@ -558,11 +558,13 @@ export default {
     },
     cancelSubscription() {
       this.$store.dispatch("cancelSubscription").then(() => {
-        if (this.cancelSubscriptionResponse.period_end_date) {
-          this.$message.success(
-            "Subscription will be canceled at the end of current billing period"
-          );
-        }
+        this.$store.dispatch("getBillingProfile").then(() => {
+          if (this.cancelSubscriptionResponse.period_end_date) {
+            this.$message.success(
+              "Subscription will be canceled at the end of current billing period"
+            );
+          }
+        });
       });
       this.cancelDialogVisible = false;
     },
