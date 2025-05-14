@@ -3,13 +3,13 @@
     <div class="history-list-panel">
       <el-card shadow="hover" class="history-card">
         <div class="search-toolbar">
-          <el-input
+          <!-- <el-input
             v-model="searchQuery"
             placeholder="Search conversations..."
             clearable
             prefix-icon="el-icon-search"
             class="search-input"
-          />
+          /> -->
           <el-select
             v-model="filterMode"
             placeholder="Filter by mode"
@@ -17,10 +17,10 @@
             class="mode-filter"
           >
             <el-option
-              v-for="mode in availableModes"
-              :key="mode"
-              :label="mode"
-              :value="mode"
+              v-for="item in availableModes"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             />
           </el-select>
         </div>
@@ -42,8 +42,8 @@
           >
             <template #default="{ row }">
               {{ row.conversation_id }} -
-              <el-tag :type="getModeTagType(row.mode)">
-                {{ row.mode }}
+              <el-tag>
+                {{ availableModes.filter((i) => i.value == row.mode)[0].title }}
               </el-tag>
             </template>
           </el-table-column>
@@ -92,7 +92,28 @@ export default {
       searchQuery: "",
       filterMode: "",
       refreshKey: 0,
-      availableModes: ["common", "star", "tough", "mock"],
+      availableModes: [
+        {
+          value: "common",
+          label: "Common Questions",
+          title: "Common",
+        },
+        {
+          value: "star",
+          label: "Behavioral Questions",
+          title: "Behavioral",
+        },
+        {
+          value: "tough",
+          label: "Tough Questions",
+          title: "Tough",
+        },
+        {
+          value: "mock",
+          label: "Mock Interview",
+          title: "Mock",
+        },
+      ],
     };
   },
   computed: {
@@ -140,15 +161,6 @@ export default {
       const last = new Date(item.messages[item.messages.length - 1].timestamp);
       return Math.round((last - first) / 1000);
     },
-    getModeTagType(mode) {
-      const types = {
-        Technical: "primary",
-        Behavioral: "success",
-        "Case Study": "warning",
-        Mixed: "info",
-      };
-      return types[mode] || "";
-    },
     openHistoryDetail(row) {
       this.$store.commit("switchLoadingStatus", true);
       this.$store
@@ -191,15 +203,16 @@ export default {
 
       .search-toolbar {
         display: flex;
-        gap: 10px;
+        // gap: 10px;
         margin-bottom: 15px;
 
-        .search-input {
-          flex: 1;
-        }
+        // .search-input {
+        //   flex: 1;
+        // }
 
         .mode-filter {
-          width: 160px;
+          flex: 1;
+          // width: 160px;
         }
       }
 

@@ -8,7 +8,13 @@
             {{ userProfile.username?.charAt(0).toUpperCase() || "A" }}
           </el-avatar>
           <h2 class="user-greeting">Hello, {{ userProfile.username }}!</h2>
-          <p class="user-role">{{ userProfile.role || "Premium Member" }}</p>
+          <p class="user-role">
+            {{
+              userProfile.subscription_status == "active"
+                ? "Premium Member"
+                : ""
+            }}
+          </p>
         </div>
 
         <div class="user-stats">
@@ -581,7 +587,7 @@ export default {
         SUBSCRIPTIONS: "Subscription",
         mock: "Mock Interview Consume",
         common: "Common Practice Consume",
-        star: "Master Behavioral Practice Consume",
+        star: "Behavioral Practice Consume",
         tough: "Tough Practice Consume",
       };
       return types[type] || type;

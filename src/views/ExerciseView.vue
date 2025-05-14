@@ -452,7 +452,7 @@ export default {
         ? [{ value: "mock", label: "Mock Interview" }]
         : [
             { value: "common", label: "Common Questions" },
-            { value: "star", label: "Master Behavioral Questions" },
+            { value: "star", label: "Behavioral Questions" },
             { value: "tough", label: "Tough Questions" },
           ];
     },
