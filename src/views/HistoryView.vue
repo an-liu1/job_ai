@@ -61,36 +61,16 @@
           </el-table-column>
 
           <el-table-column
-            prop="overall_score"
+            prop="average_score"
             label="Score"
             width="90"
             align="center"
             sortable
           >
-            {{ row?.overall_score || "0" }}
-            <!-- <template #default="{ row }">
-              <el-rate
-                v-model="row.overall_score"
-                disabled
-                :max="10"
-                :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
-                score-template="{value}"
-                text-color="#ff9900"
-              />
-            </template> -->
-          </el-table-column>
-
-          <!-- <el-table-column
-            prop="duration"
-            label="Duration"
-            width="120"
-            align="center"
-            sortable
-          >
             <template #default="{ row }">
-              {{ formatDuration(row.duration) }}
+              {{ row.average_score || 0 }}
             </template>
-          </el-table-column> -->
+          </el-table-column>
         </el-table>
       </el-card>
     </div>
@@ -116,15 +96,17 @@ export default {
     };
   },
   computed: {
-    chatHistory() {
-      return this.$store.state.chatHistory.map((item) => ({
-        ...item,
-        started_at: this.$moment(item.started_at).format(),
-        duration: this.calculateDuration(item),
-      }));
-    },
     filteredChatHistory() {
-      let filtered = this.chatHistory;
+      let filtered = this.$store.state.chatHistory || [];
+
+      // Ensure all items have required properties
+      filtered = filtered.map((item) => ({
+        mode: item.mode || "unknown",
+        conversation_id: item.conversation_id || "",
+        started_at: item.started_at || new Date().toISOString(),
+        average_score: item.average_score || 0,
+        ...item,
+      }));
 
       if (this.searchQuery) {
         const query = this.searchQuery.toLowerCase();

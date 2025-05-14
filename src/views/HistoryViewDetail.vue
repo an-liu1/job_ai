@@ -11,10 +11,10 @@
             <i class="el-icon-date"></i>
             <span>{{ formatDate(chatHistoryDetail.started_at) }}</span>
           </div>
-          <div class="meta-item" v-if="finalAssessmentDetail.overall_score">
+          <div class="meta-item" v-if="finalAssessmentDetail.average_score">
             <i class="el-icon-star-on"></i>
             <span
-              >Overall Score: {{ finalAssessmentDetail.overall_score }}/10</span
+              >Average Score: {{ finalAssessmentDetail.average_score }}/10</span
             >
           </div>
         </div>
