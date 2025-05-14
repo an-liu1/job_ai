@@ -93,7 +93,7 @@
                 @click="$router.push('/account')"
                 v-else
               >
-                <span>Hello,</span>
+                <span class="helloText">Hello,</span>
                 <el-avatar>
                   {{ userProfile.username?.charAt(0).toUpperCase() || "A" }}
                 </el-avatar>
@@ -459,6 +459,9 @@ export default {
     }
   }
 
+  .helloText {
+    color: #ffffff !important;
+  }
   .black-logo {
     display: none;
   }
@@ -500,6 +503,9 @@ export default {
       &.active {
         color: #7b68ee;
       }
+    }
+    .helloText {
+      color: #505050 !important;
     }
   }
 
