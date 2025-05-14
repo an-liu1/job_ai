@@ -21,8 +21,7 @@
           <div class="social-icons">
             <i class="fa-brands fa-instagram me-2"></i>
             <i class="fa-brands fa-linkedin me-2"></i>
-            <i class="fa-brands fa-tiktok me-2"></i>
-            <i class="fab fa-youtube"></i>
+            <i class="fa-brands fa-tiktok"></i>
           </div>
         </div>
       </div>
