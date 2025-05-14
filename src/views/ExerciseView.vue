@@ -639,7 +639,7 @@ export default {
       // 检查用户订阅状态并处理
       if (this.isMonthlyUser) {
         // 月度用户直接开始
-        this.confirmMonthlyUsage();
+        this.startInterviewSession();
       } else if (this.isTrialUser) {
         // 试用用户检查剩余次数
         this.handleTrialUsage();
@@ -647,24 +647,6 @@ export default {
         // 信用用户检查余额
         this.handleCreditUsage();
       }
-    },
-    // 月度用户确认
-    confirmMonthlyUsage() {
-      this.$confirm(
-        "Your monthly subscription allows unlimited practice sessions. Continue?",
-        "Monthly Subscription Active",
-        {
-          confirmButtonText: "Confirm",
-          cancelButtonText: "Cancel",
-          type: "info",
-        }
-      )
-        .then(() => {
-          this.startInterviewSession();
-        })
-        .catch(() => {
-          console.log("User cancel the prictice");
-        });
     },
     // 试用用户处理
     handleTrialUsage() {

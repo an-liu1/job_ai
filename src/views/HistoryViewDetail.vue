@@ -237,11 +237,22 @@ export default {
     chatHistoryDetail() {
       return this.$store.state.chatHistoryDetail;
     },
+    billingProfile() {
+      return this.$store.state.billingProfile;
+    },
     finalAssessmentDetail() {
-      return this.$store.state.finalAssessmentDetail.final_assessment || {};
+      return this.chatHistoryDetail.final_assessment
+        ? this.chatHistoryDetail.final_assessment
+        : this.$store.state.finalAssessmentDetail.final_assessment || {};
     },
     conversationID() {
       return this.$store.state.conversationID;
+    },
+    isMonthlyUser() {
+      return this.billingProfile.has_active_subscription;
+    },
+    isTrialUser() {
+      return this.billingProfile.is_trial_active;
     },
   },
   watch: {
@@ -280,6 +291,79 @@ export default {
       return "Needs substantial improvement in most areas.";
     },
     generateAssessment() {
+      // 检查用户订阅状态并处理
+      if (this.isMonthlyUser) {
+        // 月度用户直接开始
+        this.generateAssessmentRepost();
+      } else if (this.isTrialUser) {
+        // 试用用户检查剩余次数
+        this.handleTrialUsage();
+      } else {
+        // 信用用户检查余额
+        this.handleCreditUsage();
+      }
+    },
+    // 试用用户处理
+    handleTrialUsage() {
+      if (this.billingProfile.trial_assessment_report_left <= 0) {
+        this.promptCreditPurchase(
+          "Your trial sessions have been used up. Would you like to purchase credits to continue?"
+        );
+      } else {
+        const confirmText = `This will use 1 of your remaining trial interview final assessment report. Continue?`;
+
+        this.$confirm(confirmText, "Free Trial Session", {
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Cancel",
+          type: "info",
+        })
+          .then(() => {
+            this.generateAssessmentRepost();
+          })
+          .catch(() => {
+            console.log("User cancel the prictice");
+          });
+      }
+    },
+    // 信用用户处理
+    handleCreditUsage() {
+      if (this.billingProfile.credit_balance >= 1) {
+        this.$confirm(
+          `This report will cost 1 credit. Continue?`,
+          "Credit Deduction",
+          {
+            confirmButtonText: "Confirm",
+            cancelButtonText: "Cancel",
+            type: "info",
+          }
+        )
+          .then(() => {
+            this.generateAssessmentRepost();
+          })
+          .catch(() => {
+            console.log("User canceled the action");
+          });
+      } else {
+        this.promptCreditPurchase(
+          `You don't have enough credits (needed: 1). Would you like to purchase more credits?`
+        );
+      }
+    },
+    // 提示用户购买信用
+    promptCreditPurchase(message) {
+      this.$confirm(message, "Insufficient Credits", {
+        confirmButtonText: "Purchase Credits",
+        cancelButtonText: "Cancel",
+        type: "info",
+      })
+        .then(() => {
+          this.$router.push({ path: "/", hash: "#price" });
+        })
+        .catch(() => {
+          console.log("User chose not to purchase credits");
+        });
+    },
+    generateAssessmentRepost() {
       this.isGeneratingAssessment = true;
       this.$store
         .dispatch("getFinalAssessmentDetail", this.conversationID)
