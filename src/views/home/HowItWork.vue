@@ -4,12 +4,12 @@
       <!-- 左侧内容区 -->
       <div class="col-lg-8">
         <div class="header-group">
-          <span class="tag">Hello</span>
+          <!-- <span class="tag">Job ACE</span> -->
           <h1 class="display-4">Step-by-Step Guidance</h1>
           <p class="text-muted">
-            Each module is designed to simulate real-life interview scenarios
-            and help you improve through practice. The more you speak, the more
-            confident and polished you become!.
+            Practice like it’s the real thing. Each module simulates realistic
+            interview settings and helps you improve with every answer. The more
+            you practice, the more confident and job-ready you become.
           </p>
         </div>
 
@@ -20,7 +20,7 @@
             :key="index"
           >
             <div class="feature-card p-4">
-              <i :class="item.icon" class="feature-icon mb-2"></i>
+              <!-- <i :class="item.icon" class="feature-icon mb-2"></i> -->
               <h3>{{ item.title }}</h3>
               <p class="text-secondary small" v-html="item.desc"></p>
             </div>
@@ -43,23 +43,23 @@ export default {
       featureList: [
         {
           icon: "el-icon-right",
-          title: "Choose a Practice Module",
-          desc: "Pick from one of the modules: <br />· Common Questions <br />· Behavioral Questions <br />· Tough Questions <br />· Mock Interview",
+          title: "Choose Practice Module",
+          desc: "· Select a mode: <b>Feature Interview</b> or <b>Mock Interview</b> <br />· Pick a <b>Category</b> based on your goal: <br />· Click <b>Start Practice</b> to begin",
         },
         {
           icon: "el-icon-right",
-          title: "Get Ready to Speak",
-          desc: "Each question will appear on screen. When you're ready to answer:<br />· Click 'Start' to begin recording your voice.<br />· Speak your answer clearly into microphone.<br />· Click 'Stop' when you've finished speaking.",
+          title: "Record Your Answer",
+          desc: "· Click <b>Record</b> to answer <br />· Speak clearly into your microphone <br />· Click <b>Send</b> or <b>Retry</b> if needed",
         },
         {
           icon: "el-icon-right",
-          title: "Review & Retry if needed",
-          desc: "Not happy with your answer? <br />· Click 'play' to review your answer.<br />· Click 'Retry' to record again.",
+          title: "Get Feedback",
+          desc: "· Replay your answer anytime <br />· Hear AI voice feedback: score, tips & sample answer <br />· Tap <b>Evaluation Details</b> for full insights",
         },
         {
           icon: "el-icon-right",
           title: "Submit Your Response",
-          desc: "Satisfied with your answer? <br />· Click 'Submit' to send your audio to our backend server for feedback or analysis.",
+          desc: "· Get your overall score, strengths & weaknesses <br />· See improvement tips & career suggestions <br />· Access anytime in <b>History</b>",
         },
       ],
       img: require("@/assets/interview1.png"),
