@@ -656,9 +656,7 @@ export default {
         : this.billingProfile.trial_practice_left;
 
       if (remaining <= 0) {
-        this.promptCreditPurchase(
-          "Your trial sessions have been used up. Would you like to purchase credits to continue?"
-        );
+        this.handleCreditUsage("Your trial sessions have been used up.");
       } else {
         const type = isMock ? "Mock" : "Feature";
         const confirmText = `This will use 1 of your remaining trial ${type} interviews. Continue?`;
@@ -677,10 +675,12 @@ export default {
       }
     },
     // 信用用户处理
-    handleCreditUsage() {
+    handleCreditUsage(msg) {
       if (this.billingProfile.credit_balance >= this.creditCost) {
         this.$confirm(
-          `This session will cost ${this.creditCost} credits. Continue?`,
+          `${msg ? msg : ""} This session will cost ${
+            this.creditCost
+          } credits. Continue?`,
           "Credit Deduction",
           {
             confirmButtonText: "Confirm",
