@@ -122,7 +122,7 @@
 
                 <el-descriptions-item
                   label="Monthly Unlimited End Date"
-                  v-if="userProfile.subscription_status !== 'active'"
+                  v-if="userProfile.subscription_period_end"
                 >
                   <div class="subscription-details">
                     {{ formatDate(userProfile.subscription_period_end) }}

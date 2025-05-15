@@ -188,7 +188,16 @@
                   <i class="el-icon-aim"></i>
                   <h4>Improvement Plan</h4>
                 </div>
-                <p>{{ finalAssessmentDetail.improvement_plan }}</p>
+                <div
+                  v-for="(
+                    content, title
+                  ) in finalAssessmentDetail.improvement_plan"
+                  :key="'strength-' + title"
+                  class="analysis-item"
+                >
+                  <h5>{{ title }}</h5>
+                  <p>{{ content }}</p>
+                </div>
               </el-card>
 
               <el-card shadow="hover" class="career-section">
@@ -196,7 +205,16 @@
                   <i class="el-icon-office-building"></i>
                   <h4>Career Suggestions</h4>
                 </div>
-                <p>{{ finalAssessmentDetail.career_suggestions }}</p>
+                <div
+                  v-for="(
+                    content, title
+                  ) in finalAssessmentDetail.career_suggestions"
+                  :key="'strength-' + title"
+                  class="analysis-item"
+                >
+                  <h5>{{ title }}</h5>
+                  <p>{{ content }}</p>
+                </div>
               </el-card>
             </div>
           </div>
