@@ -277,7 +277,7 @@
             <div class="settings-section">
               <el-form label-position="top">
                 <el-form-item label="Notification Preferences">
-                  <el-checkbox-group v-model="notificationSettings">
+                  <el-checkbox-group v-model="notificationSettings" disabled>
                     <el-checkbox label="email">Email Notifications</el-checkbox>
                     <el-checkbox label="newsletter"
                       >Monthly Newsletter</el-checkbox
@@ -417,7 +417,7 @@ export default {
         ],
       },
       darkMode: false,
-      notificationSettings: ["email"],
+      notificationSettings: [],
       transactionFilter: "all",
       currentPage: 1,
       pageSize: 5,
