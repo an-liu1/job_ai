@@ -342,7 +342,29 @@
             @send="handleSend"
             :disabled="!interviewStarted || loading"
             active-color="#F56C6C"
+            v-if="!interviewEnd"
           />
+          <div v-if="interviewEnd">
+            <p class="text-center">
+              <strong>Interview Session Completed</strong>
+            </p>
+            <p class="text-center">
+              Thank you for participating! This session has now concluded. You
+              can:
+            </p>
+            <div class="text-center">
+              <ul style="display: inline-block; text-align: left">
+                <li>
+                  Review the discussion in your <strong>history page</strong>
+                </li>
+                <li>Generate a <strong>detailed final assessment</strong></li>
+                <li>
+                  Download your <strong>performance analysis report</strong> for
+                  further insights
+                </li>
+              </ul>
+            </div>
+          </div>
 
           <!-- <div class="recorder-tips">
             <p v-if="!isRecording">
@@ -442,6 +464,7 @@ export default {
         { value: 10, label: "10 questions" },
       ],
       chatHistory: [],
+      interviewEnd: false,
     };
   },
   computed: {
@@ -842,30 +865,9 @@ export default {
           }
           // Check if interview is finished
           if (this.$store.state.chatInfo.evaluation.is_finished) {
-            this.$confirm(
-              "This interview session has ended. Thank you for your participation! You can view this session in your history and generate the comprehensive final assessment and download your performance analysis report.",
-              "Interview Completed",
-              {
-                confirmButtonText: "Go to History",
-                showCancelButton: false,
-                type: "info",
-                closeOnClickModal: false, // Prevent closing by clicking outside
-                closeOnPressEscape: false, // Prevent closing by pressing ESC
-                showClose: false, // Hide the close icon (X)
-              }
-            )
-              .then(() => {
-                this.clearTimers();
-                this.interviewStarted = false;
-                this.$message.success(
-                  "Interview session saved to your history"
-                );
-                this.$router.push("/history");
-              })
-              .catch(() => {
-                console.log("Interview finished");
-              });
+            this.interviewEnd = true;
           }
+
           this.loading = false; // 确保加载状态结束
           this.interviewStarted = true; // 确保面试状态保持
           this.$refs.voiceRecorderRef.loading = false;
