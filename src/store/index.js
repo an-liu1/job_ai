@@ -18,6 +18,7 @@ export default new Vuex.Store({
     chatHistory: [],
     chatHistoryDetail: {},
     finalAssessmentDetail: {},
+    finalAssessmentReport: {},
     conversationID: "",
     achievementStats: {},
     checkOutUrl: {},
@@ -62,6 +63,9 @@ export default new Vuex.Store({
     },
     getFinalAssessmentDetail(state, payload) {
       state.finalAssessmentDetail = payload;
+    },
+    getFinalAssessmentReport(state, payload) {
+      state.finalAssessmentReport = payload;
     },
     setConversationID(state, payload) {
       state.conversationID = payload;
@@ -142,6 +146,10 @@ export default new Vuex.Store({
     async getFinalAssessmentDetail({ commit }, data) {
       let res = await request("post", `jobapp/final-assessment/${data}/`);
       commit("getFinalAssessmentDetail", res);
+    },
+    async getFinalAssessmentReport({ commit }, data) {
+      let res = await request("post", `jobapp/assessment-pdf-report/${data}/`);
+      commit("getFinalAssessmentReport", res);
     },
     async getAchievementStats({ commit }) {
       let res = await request("get", "jobapp/stats/");

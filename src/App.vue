@@ -98,7 +98,7 @@ body {
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
   border: none !important;
-  width: 420px !important;
+  width: 520px !important;
 
   &__header {
     padding: 20px 20px 15px !important;

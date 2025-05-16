@@ -146,6 +146,15 @@
                   {{ getPerformanceText(finalAssessmentDetail.overall_score) }}
                 </p>
               </div>
+              <div class="download-report">
+                <el-button
+                  type="primary"
+                  icon="el-icon-download"
+                  @click="downloadReport"
+                >
+                  Download Report
+                </el-button>
+              </div>
             </div>
 
             <div class="assessment-sections">
@@ -260,6 +269,9 @@ export default {
       return this.chatHistoryDetail.final_assessment
         ? this.chatHistoryDetail.final_assessment
         : this.$store.state.finalAssessmentDetail.final_assessment || {};
+    },
+    finalAssessmentReport() {
+      return this.$store.state.finalAssessmentReport;
     },
     conversationID() {
       return this.$store.state.conversationID;
@@ -384,6 +396,41 @@ export default {
         .then(() => {
           this.isGeneratingAssessment = false;
           this.activeTab = "assessment";
+        });
+    },
+    downloadReport() {
+      const reportContent = `
+      <div class="download-confirm-content">
+        <p style="margin-bottom:15px;">Your complete performance analysis report will include:</p>
+        <ul class="report-features">
+          <li>1. Full practice conversation content</li>
+          <li>2. Detailed assessment scores</li>
+          <li>3. Comprehensive feedback analysis</li>
+          <li>4. Personalized improvement suggestions</li>
+          <li>5. Career development directions</li>
+          <li>6. Summary of strengths and weaknesses</li>
+        </ul>
+        <p class="download-note">
+          The report will be generated as a PDF document for easy sharing and reference.
+        </p>
+      </div>
+    `;
+      this.$confirm(reportContent, "Download Performance Report", {
+        confirmButtonText: "Confirm Download",
+        cancelButtonText: "Cancel",
+        type: "info",
+        dangerouslyUseHTMLString: true,
+      })
+        .then(() => {
+          this.$store
+            .dispatch("getFinalAssessmentReport", this.conversationID)
+            .then(() => {
+              this.$message.success("Report downloaded successfully!");
+              window.open(this.finalAssessmentReport.pdf_url, "_blank");
+            });
+        })
+        .catch(() => {
+          console.log("no download");
         });
     },
   },
@@ -571,6 +618,7 @@ export default {
       padding: 20px;
       background-color: #f5f7fa;
       border-radius: 8px;
+      position: relative;
 
       .score-display {
         text-align: center;
@@ -587,6 +635,7 @@ export default {
       }
 
       .score-summary {
+        flex: 1;
         h3 {
           margin-top: 0;
           margin-bottom: 10px;
@@ -596,6 +645,9 @@ export default {
           color: #606266;
           margin: 0;
         }
+      }
+      .download-report {
+        margin-left: auto; /* This will push the button to the right */
       }
     }
 
@@ -692,6 +744,31 @@ export default {
   .assessment-view {
     .assessment-sections {
       grid-template-columns: 1fr !important;
+    }
+  }
+}
+
+.download-confirm-dialog {
+  .el-message-box__content {
+    padding: 20px;
+
+    .download-confirm-content {
+      .report-features {
+        padding-left: 10px;
+        margin: 15px 0;
+
+        li {
+          padding: 8px 0;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .download-note {
+        margin-top: 20px;
+        padding-top: 10px;
+        font-size: 14px;
+      }
     }
   }
 }
