@@ -11,6 +11,10 @@
             <i class="el-icon-date"></i>
             <span>{{ formatDate(chatHistoryDetail.started_at) }}</span>
           </div>
+          <div class="meta-item">
+            <i class="el-icon-tickets"></i>
+            <span>Category Mode: {{ chatHistoryDetail.sub_mode_label }}</span>
+          </div>
           <div class="meta-item" v-if="chatHistoryDetail.average_score">
             <i class="el-icon-star-on"></i>
             <span>Average Score: {{ chatHistoryDetail.average_score }}/10</span>
