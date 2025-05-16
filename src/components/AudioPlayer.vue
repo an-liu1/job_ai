@@ -327,8 +327,6 @@ export default {
   --hover-color: #66b1ff;
   width: 100%;
   max-width: 400px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
 }
 
 .audio-player {

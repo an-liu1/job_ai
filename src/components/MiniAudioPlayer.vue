@@ -206,8 +206,6 @@ export default {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
 }
 
 .audio-player {

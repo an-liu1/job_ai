@@ -323,7 +323,6 @@ export default {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .recorder-main {

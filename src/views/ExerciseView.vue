@@ -1104,10 +1104,6 @@ export default {
 
       .job-description-input {
         margin-bottom: 5px;
-
-        textarea {
-          font-family: inherit;
-        }
       }
 
       .resume-upload {

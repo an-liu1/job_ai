@@ -91,7 +91,6 @@ export default {
 .horizontal-accordion-container {
   width: 100%;
   margin: 40px auto;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* 桌面端样式 - 水平布局 */

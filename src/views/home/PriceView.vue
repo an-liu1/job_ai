@@ -286,7 +286,6 @@ export default {
 .pricing-plans {
   padding: 80px 100px;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   margin: 0 auto;
 
   .section-header {
