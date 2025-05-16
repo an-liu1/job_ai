@@ -1,0 +1,612 @@
+<!-- Cover Page -->
+<div
+  style="
+    page-break-after: always;
+    text-align: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding-top: 120px;
+  "
+>
+  <div
+    style="border-bottom: 2px solid #3498db; width: 80%; margin: 0 auto 30px"
+  ></div>
+  <h1 style="color: #2c3e50; font-size: 28pt; margin-bottom: 25px">
+    Final Interview Assessment Report
+  </h1>
+  <div style="width: 60%; margin: 0 auto; text-align: center">
+    <p style="font-size: 14pt; margin: 10px 0; color: #7f8c8d">
+      Candidate:
+      <span style="color: #2c3e50; font-weight: bold">{{ user.username }}</span>
+    </p>
+    <p style="font-size: 12pt; margin: 8px 0; color: #7f8c8d">
+      Session ID: {{ conversation.id }}
+    </p>
+    <p style="font-size: 12pt; margin: 8px 0; color: #7f8c8d">
+      Date: {{ assessment.created_at|date:"F j, Y" }}
+    </p>
+  </div>
+  <div
+    style="border-bottom: 2px solid #3498db; width: 80%; margin: 30px auto 0"
+  ></div>
+</div>
+
+<!-- Table of Contents -->
+<div
+  style="
+    page-break-after: always;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 40px;
+  "
+>
+  <h2
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Table of Contents
+  </h2>
+  <ol style="line-height: 2; font-size: 12pt">
+    <li style="margin-bottom: 8px">
+      <a href="#summary" style="text-decoration: none; color: #3498db"
+        >Executive Summary</a
+      >
+    </li>
+    <li style="margin-bottom: 8px">
+      <a href="#conversation" style="text-decoration: none; color: #3498db"
+        >Conversation & Evaluation</a
+      >
+    </li>
+    <li style="margin-bottom: 8px">
+      <a href="#performance" style="text-decoration: none; color: #3498db"
+        >Performance Analysis</a
+      >
+    </li>
+    <li style="margin-bottom: 8px">
+      <a href="#strengths" style="text-decoration: none; color: #3498db"
+        >Key Strengths</a
+      >
+    </li>
+    <li style="margin-bottom: 8px">
+      <a href="#weaknesses" style="text-decoration: none; color: #3498db"
+        >Areas for Improvement</a
+      >
+    </li>
+    <li style="margin-bottom: 8px">
+      <a href="#plan" style="text-decoration: none; color: #3498db"
+        >Development Plan</a
+      >
+    </li>
+    <li style="margin-bottom: 8px">
+      <a href="#advice" style="text-decoration: none; color: #3498db"
+        >Career Recommendations</a
+      >
+    </li>
+    <li style="margin-bottom: 8px">
+      <a href="#conclusion" style="text-decoration: none; color: #3498db"
+        >Final Assessment</a
+      >
+    </li>
+  </ol>
+</div>
+
+<!-- Summary -->
+<div style="font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px">
+  <h2
+    id="summary"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Executive Summary
+  </h2>
+
+  <div
+    style="
+      background-color: #f8f9fa;
+      border-left: 4px solid #3498db;
+      padding: 20px;
+      margin-bottom: 30px;
+    "
+  >
+    <div style="display: flex; align-items: center; margin-bottom: 15px">
+      <span style="font-size: 14pt; font-weight: bold; margin-right: 15px"
+        >Overall Score:</span
+      >
+      <div
+        style="
+          background-color: #3498db;
+          color: white;
+          padding: 5px 15px;
+          border-radius: 20px;
+          font-weight: bold;
+        "
+      >
+        {{ assessment.overall_score }}/10
+      </div>
+    </div>
+    <p style="font-size: 12pt; line-height: 1.6; color: #34495e">
+      {{ gpt_analysis.performance_summary }}
+    </p>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; margin-top: 30px">
+    <div
+      style="
+        width: 48%;
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+      "
+    >
+      <h3 style="color: #27ae60; font-size: 14pt; margin-bottom: 10px">
+        Top 3 Strengths
+      </h3>
+      <ol style="padding-left: 20px">
+        {% for key, val in assessment.strength_analysis.items|slice:":3" %}
+        <li style="margin-bottom: 8px">
+          <strong>{{ key }}:</strong> {{ val }}
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div
+      style="
+        width: 48%;
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+      "
+    >
+      <h3 style="color: #e74c3c; font-size: 14pt; margin-bottom: 10px">
+        Top 3 Development Areas
+      </h3>
+      <ol style="padding-left: 20px">
+        {% for key, val in assessment.weakness_analysis.items|slice:":3" %}
+        <li style="margin-bottom: 8px">
+          <strong>{{ key }}:</strong> {{ val }}
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- Conversation + Evaluation -->
+<div
+  style="
+    page-break-after: always;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 40px;
+  "
+>
+  <h2
+    id="conversation"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Conversation & Evaluation
+  </h2>
+
+  <div
+    style="
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 30px;
+    "
+  >
+    {% for msg in messages %}
+    <div
+      style="
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ecf0f1;
+      "
+    >
+      <div
+        style="font-weight: bold; color: {% if msg.role == 'interviewer' %}#3498db{% else %}#2c3e50{% endif %}; margin-bottom: 5px;"
+      >
+        {{ msg.role|title }}:
+      </div>
+      <div style="padding-left: 15px; line-height: 1.5; color: #34495e">
+        {{ msg.content }}
+      </div>
+      {% if msg.evaluation %}
+      <div
+        style="
+          margin-top: 10px;
+          padding: 10px;
+          background-color: #fff;
+          border-radius: 3px;
+          border-left: 3px solid #f39c12;
+        "
+      >
+        <div style="font-size: 11pt; color: #7f8c8d">
+          <span
+            style="
+              display: inline-block;
+              background-color: #ecf0f1;
+              padding: 2px 8px;
+              border-radius: 3px;
+              margin-right: 10px;
+            "
+          >
+            {{ msg.evaluation.question_category }}
+          </span>
+          <span>Score: <strong>{{ msg.evaluation.score }}</strong></span>
+        </div>
+        <div style="margin-top: 5px; font-size: 11pt; color: #34495e">
+          {{ msg.evaluation.assessment }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Performance Analysis -->
+<div style="font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px">
+  <h2
+    id="performance"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Performance Analysis
+  </h2>
+
+  <div
+    style="
+      background-color: #f8f9fa;
+      padding: 25px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    "
+  >
+    <p style="line-height: 1.6; color: #34495e">
+      {{ gpt_analysis.performance_summary }}
+    </p>
+  </div>
+
+  <!-- <div style="display: flex; justify-content: space-between; margin-top: 30px">
+    <div style="width: 48%">
+      <h3 style="color: #2c3e50; font-size: 14pt; margin-bottom: 15px">
+        Response Quality
+      </h3>
+      <div
+        style="
+          background-color: #f8f9fa;
+          padding: 15px;
+          border-radius: 5px;
+          height: 120px;
+        "
+      >
+        <p style="text-align: center; color: #7f8c8d; line-height: 90px">
+          [Response Quality Chart]
+        </p>
+      </div>
+    </div>
+    <div style="width: 48%">
+      <h3 style="color: #2c3e50; font-size: 14pt; margin-bottom: 15px">
+        Skill Distribution
+      </h3>
+      <div
+        style="
+          background-color: #f8f9fa;
+          padding: 15px;
+          border-radius: 5px;
+          height: 120px;
+        "
+      >
+        <p style="text-align: center; color: #7f8c8d; line-height: 90px">
+          [Skill Distribution Chart]
+        </p>
+      </div>
+    </div>
+  </div> -->
+</div>
+
+<!-- Strengths -->
+<div
+  style="
+    page-break-after: always;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 40px;
+  "
+>
+  <h2
+    id="strengths"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Key Strengths
+  </h2>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    "
+  >
+    {% for key, val in assessment.strength_analysis.items %}
+    <div
+      style="
+        background-color: #e8f5e9;
+        padding: 20px;
+        border-radius: 5px;
+        border-left: 4px solid #27ae60;
+      "
+    >
+      <h3
+        style="
+          color: #27ae60;
+          font-size: 14pt;
+          margin-top: 0;
+          margin-bottom: 10px;
+        "
+      >
+        {{ key }}
+      </h3>
+      <p style="color: #34495e; line-height: 1.5; margin-bottom: 0">
+        {{ val }}
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Weaknesses -->
+<div style="font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px">
+  <h2
+    id="weaknesses"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Areas for Improvement
+  </h2>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    "
+  >
+    {% for key, val in assessment.weakness_analysis.items %}
+    <div
+      style="
+        background-color: #ffebee;
+        padding: 20px;
+        border-radius: 5px;
+        border-left: 4px solid #e74c3c;
+      "
+    >
+      <h3
+        style="
+          color: #e74c3c;
+          font-size: 14pt;
+          margin-top: 0;
+          margin-bottom: 10px;
+        "
+      >
+        {{ key }}
+      </h3>
+      <p style="color: #34495e; line-height: 1.5; margin-bottom: 0">
+        {{ val }}
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Improvement Plan -->
+<div
+  style="
+    page-break-after: always;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 40px;
+  "
+>
+  <h2
+    id="plan"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Development Plan
+  </h2>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px">
+    <thead>
+      <tr style="background-color: #3498db; color: white">
+        <th style="padding: 12px 15px; text-align: left; width: 30%">
+          Skill Area
+        </th>
+        <th style="padding: 12px 15px; text-align: left; width: 45%">
+          Recommended Actions
+        </th>
+        <th style="padding: 12px 15px; text-align: left; width: 25%">
+          Timeline
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, val in assessment.skill_improvement_plan.items %}
+      <tr style="border-bottom: 1px solid #ecf0f1">
+        <td style="padding: 12px 15px; vertical-align: top">
+          <strong>{{ key }}</strong>
+        </td>
+        <td style="padding: 12px 15px; vertical-align: top">{{ val }}</td>
+        <td style="padding: 12px 15px; vertical-align: top">1-3 months</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px">
+    <h3 style="color: #2c3e50; font-size: 14pt; margin-top: 0">
+      Additional Resources
+    </h3>
+    <ul style="padding-left: 20px; columns: 2; column-gap: 40px">
+      <li style="margin-bottom: 8px">
+        Recommended reading: "Cracking the Coding Interview"
+      </li>
+      <li style="margin-bottom: 8px">
+        Online course: "Advanced System Design" (Coursera)
+      </li>
+      <li style="margin-bottom: 8px">Practice platform: LeetCode Premium</li>
+      <li style="margin-bottom: 8px">
+        Communication workshop: Toastmasters International
+      </li>
+    </ul>
+  </div> -->
+</div>
+
+<!-- Career Suggestions -->
+<div style="font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px">
+  <h2
+    id="advice"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Career Recommendations
+  </h2>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px">
+    {% for key, val in assessment.career_suggestions.items %}
+    <div
+      style="
+        flex: 1 1 300px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+        min-height: 150px;
+      "
+    >
+      <div style="display: flex; align-items: center; margin-bottom: 10px">
+        <div
+          style="
+            width: 40px;
+            height: 40px;
+            background-color: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-weight: bold;
+          "
+        >
+          {{ forloop.counter }}
+        </div>
+        <h3 style="color: #2c3e50; font-size: 14pt; margin: 0">{{ key }}</h3>
+      </div>
+      <p
+        style="
+          color: #34495e;
+          line-height: 1.5;
+          margin-bottom: 0;
+          padding-left: 55px;
+        "
+      >
+        {{ val }}
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div
+    style="
+      background-color: #e3f2fd;
+      padding: 20px;
+      border-radius: 5px;
+      border-left: 4px solid #3498db;
+    "
+  >
+    <h3 style="color: #2c3e50; font-size: 14pt; margin-top: 0">Next Steps</h3>
+    <ol style="padding-left: 20px">
+      <li style="margin-bottom: 10px">
+        <strong>Within 1 week:</strong> Review this report and identify 2-3
+        priority areas
+      </li>
+      <li style="margin-bottom: 10px">
+        <strong>Within 2 weeks:</strong> Create a personal development plan with
+        milestones
+      </li>
+      <li style="margin-bottom: 10px">
+        <strong>Within 1 month:</strong> Schedule a follow-up review session
+      </li>
+    </ol>
+  </div>
+</div>
+
+<!-- Conclusion -->
+<div style="font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px">
+  <h2
+    id="conclusion"
+    style="
+      color: #2c3e50;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    "
+  >
+    Final Assessment
+  </h2>
+
+  <div
+    style="
+      background-color: #f8f9fa;
+      padding: 30px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    "
+  >
+    <p style="line-height: 1.6; color: #34495e; font-size: 12pt">
+      {{ gpt_analysis.conclusion }}
+    </p>
+  </div>
+
+  <div style="text-align: center; margin-top: 50px">
+    <div style="border-top: 1px solid #ecf0f1; padding-top: 30px">
+      <p style="color: #7f8c8d; font-size: 11pt">
+        This report was generated automatically based on the interview
+        performance.
+      </p>
+      <p style="color: #7f8c8d; font-size: 11pt">
+        For any questions, please contact our assessment team.
+      </p>
+    </div>
+  </div>
+</div>
