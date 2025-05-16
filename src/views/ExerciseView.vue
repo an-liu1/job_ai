@@ -243,7 +243,11 @@
 
               <!-- 评估部分 -->
               <div
-                v-if="msg.evaluation?.score && $route.params.mode !== 'mock'"
+                v-if="
+                  msg.evaluation?.score &&
+                  msg.evaluation.is_relevant &&
+                  $route.params.mode !== 'mock'
+                "
                 class="evaluation-badge"
               >
                 <el-tag :type="getScoreTagType(msg.evaluation.score)">
@@ -252,7 +256,11 @@
               </div>
 
               <el-collapse
-                v-if="msg.evaluation && $route.params.mode !== 'mock'"
+                v-if="
+                  msg.evaluation &&
+                  msg.evaluation.is_relevant &&
+                  $route.params.mode !== 'mock'
+                "
                 class="evaluation-collapse"
                 :value="
                   expandedEvaluations.includes(index) ? 'evaluation' : null
@@ -831,6 +839,32 @@ export default {
               this.$store.state.chatInfo.tts_audio_url,
               this.$store.state.chatInfo.evaluation
             );
+          }
+          // Check if interview is finished
+          if (this.$store.state.chatInfo.evaluation.is_finished) {
+            this.$confirm(
+              "This interview session has ended. Thank you for your participation!",
+              "Interview Completed",
+              {
+                confirmButtonText: "OK",
+                showCancelButton: false,
+                type: "info",
+                closeOnClickModal: false, // Prevent closing by clicking outside
+                closeOnPressEscape: false, // Prevent closing by pressing ESC
+                showClose: false, // Hide the close icon (X)
+              }
+            )
+              .then(() => {
+                this.clearTimers();
+                this.interviewStarted = false;
+                this.$message.success(
+                  "Interview session saved to your history"
+                );
+                this.$router.push("/history");
+              })
+              .catch(() => {
+                console.log("Interview finished");
+              });
           }
           this.loading = false; // 确保加载状态结束
           this.interviewStarted = true; // 确保面试状态保持
