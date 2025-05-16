@@ -148,7 +148,7 @@ export default new Vuex.Store({
       commit("getFinalAssessmentDetail", res);
     },
     async getFinalAssessmentReport({ commit }, data) {
-      let res = await request("post", `jobapp/assessment-pdf-report/${data}/`);
+      let res = await request("get", `jobapp/assessment-pdf-report/${data}/`);
       commit("getFinalAssessmentReport", res);
     },
     async getAchievementStats({ commit }) {
