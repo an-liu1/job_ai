@@ -168,7 +168,6 @@ export default {
         .then(() => {
           this.$store.commit("setConversationID", row.conversation_id);
           this.refreshKey += 1;
-          this.$store.commit("getFinalAssessmentDetail", {});
           this.$store.commit("switchLoadingStatus", false);
         });
     },
@@ -176,6 +175,11 @@ export default {
   mounted() {
     this.$store.commit("switchLoadingStatus", true);
     this.$store.dispatch("getChatHistory").then(() => {
+      this.$store.commit(
+        "setConversationID",
+        this.filteredChatHistory[0].conversation_id
+      );
+      this.refreshKey += 1;
       this.$store.commit("switchLoadingStatus", false);
     });
   },
