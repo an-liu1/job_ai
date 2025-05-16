@@ -843,10 +843,10 @@ export default {
           // Check if interview is finished
           if (this.$store.state.chatInfo.evaluation.is_finished) {
             this.$confirm(
-              "This interview session has ended. Thank you for your participation!",
+              "This interview session has ended. Thank you for your participation! You can view this session in your history and generate the final assessment and download the report.",
               "Interview Completed",
               {
-                confirmButtonText: "OK",
+                confirmButtonText: "Go to History",
                 showCancelButton: false,
                 type: "info",
                 closeOnClickModal: false, // Prevent closing by clicking outside
