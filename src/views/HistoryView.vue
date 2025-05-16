@@ -175,12 +175,19 @@ export default {
   mounted() {
     this.$store.commit("switchLoadingStatus", true);
     this.$store.dispatch("getChatHistory").then(() => {
-      this.$store.commit(
-        "setConversationID",
-        this.filteredChatHistory[0].conversation_id
-      );
-      this.refreshKey += 1;
-      this.$store.commit("switchLoadingStatus", false);
+      this.$store
+        .dispatch(
+          "getChatHistoryDetail",
+          this.filteredChatHistory[0].conversation_id
+        )
+        .then(() => {
+          this.$store.commit(
+            "setConversationID",
+            this.filteredChatHistory[0].conversation_id
+          );
+          this.refreshKey += 1;
+          this.$store.commit("switchLoadingStatus", false);
+        });
     });
   },
 };
