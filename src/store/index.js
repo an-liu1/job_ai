@@ -153,7 +153,7 @@ export default new Vuex.Store({
     },
     async getAchievementStats({ commit }) {
       let res = await request("get", "jobapp/stats/");
-      commit("getAchievementStats", res.data);
+      commit("getAchievementStats", res?.data);
     },
     //price
     async createCheckoutSession({ commit }, data) {

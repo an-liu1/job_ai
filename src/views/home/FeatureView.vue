@@ -1,22 +1,24 @@
 <template>
-  <el-carousel :interval="2000" arrow="always" style="margin-bottom: 30px">
-    <el-carousel-item v-for="(item, index) in items" :key="index">
-      <div class="slide-container">
-        <div class="text-content">
-          <div class="accordion-content">
-            <div class="content-inner">
-              <h3 class="content-title">{{ item.title }}</h3>
-              <h5 class="content-subTitle">{{ item.subTitle }}</h5>
-              <p class="content-text">{{ item.content }}</p>
+  <div class="feature-view">
+    <el-carousel :interval="2000" arrow="always">
+      <el-carousel-item v-for="(item, index) in items" :key="index">
+        <div class="slide-container">
+          <div class="text-content">
+            <div class="accordion-content">
+              <div class="content-inner">
+                <h3 class="content-title">{{ item.title }}</h3>
+                <h5 class="content-subTitle">{{ item.subTitle }}</h5>
+                <p class="content-text">{{ item.content }}</p>
+              </div>
             </div>
           </div>
+          <div class="image-content">
+            <img :src="item.img" alt="img" class="slide-image" />
+          </div>
         </div>
-        <div class="image-content">
-          <img :src="item.img" alt="img" class="slide-image" />
-        </div>
-      </div>
-    </el-carousel-item>
-  </el-carousel>
+      </el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
 
 <script>
@@ -69,10 +71,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .el-carousel {
+  height: 350px !important;
+  @media (max-width: 991px) {
+    .image-content {
+      display: none;
+    }
+  }
+}
+
 .slide-container {
   display: flex;
   padding: 0 100px;
-  height: 100%;
   align-items: center;
 }
 

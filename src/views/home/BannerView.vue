@@ -85,7 +85,6 @@ export default {
   z-index: 1;
   display: flex;
   align-items: center;
-  height: 800px;
   min-height: 100vh;
   background: linear-gradient(
     to bottom,
@@ -140,19 +139,9 @@ export default {
     margin-top: 25px;
   }
 }
-@media (max-width: 769px) {
+@media (max-width: 829px) {
   .home-section {
-    padding-top: 260px;
-  }
-}
-@media (max-width: 431px) {
-  .home-section {
-    padding-top: 300px;
-  }
-}
-@media (max-width: 391px) {
-  .home-section {
-    padding-top: 380px;
+    padding-top: 50px;
   }
 }
 </style>
