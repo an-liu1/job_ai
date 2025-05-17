@@ -234,13 +234,22 @@
 
           <div class="empty-assessment" v-else>
             <el-empty description="No assessment data available">
-              <el-button
-                type="primary"
-                @click="generateAssessment"
-                :loading="isGeneratingAssessment"
+              <el-tooltip
+                content="Chat session must be finished to generate assessment"
+                placement="top"
+                :disabled="chatHistoryDetail.finished"
               >
-                Generate Assessment
-              </el-button>
+                <div style="display: inline-block">
+                  <el-button
+                    type="primary"
+                    @click="generateAssessment"
+                    :loading="isGeneratingAssessment"
+                    :disabled="!chatHistoryDetail.finished"
+                  >
+                    Generate Assessment
+                  </el-button>
+                </div>
+              </el-tooltip>
             </el-empty>
           </div>
         </el-tab-pane>
