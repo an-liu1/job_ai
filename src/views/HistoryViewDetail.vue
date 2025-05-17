@@ -435,12 +435,17 @@ export default {
         dangerouslyUseHTMLString: true,
       })
         .then(() => {
-          this.$store
-            .dispatch("getFinalAssessmentReport", this.conversationID)
-            .then(() => {
-              this.$message.success("Report downloaded successfully!");
-              window.open(this.finalAssessmentReport.pdf_url, "_blank");
-            });
+          if (this.chatHistoryDetail.pdf_generated) {
+            this.$message.success("Report downloaded successfully!");
+            window.open(this.chatHistoryDetail.pdf_file_url, "_blank");
+          } else {
+            this.$store
+              .dispatch("getFinalAssessmentReport", this.conversationID)
+              .then(() => {
+                this.$message.success("Report downloaded successfully!");
+                window.open(this.finalAssessmentReport.pdf_url, "_blank");
+              });
+          }
         })
         .catch(() => {
           console.log("no download");
