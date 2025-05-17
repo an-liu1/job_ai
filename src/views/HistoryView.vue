@@ -174,6 +174,7 @@ export default {
   },
   mounted() {
     this.$store.commit("switchLoadingStatus", true);
+    this.$store.commit("getFinalAssessmentDetail", {});
     this.$store.dispatch("getChatHistory").then(() => {
       this.$store
         .dispatch(
