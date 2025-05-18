@@ -62,7 +62,7 @@ export default {
           desc: "· Get your overall score, strengths & weaknesses <br />· See improvement tips & career suggestions <br />· Access anytime in <b>History</b>",
         },
       ],
-      img: require("@/assets/interview1.png"),
+      img: require("@/assets/feature.png"),
     };
   },
 };
