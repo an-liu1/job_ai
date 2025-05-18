@@ -30,13 +30,20 @@
 
       <!-- 右侧图片区 -->
       <div class="col-lg-4">
-        <img :src="img" alt="Sitemap Preview" class="img-fluid" />
+        <img :src="img" alt="Sitemap Preview" class="img-fluid" ref="tiltImg" />
+        <img
+          :src="img1"
+          alt="Sitemap Preview"
+          class="img-fluid"
+          ref="tiltImg1"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import VanillaTilt from "vanilla-tilt";
 export default {
   data() {
     return {
@@ -63,7 +70,26 @@ export default {
         },
       ],
       img: require("@/assets/feature.png"),
+      img1: require("@/assets/feature1.png"),
     };
+  },
+  mounted() {
+    if (this.$refs.tiltImg) {
+      VanillaTilt.init(this.$refs.tiltImg, {
+        max: 25, // 最大倾斜角度
+        speed: 400, // 倾斜动画的速度
+        glare: false, // 是否启用眩光效果
+        "max-glare": 0.5, // 最大眩光强度
+      });
+    }
+    if (this.$refs.tiltImg1) {
+      VanillaTilt.init(this.$refs.tiltImg1, {
+        max: 25, // 最大倾斜角度
+        speed: 400, // 倾斜动画的速度
+        glare: false, // 是否启用眩光效果
+        "max-glare": 0.5, // 最大眩光强度
+      });
+    }
   },
 };
 </script>
