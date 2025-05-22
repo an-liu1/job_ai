@@ -290,7 +290,7 @@
                     v-model="darkMode"
                     active-text="Dark"
                     inactive-text="Light"
-                    disabled
+                    @change="applyTheme"
                   ></el-switch>
                 </el-form-item>
 
@@ -424,6 +424,7 @@ export default {
     };
   },
   mounted() {
+    this.applyTheme(); // set initial theme
     Promise.all([
       this.$store.dispatch("getUserInfo"),
       this.$store.dispatch("getBillingProfile"),
@@ -487,6 +488,12 @@ export default {
     },
   },
   methods: {
+    applyTheme() {
+      document.documentElement.setAttribute(
+        "data-theme",
+        this.darkMode ? "dark" : "light"
+      );
+    },
     validatePasswordComplexity(rule, value, callback) {
       if (value.length < 8) {
         callback(new Error("Password must be at least 8 characters"));

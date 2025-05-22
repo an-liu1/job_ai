@@ -1,0 +1,88 @@
+// Base palette
+$color-white: #ffffff;
+$color-black: #02050b;
+$color-dark-grey: #404040;
+$color-light-grey: #f7f8f8;
+$color-accent: #7b68ee;
+$color-accent-dark: #3e57d0;
+$color-orange: #ff9800;
+$color-red: #f44336;
+$color-success: #2ecc71;
+$color-warning: #e67e22;
+$color-purple: #9b59b6;
+$color-blue: #409eff;
+$color-soft-grey: #dad6d6;
+$color-muted: #7f8c8d;
+$color-secondary: #646cff;
+$color-green: #67c23a;
+$color-info: #ecf5ff;
+$color-border: #95a5a6;
+$color-shadow: rgba(123, 104, 238, 0.25);
+
+// Theme color maps
+$theme-light: (
+  background: $color-white,
+  surface: $color-light-grey,
+  text: $color-dark-grey,
+  heading: $color-dark-grey,
+  accent: $color-accent,
+  button-bg: $color-accent,
+  button-text: $color-white,
+  link: $color-accent,
+  border: $color-border,
+  muted: $color-muted,
+  success: $color-success,
+  warning: $color-warning,
+  error: $color-red,
+  shadow: $color-shadow,
+);
+
+$theme-dark: (
+  background: $color-black,
+  surface: #181c25,
+  text: $color-white,
+  heading: $color-white,
+  accent: #a698fd,
+  button-bg: #282f3a,
+  button-text: $color-accent,
+  link: #a698fd,
+  border: #232a36,
+  muted: #b0b3b8,
+  success: #27e67e,
+  warning: #ffaa4d,
+  error: #ff6767,
+  shadow: rgba(0, 0, 0, 0.25),
+);
+
+
+// Helper function
+@function theme($key) {
+  @return map-get($theme, $key);
+}
+
+
+
+// 一、基础颜色体系
+// 类别	应用场景	SCSS 变量示例	细节说明
+// 1. 品牌色	Logo、主按钮、关键提示、导航高亮	$brand-primary: #409EFF;	主品牌色需定义深浅变体（如darken()/lighten()）
+// 2. 背景色	页面主背景、卡片背景、反色背景（深色模式）	$bg-base: #ffffff;$bg-secondary: #f5f7fa;	需至少2-3层背景层次
+// 3. 文本色	正文、次级文本（描述）、禁用状态文本	$text-primary: #303133;$text-secondary: #909399;	确保与背景色的对比度 ≥ 4.5:1 (WCAG标准)
+// 4. 边框色	分割线、输入框边框、卡片边框	$border-base: #dcdfe6;$border-light: #e4e7ed;	定义2-3级灰度层次
+// 二、交互元素颜色
+// 组件	状态	SCSS 变量示例	代码实现技巧
+// 1. 按钮	默认 / 悬停(hover) / 点击(active) / 禁用(disabled)	scss<br>$btn-primary: $brand-primary;<br>$btn-primary-hover: mix(black, $brand-primary, 10%);<br>$btn-primary-active: mix(black, $brand-primary, 20%);<br>	使用 mix() 或 darken() 生成状态色
+// 2. 链接	默认颜色 / 悬停 / 访问后	$link-color: #1890ff;$link-hover: lighten($link-color, 10%);	与正文颜色明显区分
+// 3. 表单	输入框焦点(focus)边框色、错误状态、校验成功	scss<br>$input-focus: $brand-primary;<br>$input-error: #f56c6c;<br>$input-success: #67c23a;<br>	错误色需高对比度警示
+// 4. 图标	填充色、悬停色、禁用色	$icon-color: #606266;$icon-hover: $brand-primary;	SVG 图标通过 CSS 控制颜色
+// 三、功能状态颜色
+// 状态类型	使用场景	SCSS 变量示例	设计原则
+// 1. 成功	操作成功提示、进度完成状态	$success: #67c23a;	柔和绿色系
+// 2. 警告	非阻塞性提示（如表单校验提醒）	$warning: #e6a23c;	采用橙黄色系
+// 3. 错误	操作失败、系统异常、删除危险操作	$error: #f56c6c;	高饱和度红色
+// 4. 信息	中性提示（如通知消息）	$info: #909399;	与文本次级色协调
+// 四、高级场景颜色
+// 场景	具体需求	实现方案	代码示例
+// 1. 深色模式	切换背景、文本、组件颜色的全局适配	通过 CSS 变量 + 主题类名控制	scss<br>[data-theme="dark"] {<br> --bg-base: #1a1a1a;<br> --text-primary: rgba(255,255,255,0.85);<br>}
+// 2. 图表颜色	数据可视化中不同数据系列的颜色	定义 6-8 种对比色循环	$chart-colors: (#5470c6, #91cc75, #fac858, #ee6666, #73c0de, #3ba272);
+// 3. 阴影颜色	卡片、浮层、按钮的阴影统一	使用透明度黑色	$shadow-base: 0 2px 12px 0 rgba(0,0,0,0.1);
+// 4. 加载状态	骨架屏、加载动画的颜色	定义渐变灰度色	$loading-gradient: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%);

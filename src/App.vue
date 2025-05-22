@@ -87,11 +87,20 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/scss/_variables.scss";
 body {
   margin: 0 !important;
   padding: 0 !important;
   font-family: Arial !important;
+  background: map-get($theme-light, background);
+  color: map-get($theme-light, text);
 }
+
+[data-theme="dark"] body {
+  background: map-get($theme-dark, background);
+  color: map-get($theme-dark, text);
+}
+
 // 覆盖Element UI确认框样式
 .el-message-box {
   border-radius: 12px !important;
