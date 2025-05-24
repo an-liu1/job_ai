@@ -1,5 +1,5 @@
 <template>
-  <div class="why-choose-us">
+  <div class="why-choose-us homeBackground">
     <h1>Why Choose Our Interview Prep Platform?</h1>
     <p>
       Join thousands of job seekers who land their dream roles 40% faster with
@@ -9,7 +9,7 @@
     </p>
     <transition-group name="fade" tag="div" class="feature-list">
       <div class="feature-item" v-for="item in features" :key="item.title">
-        <div class="icon-box">
+        <div class="icon-box icon-color">
           <i :class="item.icon"></i>
         </div>
         <h3>{{ item.title }}</h3>
@@ -61,20 +61,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$text-color: #333;
-$desc-color: #464545;
-$icon-size: 60px;
-$gap-size: 40px;
-
 .why-choose-us {
   text-align: center;
   padding: 40px;
   position: relative;
-  background-color: #ebefff;
 
   h1 {
     font-size: 32px;
-    color: $text-color;
     margin-bottom: 20px;
     position: relative; // 确保文字在遮罩层之上
     z-index: 1;
@@ -83,7 +76,6 @@ $gap-size: 40px;
 
   p {
     font-size: 16px;
-    color: $desc-color;
     max-width: 1200px;
     margin: 0 auto 40px;
     position: relative;
@@ -94,7 +86,7 @@ $gap-size: 40px;
   .feature-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: $gap-size;
+    gap: 40px;
 
     .feature-item {
       text-align: center;
@@ -106,8 +98,8 @@ $gap-size: 40px;
       animation-delay: calc(var(--index) * 0.1s);
 
       .icon-box {
-        width: $icon-size;
-        height: $icon-size;
+        width: 60px;
+        height: 60px;
         margin: 0 auto 20px;
         border-radius: 10px;
         display: flex;
@@ -115,7 +107,6 @@ $gap-size: 40px;
         justify-content: center;
         transition: transform 0.3s ease;
         font-size: 48px;
-        color: #0295ff;
 
         &:hover {
           transform: scale(1.1);
@@ -124,7 +115,6 @@ $gap-size: 40px;
 
       h3 {
         font-size: 20px;
-        color: $text-color;
         margin-bottom: 10px;
       }
 
@@ -132,7 +122,6 @@ $gap-size: 40px;
         width: 80%;
         margin: 0 auto;
         font-size: 16px;
-        color: $desc-color;
       }
     }
   }

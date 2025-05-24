@@ -48,9 +48,6 @@
                   <span class="sender-name">{{
                     message.role === "user" ? "You" : "Interview Coach"
                   }}</span>
-                  <span class="message-time">{{
-                    formatTime(message.timestamp)
-                  }}</span>
                 </div>
                 <div
                   class="message-text"
@@ -60,7 +57,11 @@
                 <div class="message-audio" v-if="message.audio_url">
                   <AudioPlayer
                     :src="message.audio_url"
-                    :color="message.role === 'user' ? '#409EFF' : '#67c23a'"
+                    :color="
+                      message.role === 'user'
+                        ? 'var(--chat-ai)'
+                        : 'var(--chat-user)'
+                    "
                   />
                 </div>
 
@@ -79,11 +80,21 @@
                           v-model="message.evaluation.score"
                           disabled
                           :max="10"
-                          :colors="['#99A9BF', '#F7BA2A', '#FF9900']"
+                          :colors="{
+                            9: '#67C23A',
+                            7: '#E6A23C',
+                            5: '#F56C6C',
+                            3: '#909399',
+                          }"
                           score-template="{value}"
                         />
-                        <span class="score-text"
-                          >{{ message.evaluation.score }}/10</span
+                        <span
+                          class="score-text"
+                          :style="
+                            'color:' + getScoreColor(message.evaluation.score)
+                          "
+                        >
+                          {{ message.evaluation.score }}/10</span
                         >
                       </div>
 
@@ -151,13 +162,9 @@
                 </p>
               </div>
               <div class="download-report">
-                <el-button
-                  type="primary"
-                  icon="el-icon-download"
-                  @click="downloadReport"
-                >
+                <button class="default-btn" @click="downloadReport">
                   Download Report
-                </el-button>
+                </button>
               </div>
             </div>
 
@@ -311,10 +318,6 @@ export default {
       if (!dateString) return "N/A";
       return format(parseISO(dateString), "MMMM d, yyyy - h:mm a");
     },
-    formatTime(timestamp) {
-      if (!timestamp) return "";
-      return format(parseISO(timestamp), "h:mm a");
-    },
     getScoreColor(score) {
       if (score >= 8) return "#67C23A";
       if (score >= 6) return "#E6A23C";
@@ -465,10 +468,9 @@ export default {
 
     .header-content {
       padding-bottom: 15px;
-      border-bottom: 1px solid #ebeef5;
+      border-bottom: 1px solid var(--border-base);
 
       .interview-title {
-        color: #303133;
         margin-bottom: 10px;
         font-weight: 600;
       }
@@ -476,7 +478,7 @@ export default {
       .interview-meta {
         display: flex;
         gap: 20px;
-        color: #909399;
+        color: var(--text-des);
         font-size: 14px;
 
         .meta-item {
@@ -526,17 +528,12 @@ export default {
 
           .sender-name {
             font-weight: 600;
-            color: #303133;
-          }
-
-          .message-time {
-            color: #909399;
-            font-size: 12px;
+            color: var(--text-primary);
           }
         }
 
         .message-text {
-          background-color: #f5f7fa;
+          background-color: var(--bg-grey);
           padding: 12px 15px;
           border-radius: 8px;
           line-height: 1.6;
@@ -551,7 +548,7 @@ export default {
           margin-top: 15px;
 
           &.has-evaluation {
-            border: 1px solid #ebeef5;
+            border: 1px solid var(--border-base);
             border-radius: 8px;
           }
 
@@ -573,7 +570,6 @@ export default {
 
               .score-text {
                 font-weight: 600;
-                color: #ff9900;
               }
             }
 
@@ -584,7 +580,6 @@ export default {
 
               .evaluation-item {
                 h5 {
-                  color: #606266;
                   margin-bottom: 5px;
                   display: flex;
                   align-items: center;
@@ -592,7 +587,7 @@ export default {
                 }
 
                 p {
-                  background-color: #f5f7fa;
+                  background-color: var(--bg-grey);
                   padding: 10px;
                   border-radius: 4px;
                   margin: 0;
@@ -610,8 +605,8 @@ export default {
       &.user-message {
         .message-content {
           .message-text {
-            background-color: #ecf5ff;
-            border-left: 4px solid #409eff;
+            background-color: var(--bg-grey);
+            border-left: 4px solid var(--chat-user);
           }
         }
       }
@@ -619,8 +614,8 @@ export default {
       &.coach-message {
         .message-content {
           .message-text {
-            background-color: #f0f9eb;
-            border-left: 4px solid #67c23a;
+            background-color: var(--bg-grey);
+            border-left: 4px solid var(--chat-ai);
           }
         }
       }
@@ -634,7 +629,7 @@ export default {
       gap: 30px;
       margin-bottom: 30px;
       padding: 20px;
-      background-color: #f5f7fa;
+      background-color: var(--bg-grey);
       border-radius: 8px;
       position: relative;
 
@@ -648,7 +643,6 @@ export default {
 
         .score-max {
           font-size: 16px;
-          color: #909399;
         }
       }
 
@@ -660,7 +654,6 @@ export default {
         }
 
         p {
-          color: #606266;
           margin: 0;
         }
       }
@@ -682,7 +675,6 @@ export default {
           align-items: center;
           gap: 10px;
           margin-bottom: 15px;
-          color: #303133;
 
           i {
             font-size: 20px;
@@ -697,7 +689,6 @@ export default {
           margin-bottom: 15px;
 
           h5 {
-            color: #606266;
             margin-bottom: 5px;
           }
 
@@ -709,41 +700,41 @@ export default {
       }
 
       .strengths-section {
-        border-top: 4px solid #67c23a;
+        border-top: 4px solid var(--success);
 
         .section-header {
           i {
-            color: #67c23a;
+            color: var(--success);
           }
         }
       }
 
       .weaknesses-section {
-        border-top: 4px solid #f56c6c;
+        border-top: 4px solid var(--error);
 
         .section-header {
           i {
-            color: #f56c6c;
+            color: var(--error);
           }
         }
       }
 
       .improvement-section {
-        border-top: 4px solid #e6a23c;
+        border-top: 4px solid var(--warning);
 
         .section-header {
           i {
-            color: #e6a23c;
+            color: var(--warning);
           }
         }
       }
 
       .career-section {
-        border-top: 4px solid #409eff;
+        border-top: 4px solid var(--primary);
 
         .section-header {
           i {
-            color: #409eff;
+            color: var(--primary);
           }
         }
       }

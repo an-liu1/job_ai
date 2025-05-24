@@ -1,5 +1,5 @@
 <template>
-  <div class="privacy-container">
+  <div class="privacy-container pageContainer">
     <el-card class="privacy-card">
       <!-- Header Section -->
       <div class="privacy-header">
@@ -51,7 +51,9 @@
           <template v-if="section.link">
             <p>
               To exercise your rights, please contact us at:
-              <a :href="`mailto:${section.link}`">{{ section.link }}</a>
+              <a class="text-link" :href="`mailto:${section.link}`">{{
+                section.link
+              }}</a>
             </p>
           </template>
         </div>
@@ -217,18 +219,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.privacy-container {
-  padding: 100px 20px 20px 20px;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
-}
-
 .privacy-card {
   max-width: 1300px;
   margin: 0 auto;
@@ -241,13 +231,11 @@ export default {
   margin-bottom: 30px;
 
   .title {
-    color: #000;
     font-size: 28px;
     margin-bottom: 10px;
   }
 
   .effective-date {
-    color: #000;
     font-size: 14px;
     opacity: 0.7;
   }
@@ -256,11 +244,7 @@ export default {
 .introduction-section {
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #ebeef5;
-
-  p {
-    color: #000;
-  }
+  border-bottom: 1px solid var(--border-base);
 }
 
 .content-sections {
@@ -270,21 +254,18 @@ export default {
 .content-section {
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #ebeef5;
-  color: #000;
+  border-bottom: 1px solid var(--border-base);
 
   &:last-child {
     border-bottom: none;
   }
 
   h2 {
-    color: #000;
     margin-bottom: 15px;
     font-size: 20px;
   }
 
   h3 {
-    color: #000;
     margin: 15px 0 8px 0;
     font-size: 16px;
   }
@@ -295,18 +276,15 @@ export default {
 
     li {
       margin-bottom: 8px;
-      color: #000;
       font-weight: 500;
     }
   }
 
   p {
-    color: #000;
     margin-bottom: 15px;
   }
 
   a {
-    color: #409eff;
     text-decoration: none;
 
     &:hover {

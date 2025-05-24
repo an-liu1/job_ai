@@ -1,5 +1,5 @@
 <template>
-  <div class="account-dashboard">
+  <div class="account-dashboard pageContainer">
     <div class="user-profile-container">
       <!-- User Profile Card -->
       <el-card class="profile-card" shadow="hover">
@@ -39,13 +39,7 @@
         </div>
 
         <div class="mt-5">
-          <el-button
-            type="warning"
-            icon="el-icon-switch-button"
-            @click="logout"
-          >
-            Logout
-          </el-button>
+          <button class="default-btn" @click="logout">Logout</button>
         </div>
       </el-card>
 
@@ -178,9 +172,9 @@
                 class="subscription-actions"
                 v-if="userProfile.subscription_status === 'active'"
               >
-                <el-button type="danger" plain @click="showCancelDialog">
+                <button class="default-btn" @click="showCancelDialog">
                   Cancel Monthly Subscription
-                </el-button>
+                </button>
               </div>
             </div>
           </el-tab-pane>
@@ -217,7 +211,6 @@
                   :timestamp="formatTime(transaction.created_at)"
                   placement="top"
                   :type="getTransactionType(transaction)"
-                  :color="getTransactionColor(transaction)"
                 >
                   <el-card shadow="hover" class="transaction-card">
                     <div class="transaction-header">
@@ -285,20 +278,9 @@
                   </el-checkbox-group>
                 </el-form-item>
 
-                <el-form-item label="Dark Mode">
-                  <el-switch
-                    v-model="darkMode"
-                    active-text="Dark"
-                    inactive-text="Light"
-                    @change="applyTheme"
-                  ></el-switch>
-                </el-form-item>
-
-                <el-form-item>
-                  <el-button type="primary" @click="saveSettings"
-                    >Save Settings</el-button
-                  >
-                </el-form-item>
+                <button class="default-btn" @click="saveSettings">
+                  Save Settings
+                </button>
               </el-form>
             </div>
           </el-tab-pane>
@@ -416,7 +398,6 @@ export default {
           },
         ],
       },
-      darkMode: false,
       notificationSettings: [],
       transactionFilter: "all",
       currentPage: 1,
@@ -424,7 +405,6 @@ export default {
     };
   },
   mounted() {
-    this.applyTheme(); // set initial theme
     Promise.all([
       this.$store.dispatch("getUserInfo"),
       this.$store.dispatch("getBillingProfile"),
@@ -488,12 +468,6 @@ export default {
     },
   },
   methods: {
-    applyTheme() {
-      document.documentElement.setAttribute(
-        "data-theme",
-        this.darkMode ? "dark" : "light"
-      );
-    },
     validatePasswordComplexity(rule, value, callback) {
       if (value.length < 8) {
         callback(new Error("Password must be at least 8 characters"));
@@ -602,9 +576,6 @@ export default {
     getTransactionType(transaction) {
       return transaction.item_type === "SUBSCRIPTIONS" ? "primary" : "success";
     },
-    getTransactionColor(transaction) {
-      return transaction.item_type === "SUBSCRIPTIONS" ? "#409EFF" : "#67C23A";
-    },
     getTransactionTagType(transaction) {
       return transaction.item_type === "SUBSCRIPTIONS" ? "" : "success";
     },
@@ -622,14 +593,6 @@ export default {
   justify-content: center;
   align-items: flex-start;
   padding: 150px 20px 20px 20px;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
 }
 
 .user-profile-container {
@@ -653,19 +616,17 @@ export default {
 
     .user-avatar {
       margin-bottom: 15px;
-      background-color: #409eff;
-      color: white;
+      background-color: var(--avatar-color);
+      color: var(--text-white);
       font-size: 48px;
     }
 
     .user-greeting {
       margin: 10px 0 5px;
-      color: #303133;
     }
 
     .user-role {
       margin: 0;
-      color: #909399;
       font-size: 14px;
     }
   }
@@ -679,12 +640,12 @@ export default {
       .stat-value {
         font-size: 24px;
         font-weight: bold;
-        color: #409eff;
+        color: var(--text-blue);
       }
 
       .stat-label {
         font-size: 12px;
-        color: #909399;
+        color: var(--text-des);
         text-transform: uppercase;
         letter-spacing: 1px;
       }
@@ -698,19 +659,6 @@ export default {
   .profile-tabs {
     ::v-deep .el-tabs__item {
       font-weight: 500;
-    }
-  }
-
-  .settings-section {
-    .danger-zone {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #f56c6c;
-
-      h4 {
-        color: #f56c6c;
-        margin-bottom: 15px;
-      }
     }
   }
 
@@ -728,7 +676,6 @@ export default {
     margin-top: 8px;
     margin: 4px 0;
     font-size: 13px;
-    color: #606266;
   }
 
   .transactions-section {
@@ -744,7 +691,6 @@ export default {
 
     .transaction-card {
       margin-bottom: 15px;
-      border-left: 3px solid #409eff;
 
       .transaction-header {
         display: flex;
@@ -760,13 +706,13 @@ export default {
           font-weight: bold;
 
           .credit-amount {
-            color: #67c23a;
+            color: var(--success);
           }
           .credit-consume {
-            color: red;
+            color: var(--error);
           }
           .subscription-plan {
-            color: #409eff;
+            color: var(--primary);
           }
         }
       }
@@ -776,7 +722,7 @@ export default {
         justify-content: space-between;
         margin-bottom: 10px;
         font-size: 13px;
-        color: #909399;
+        color: var(--text-des);
 
         .transaction-id {
           flex: 1;

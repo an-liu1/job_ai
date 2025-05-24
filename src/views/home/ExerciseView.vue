@@ -28,7 +28,7 @@
 
               <div class="d-flex justify-content-center gap-3 mt-5">
                 <button
-                  class="nav-btn btn active"
+                  class="default-btn"
                   @click="redirectTo(featureInfo[0].redirectURL)"
                 >
                   {{ featureInfo[0].btnText }}
@@ -58,7 +58,7 @@
 
               <div class="d-flex justify-content-center gap-3 mt-5">
                 <button
-                  class="nav-btn btn active"
+                  class="default-btn"
                   @click="redirectTo(featureInfo[1].redirectURL)"
                 >
                   {{ featureInfo[1].btnText }}
@@ -189,13 +189,11 @@ export default {
     .main-title {
       font-size: 2rem;
       font-weight: 700;
-      color: #2d3748;
       margin-bottom: 1rem;
     }
 
     .sub-title {
       font-size: 1.2rem;
-      color: #4a5568;
       font-weight: 400;
       margin-bottom: 1.5rem;
     }
@@ -203,7 +201,6 @@ export default {
     .description {
       font-size: 1rem;
       line-height: 1.6;
-      color: #4a5568;
       margin-bottom: 1rem;
     }
   }
@@ -218,29 +215,6 @@ export default {
 .content-fade-leave-to {
   opacity: 0;
   transform: translateY(20px);
-}
-
-.nav-btn {
-  padding: 12px 40px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: white;
-  color: #6b7280;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-  &.active {
-    background: #6366f1;
-    color: white;
-    border-color: #6366f1;
-  }
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
 }
 
 /* Responsive adjustments */

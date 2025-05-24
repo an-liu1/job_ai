@@ -98,7 +98,7 @@ export default {
 }
 
 .accordion-content {
-  background: white;
+  background: var(--bg-white);
   border-radius: 15px;
   padding: 30px;
   z-index: 1;
@@ -110,7 +110,6 @@ export default {
 }
 
 .content-title {
-  color: #2c3e50;
   font-size: 30px;
   margin-bottom: 20px;
   font-weight: 700;
@@ -129,12 +128,10 @@ export default {
 }
 
 .content-subTitle {
-  color: #2c3e50;
   margin-bottom: 15px;
 }
 
 .content-text {
-  color: #4a5568;
   font-size: 16px;
   line-height: 1.8;
   margin-bottom: 25px;

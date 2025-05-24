@@ -1,5 +1,5 @@
 <template>
-  <div class="payment-success-container">
+  <div class="payment-success-container pageContainer">
     <el-card class="success-card">
       <div class="success-content">
         <i class="el-icon-success success-icon"></i>
@@ -82,14 +82,6 @@ export default {
   padding: 300px 20px 20px 20px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
 
   .success-card {
     max-width: 600px;
@@ -103,23 +95,21 @@ export default {
 
       .success-icon {
         font-size: 60px;
-        color: #67c23a;
+        color: var(--success);
         margin-bottom: 20px;
       }
 
       .success-title {
-        color: #67c23a;
-        margin-bottom: 15px;
+        color: var(--success);
+        margin-bottom: 20px;
       }
 
       .success-message {
-        color: #606266;
         font-size: 16px;
         margin-bottom: 10px;
       }
 
       .success-instruction {
-        color: #909399;
         margin-bottom: 25px;
       }
 

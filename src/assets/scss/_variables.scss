@@ -1,88 +1,161 @@
-// Base palette
-$color-white: #ffffff;
-$color-black: #02050b;
-$color-dark-grey: #404040;
-$color-light-grey: #f7f8f8;
-$color-accent: #7b68ee;
-$color-accent-dark: #3e57d0;
-$color-orange: #ff9800;
-$color-red: #f44336;
-$color-success: #2ecc71;
-$color-warning: #e67e22;
-$color-purple: #9b59b6;
-$color-blue: #409eff;
-$color-soft-grey: #dad6d6;
-$color-muted: #7f8c8d;
-$color-secondary: #646cff;
-$color-green: #67c23a;
-$color-info: #ecf5ff;
-$color-border: #95a5a6;
-$color-shadow: rgba(123, 104, 238, 0.25);
-
 // Theme color maps
 $theme-light: (
-  background: $color-white,
-  surface: $color-light-grey,
-  text: $color-dark-grey,
-  heading: $color-dark-grey,
-  accent: $color-accent,
-  button-bg: $color-accent,
-  button-text: $color-white,
-  link: $color-accent,
-  border: $color-border,
-  muted: $color-muted,
-  success: $color-success,
-  warning: $color-warning,
-  error: $color-red,
-  shadow: $color-shadow,
+  //背景色
+  bg-base:
+    linear-gradient(to bottom, #0295ff, #3cabff, #76c1ff, #b0d7ff, #ebefff),
+  bg-secondary: #ebefff,
+  bg-tertiary: #3cabff,
+  bg-white: #ffffff,
+  bg-grey: #f5f7fa,
+  bg-light-grey: #f9fafc,
+  bg-dark-grey: #e2e8f0,
+
+  //导航色
+  nav-light: #505050,
+  nav-dark: #ffffff,
+  nav-light-hover: #7b68ee,
+  nav-dark-hover: #7b68ee,
+  nav-phone: #404040,
+
+  //文本色
+  text-primary: #02050b,
+  text-secondary: #080808,
+  text-p: #606266,
+  text-white: #ffffff,
+  text-blue: #409eff,
+  text-des: #909399,
+  text-disabled: #c0c4cc,
+
+  //边框色
+  border-base: #ebeef5,
+  border-blue: #4285f4,
+
+  // 交互元素
+  btn-primary: #3e57d0,
+  btn-primary-hover: #ffffff,
+
+  link-color: #1890ff,
+  link-hover: lighten(#1890ff, 10%),
+  // 表单状态
+  input-focus: #409eff,
+  input-error: #f56c6c,
+  input-success: #67c23a,
+
+  // 图标颜色
+  icon-color: #409eff,
+  icon-hover: lighten(#0295ff, 10%),
+  //头像颜色
+  avatar-color: #409eff,
+
+  //BackToTop颜色
+  backtotop-color: #007bff,
+
+  //对话颜色
+  chat-user: #409eff,
+  chat-ai: #67c23a,
+
+  //pop up颜色
+  pop-up-main-color: #0295ff,
+
+  // 功能状态
+  primary: #409eff,
+  success: #67c23a,
+  warning: #e6a23c,
+  error: #f56c6c,
+  info: #909399,
+
+  // 特殊场景
+  shadow-base: rgba(0, 0, 0, 0.1),
+  loading-gradient:
+    linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%)
 );
 
 $theme-dark: (
-  background: $color-black,
-  surface: #181c25,
-  text: $color-white,
-  heading: $color-white,
-  accent: #a698fd,
-  button-bg: #282f3a,
-  button-text: $color-accent,
-  link: #a698fd,
-  border: #232a36,
-  muted: #b0b3b8,
-  success: #27e67e,
-  warning: #ffaa4d,
-  error: #ff6767,
-  shadow: rgba(0, 0, 0, 0.25),
-);
+  //▂▂▂▂▂ 背景系统 ▂▂▂▂▂
+  bg-base: #121212,
+  // 基底色（Material Design标准）
+  bg-secondary: #1a1a1a,
+  // 卡片/模块背景
+  bg-tertiary: #2d2d2d,
+  // 悬浮层背景
+  bg-white: rgba(255, 255, 255, 0.05),
+  // 覆盖层
+  bg-grey: #0d0d0d,
+  // 辅助背景
+  bg-light-grey: #363636,
+  // 轻交互背景
+  bg-dark-grey: #262626,
 
+  // 分割线基底
+  //▂▂▂▂▂ 文本系统 ▂▂▂▂▂
+  text-primary: rgba(255, 255, 255, 0.87),
+  // 主文本（87%不透明度）
+  text-secondary: rgba(255, 255, 255, 0.6),
+  // 次级文本
+  text-p: #8c8c8c,
+  // 段落文本（APCA建议低饱和度）
+  text-white: #ffffff,
+  text-blue: #64b5f6,
+  // 降低饱和的Material Blue 200
+  text-des: #757575,
+  // 描述性文字（满足4.5:1对比度）
+  text-disabled: #4d4d4d,
+
+  // 禁用状态
+  //▂▂▂▂▂ 导航系统 ▂▂▂▂▂
+  nav-light: #e0e0e0,
+  nav-dark: #b0b0b0,
+  nav-light-hover: #7b68ee,
+  // 霓虹紫（保持品牌识别）
+  nav-dark-hover: #9575cd,
+  // 降低饱和的紫色
+  nav-phone: #9e9e9e,
+
+  // 中性灰色
+  //▂▂▂▂▂ 交互元素 ▂▂▂▂▂
+  btn-primary: #3e57d0,
+  // 主按钮（添加1px #64B5F6边框补偿对比度）
+  btn-primary-hover: rgba(62, 87, 208, 0.8),
+  link-color: #64b5f6,
+  // 与text-blue统一
+  link-hover: lighten(#64b5f6, 15%),
+  //▂▂▂▂▂ 表单系统 ▂▂▂▂▂
+  input-focus: rgba(100, 181, 246, 0.3),
+  // 聚焦光晕
+  input-error: #e57373,
+  // Material Red 300（通过APCA 60+）
+  input-success: #81c784,
+
+  // Material Green 300
+  //▂▂▂▂▂ 图标与装饰 ▂▂▂▂▂
+  icon-color: #64b5f6,
+  icon-hover: lighten(#64b5f6, 15%),
+  avatar-color: #64b5f6,
+
+  //▂▂▂▂▂ 特殊组件 ▂▂▂▂▂
+  backtotop-color: rgba(100, 181, 246, 0.7),
+  chat-user: #64b5f6,
+  chat-ai: #81c784,
+  pop-up-main-color: #1a1a1a,
+
+  // 弹窗背景（层级区分）
+  //▂▂▂▂▂ 功能状态 ▂▂▂▂▂
+  primary: #64b5f6,
+  success: #81c784,
+  warning: #ffb74d,
+  // Material Orange 300
+  error: #e57373,
+  info: #9e9e9e,
+
+  // 中性灰
+  //▂▂▂▂▂ 视觉效果 ▂▂▂▂▂
+  shadow-base: rgba(255, 255, 255, 0.1),
+  // 反向阴影
+  loading-gradient:
+    linear-gradient(90deg, #2d2d2d 25%, #363636 50%, #2d2d2d 75%)
+);
 
 // Helper function
 @function theme($key) {
   @return map-get($theme, $key);
 }
-
-
-
-// 一、基础颜色体系
-// 类别	应用场景	SCSS 变量示例	细节说明
-// 1. 品牌色	Logo、主按钮、关键提示、导航高亮	$brand-primary: #409EFF;	主品牌色需定义深浅变体（如darken()/lighten()）
-// 2. 背景色	页面主背景、卡片背景、反色背景（深色模式）	$bg-base: #ffffff;$bg-secondary: #f5f7fa;	需至少2-3层背景层次
-// 3. 文本色	正文、次级文本（描述）、禁用状态文本	$text-primary: #303133;$text-secondary: #909399;	确保与背景色的对比度 ≥ 4.5:1 (WCAG标准)
-// 4. 边框色	分割线、输入框边框、卡片边框	$border-base: #dcdfe6;$border-light: #e4e7ed;	定义2-3级灰度层次
-// 二、交互元素颜色
-// 组件	状态	SCSS 变量示例	代码实现技巧
-// 1. 按钮	默认 / 悬停(hover) / 点击(active) / 禁用(disabled)	scss<br>$btn-primary: $brand-primary;<br>$btn-primary-hover: mix(black, $brand-primary, 10%);<br>$btn-primary-active: mix(black, $brand-primary, 20%);<br>	使用 mix() 或 darken() 生成状态色
-// 2. 链接	默认颜色 / 悬停 / 访问后	$link-color: #1890ff;$link-hover: lighten($link-color, 10%);	与正文颜色明显区分
-// 3. 表单	输入框焦点(focus)边框色、错误状态、校验成功	scss<br>$input-focus: $brand-primary;<br>$input-error: #f56c6c;<br>$input-success: #67c23a;<br>	错误色需高对比度警示
-// 4. 图标	填充色、悬停色、禁用色	$icon-color: #606266;$icon-hover: $brand-primary;	SVG 图标通过 CSS 控制颜色
-// 三、功能状态颜色
-// 状态类型	使用场景	SCSS 变量示例	设计原则
-// 1. 成功	操作成功提示、进度完成状态	$success: #67c23a;	柔和绿色系
-// 2. 警告	非阻塞性提示（如表单校验提醒）	$warning: #e6a23c;	采用橙黄色系
-// 3. 错误	操作失败、系统异常、删除危险操作	$error: #f56c6c;	高饱和度红色
-// 4. 信息	中性提示（如通知消息）	$info: #909399;	与文本次级色协调
-// 四、高级场景颜色
-// 场景	具体需求	实现方案	代码示例
-// 1. 深色模式	切换背景、文本、组件颜色的全局适配	通过 CSS 变量 + 主题类名控制	scss<br>[data-theme="dark"] {<br> --bg-base: #1a1a1a;<br> --text-primary: rgba(255,255,255,0.85);<br>}
-// 2. 图表颜色	数据可视化中不同数据系列的颜色	定义 6-8 种对比色循环	$chart-colors: (#5470c6, #91cc75, #fac858, #ee6666, #73c0de, #3ba272);
-// 3. 阴影颜色	卡片、浮层、按钮的阴影统一	使用透明度黑色	$shadow-base: 0 2px 12px 0 rgba(0,0,0,0.1);
-// 4. 加载状态	骨架屏、加载动画的颜色	定义渐变灰度色	$loading-gradient: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%);

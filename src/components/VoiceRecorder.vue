@@ -78,7 +78,7 @@ export default {
     },
     activeColor: {
       type: String,
-      default: "#409EFF",
+      default: "#F56C6C",
     },
     inactiveColor: {
       type: String,

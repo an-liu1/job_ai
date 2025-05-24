@@ -40,8 +40,8 @@ export default {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--backtotop-color);
+  color: var(--text-white);
   width: 50px;
   height: 50px;
   border-radius: 50%;

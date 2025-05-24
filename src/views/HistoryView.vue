@@ -1,5 +1,5 @@
 <template>
-  <div class="history-viewer-container">
+  <div class="history-viewer-container pageContainer">
     <div class="history-list-panel">
       <el-card shadow="hover" class="history-card">
         <div class="search-toolbar">
@@ -199,15 +199,6 @@ export default {
   display: grid;
   grid-template-columns: 430px 1fr;
   gap: 20px;
-  padding: 100px 20px 20px 20px;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
 
   .history-list-panel {
     .history-card {
@@ -234,14 +225,6 @@ export default {
         ::v-deep .el-table__row {
           cursor: pointer;
           transition: background-color 0.3s;
-
-          &:hover {
-            background-color: #f0f7ff;
-          }
-        }
-
-        ::v-deep .current-row {
-          background-color: #e6f7ff !important;
         }
       }
     }
@@ -250,7 +233,7 @@ export default {
   .history-detail-panel {
     .history-detail-component {
       height: 100%;
-      background-color: white;
+      background-color: var(--bg-white);
       border-radius: 8px;
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }

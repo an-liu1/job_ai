@@ -744,7 +744,7 @@ export default {
   }
 
   ::v-deep .el-dialog__header {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-base);
     padding: 15px 20px;
 
     .el-dialog__title {

@@ -5,14 +5,12 @@
       <div class="row align-items-center mb-4">
         <div class="col-md-6">
           <div class="link-group">
-            <router-link
-              to="/termofuse"
-              class="me-3 text-white text-decoration-none"
+            <router-link to="/termofuse" class="me-3 link text-decoration-none"
               >Terms of Service</router-link
             >
             <router-link
               to="/privacypolicy"
-              class="me-3 text-white text-decoration-none"
+              class="me-3 link text-decoration-none"
               >Privacy Policy</router-link
             >
           </div>
@@ -46,10 +44,10 @@ export default {
 </script>
 
 <!-- height: 123px -->
-<style scoped>
+<style scoped lang="scss">
 .footer-container {
-  background: #3cabff;
-  color: white;
+  background: var(--bg-tertiary);
+  color: var(--text-white);
   padding: 20px 0;
 }
 .logo {
@@ -65,7 +63,9 @@ export default {
 .social-icons:hover {
   cursor: pointer;
 }
-.link-group a:hover {
-  text-decoration: none !important;
+.link-group {
+  .link {
+    color: var(--text-white);
+  }
 }
 </style>

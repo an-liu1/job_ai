@@ -2,52 +2,47 @@
   <div>
     <!-- Start Navbar Section -->
     <div class="navbar-section" :class="{ 'is-sticky': isSticky }">
-      <!-- 响应式导航部分 -->
-      <div class="techvio-responsive-nav">
+      <!-- Responsive Navigation -->
+      <div class="responsive-nav-container">
         <div class="container">
-          <div class="techvio-responsive-menu">
-            <!--  logo  -->
-            <div>
-              <a @click="$router.push({ path: '/', hash: '#home' })">
-                <img
-                  src="../assets/long_logo_white.png"
-                  class="white-logo logo"
-                  alt="logo"
-                  v-show="!isSticky"
-                />
-                <img
-                  src="../assets/long_logo_dark.png"
-                  class="black-logo logo"
-                  alt="logo"
-                  v-show="isSticky"
-                />
-              </a>
-            </div>
-            <!-- 汉堡菜单按钮 -->
-            <button class="hamburger-menu" @click="toggleMenu">
+          <div class="responsive-menu-header">
+            <a @click="$router.push({ path: '/', hash: '#home' })">
+              <img
+                src="../assets/long_logo_white.png"
+                class="logo white-logo"
+                alt="logo"
+                v-show="!isSticky"
+              />
+              <img
+                src="../assets/long_logo_dark.png"
+                class="logo black-logo"
+                alt="logo"
+                v-show="isSticky"
+              />
+            </a>
+            <button class="menu-toggle" @click="toggleMenu">
               <span></span>
               <span></span>
               <span></span>
             </button>
           </div>
-          <!-- 响应式导航项 -->
-          <div class="responsive-nav" :class="{ show: isMenuOpen }">
-            <ul class="navbar-nav">
-              <li class="nav-item" v-for="(i, index) in navBar" :key="index">
+          <div class="responsive-menu-content" :class="{ show: isMenuOpen }">
+            <ul class="nav-links">
+              <li v-for="(item, index) in navBar" :key="index">
                 <a
-                  class="nav-link"
                   @click="
-                    redirectTo(i.navLink, i.sectionId);
+                    redirectTo(item.navLink, item.sectionId);
                     toggleMenu();
                   "
-                  >{{ i.name }}</a
                 >
+                  {{ item.name }}
+                </a>
               </li>
             </ul>
-            <div class="other-option" @click="login" v-if="!loginStatus">
-              <a class="default-btn">Sign in<span></span></a>
-            </div>
-            <div class="accountAvatar" @click="$router.push('/account')" v-else>
+            <button class="default-btn" @click="login" v-if="!loginStatus">
+              Sign in
+            </button>
+            <div class="user-avatar" @click="$router.push('/account')" v-else>
               <span>Hello,</span>
               <el-avatar>
                 {{ userProfile.username?.charAt(0).toUpperCase() || "A" }}
@@ -56,50 +51,57 @@
           </div>
         </div>
       </div>
-      <!-- 正常导航部分 -->
-      <div class="techvio-nav">
+
+      <!-- Desktop Navigation -->
+      <div class="desktop-nav">
         <div class="container">
-          <nav class="navbar navbar-expand-md navbar-light">
-            <a
-              class="navbar-brand"
-              @click="$router.push({ path: '/', hash: '#home' })"
-            >
+          <div class="nav-content">
+            <a @click="$router.push({ path: '/', hash: '#home' })">
               <img
                 src="../assets/long_logo_white.png"
-                class="white-logo logo"
+                class="logo white-logo"
                 alt="logo"
               />
               <img
                 src="../assets/long_logo_dark.png"
-                class="black-logo logo"
+                class="logo black-logo"
                 alt="logo"
               />
             </a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item" v-for="(i, index) in navBar" :key="index">
-                  <a
-                    class="nav-link"
-                    @click="redirectTo(i.navLink, i.sectionId)"
-                    >{{ i.name }}</a
-                  >
-                </li>
-              </ul>
-              <div class="other-option" @click="login" v-if="!loginStatus">
-                <a class="default-btn">Sign in<span></span></a>
-              </div>
-              <div
-                class="accountAvatar"
-                @click="$router.push('/account')"
-                v-else
+            <ul class="nav-links">
+              <li v-for="(item, index) in navBar" :key="index">
+                <a @click="redirectTo(item.navLink, item.sectionId)">
+                  {{ item.name }}
+                </a>
+              </li>
+            </ul>
+            <div class="nav-actions">
+              <button
+                class="theme-toggle"
+                @click="toggleTheme"
+                aria-label="Toggle theme"
               >
-                <span class="helloText">Hello,</span>
+                <div class="theme-switch-track">
+                  <div
+                    class="theme-switch-thumb"
+                    :class="{ 'dark-active': currentTheme === 'dark' }"
+                  >
+                    <i class="fas fa-sun sun-icon"></i>
+                    <i class="fas fa-moon moon-icon"></i>
+                  </div>
+                </div>
+              </button>
+              <button class="default-btn" @click="login" v-if="!loginStatus">
+                Sign in
+              </button>
+              <div class="user-avatar" @click="$router.push('/account')" v-else>
+                <span>Hello,</span>
                 <el-avatar>
                   {{ userProfile.username?.charAt(0).toUpperCase() || "A" }}
                 </el-avatar>
               </div>
             </div>
-          </nav>
+          </div>
         </div>
       </div>
     </div>
@@ -114,108 +116,69 @@ export default {
       isSticky: false,
       scrollListener: null,
       isMenuOpen: false,
+      currentTheme: "light",
     };
   },
   computed: {
-    navBar: function () {
-      if (this.loginStatus) {
-        return [
-          {
-            navLink: "/",
-            name: "Home",
-            sectionId: "home",
-          },
-          {
-            navLink: "/exercise/feature",
-            name: "Feature Interview",
-            sectionId: "",
-          },
-          {
-            navLink: "/exercise/mock",
-            name: "Mock Interview",
-            sectionId: "",
-          },
-          {
-            navLink: "/history",
-            name: "History",
-            sectionId: "",
-          },
-          {
-            navLink: "/",
-            name: "Pricing",
-            sectionId: "price",
-          },
-          {
-            navLink: "/account",
-            name: "My Account",
-            sectionId: "",
-          },
-        ];
-      } else {
-        return [
-          {
-            navLink: "/",
-            name: "Home",
-            sectionId: "home",
-          },
-          {
-            navLink: "/",
-            name: "Features",
-            sectionId: "features",
-          },
-          {
-            navLink: "/",
-            name: "Guide",
-            sectionId: "howItWork",
-          },
-          {
-            navLink: "/",
-            name: "Interview",
-            sectionId: "exercise",
-          },
-          {
-            navLink: "/",
-            name: "Why Us",
-            sectionId: "why",
-          },
-          {
-            navLink: "/",
-            name: "Pricing",
-            sectionId: "price",
-          },
-          {
-            navLink: "/",
-            name: "FAQ",
-            sectionId: "faq",
-          },
-        ];
-      }
+    navBar() {
+      return this.loginStatus
+        ? [
+            { navLink: "/", name: "Home", sectionId: "home" },
+            { navLink: "/exercise/feature", name: "Feature Interview" },
+            { navLink: "/exercise/mock", name: "Mock Interview" },
+            { navLink: "/history", name: "History" },
+            { navLink: "/", name: "Pricing", sectionId: "price" },
+            { navLink: "/account", name: "My Account" },
+          ]
+        : [
+            { navLink: "/", name: "Home", sectionId: "home" },
+            { navLink: "/", name: "Features", sectionId: "features" },
+            { navLink: "/", name: "Guide", sectionId: "howItWork" },
+            { navLink: "/", name: "Interview", sectionId: "exercise" },
+            { navLink: "/", name: "Why Us", sectionId: "why" },
+            { navLink: "/", name: "Pricing", sectionId: "price" },
+            { navLink: "/", name: "FAQ", sectionId: "faq" },
+          ];
     },
-    userProfile: function () {
+    userProfile() {
       return this.$store.state.userProfile;
     },
-    loginStatus: function () {
+    loginStatus() {
       return this.$store.state.loginStatus;
     },
   },
   mounted() {
-    // 绑定滚动事件监听器
     this.scrollListener = this.handleScroll.bind(this);
     window.addEventListener("scroll", this.scrollListener);
+    // Initialize theme from localStorage or prefer-color-scheme
+    this.initializeTheme();
   },
   beforeDestroy() {
-    // 组件销毁前移除滚动事件监听器
     if (this.scrollListener) {
       window.removeEventListener("scroll", this.scrollListener);
     }
   },
   methods: {
+    initializeTheme() {
+      const savedTheme = localStorage.getItem("theme");
+      const systemPrefersDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      this.currentTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", this.currentTheme);
+    },
+
+    toggleTheme() {
+      this.currentTheme = this.currentTheme === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", this.currentTheme);
+      localStorage.setItem("theme", this.currentTheme);
+    },
     login() {
       this.$store.commit("setLogininFrom", this.$route.fullPath);
       this.$router.push("/signinup");
     },
     handleScroll() {
-      // 使用 requestAnimationFrame 优化性能
       requestAnimationFrame(() => {
         this.isSticky = window.scrollY > 120;
       });
@@ -236,398 +199,302 @@ export default {
             });
           })
           .catch((error) => {
-            console.error("路由跳转出错:", error);
+            console.error("Routing error:", error);
           });
       } else {
         this.$router.push(link);
       }
     },
     toggleMenu() {
-      // 切换菜单显示状态
       this.isMenuOpen = !this.isMenuOpen;
     },
   },
 };
 </script>
 
-<!-- height: 85px -->
 <style lang="scss" scoped>
-@import "../assets/css/style.css";
-
-.techvio-responsive-nav {
-  display: none;
-}
-
-.techvio-nav {
-  padding: 15px 0;
-  background-color: transparent;
-  .logo {
-    width: 170px !important;
-    height: 40px !important;
-  }
-  .navbar {
-    padding: 0;
-
-    ul {
-      padding-left: 0;
-      list-style-type: none;
-      margin-bottom: 0;
-    }
-
-    .navbar-nav {
-      margin: auto;
-
-      .nav-item {
-        position: relative;
-        padding: 15px 0;
-
-        a {
-          color: #ffffff;
-          font-size: 16px;
-          font-weight: 600;
-          text-transform: capitalize;
-          padding: 0;
-          margin: 0 15px;
-
-          i {
-            position: relative;
-            top: -1px;
-            font-size: 10px;
-            margin-left: 2px;
-          }
-
-          &:hover,
-          &:focus,
-          &.active {
-            cursor: pointer;
-          }
-        }
-
-        &:last-child a {
-          margin-right: 0;
-        }
-
-        &:first-child a {
-          margin-left: 0;
-        }
-
-        .dropdown-menu {
-          position: absolute;
-          z-index: 99;
-          top: 80px;
-          left: 0;
-          width: 230px;
-          padding: 0;
-          display: block;
-          opacity: 0;
-          visibility: hidden;
-          overflow: hidden;
-          border-radius: 3px;
-          background-color: #ffffff;
-          -webkit-box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-          box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-          -webkit-transition: all 0.3s ease-in-out;
-          transition: all 0.3s ease-in-out;
-          border: none;
-
-          li {
-            padding: 0;
-            border-bottom: 1px solid #f1f1f1;
-
-            &:last-child {
-              border-bottom: 0px solid transparent;
-            }
-
-            a {
-              position: relative;
-              color: #404040;
-              font-size: 16px;
-              font-weight: 600;
-              text-transform: capitalize;
-              padding: 10px 15px;
-              margin: 0;
-
-              &:hover,
-              &:focus,
-              &.active {
-                color: #ffffff;
-                background-color: #7b68ee;
-              }
-            }
-
-            .dropdown-menu {
-              top: 0;
-              left: -245px;
-              opacity: 0;
-              visibility: hidden;
-
-              li {
-                a {
-                  color: #696997;
-
-                  &:hover,
-                  &:focus,
-                  &.active {
-                    color: #7b68ee;
-                  }
-
-                  &.dropdown-menu {
-                    top: 0;
-                    left: -245px;
-                    opacity: 0;
-                    visibility: hidden;
-
-                    li {
-                      a {
-                        color: #696997;
-                        text-transform: capitalize;
-
-                        &:hover,
-                        &:focus,
-                        &.active {
-                          color: #7b68ee;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-
-        &:hover .dropdown-menu {
-          top: 100%;
-          opacity: 1;
-          visibility: visible;
-          -webkit-transition: 0.4s;
-          transition: 0.4s;
-        }
-      }
-
-      &.index-navber {
-        .nav-item a {
-          color: #555;
-        }
-      }
-    }
-
-    .other-option {
-      margin-top: 3px;
-      margin-left: 0;
-
-      .call-btn {
-        color: #fff;
-        font-size: 20px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #7b68ee;
-        padding: 8px 10px 8px 15px;
-        border-radius: 5px;
-
-        i {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 10px;
-          color: #7b68ee;
-          background: #ffffff;
-          width: 40px;
-          height: 40px;
-          border-radius: 6px;
-        }
-      }
-    }
-
-    .accountAvatar {
-      display: flex;
-      align-items: center; /* 垂直居中 */
-      gap: 8px;
-      span {
-        color: #ffffff;
-        font-weight: bold;
-      }
-      .el-avatar {
-        font-size: 16px;
-        background: #7b68ee;
-      }
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-
-  .helloText {
-    color: #ffffff !important;
-  }
-  .black-logo {
-    display: none;
-  }
-
-  &.index-navber .navbar .navbar-nav .nav-item a {
-    color: #555;
-  }
-}
-
 .navbar-section {
   position: absolute;
   z-index: 999;
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
-  transition: 0.4s;
+  transition: all 0.4s ease;
 
   &.is-sticky {
     position: fixed;
-    background-color: #ffffff !important;
-    box-shadow: 0 2px 28px 0 rgba(0, 0, 0, 0.06);
-    animation: 500ms ease-in-out 0s normal fadeInDown;
+    background-color: var(--bg-white);
+    box-shadow: 0 2px 28px rgba(0, 0, 0, 0.06);
+    animation: fadeInDown 0.5s ease-in-out;
 
-    .techvio-nav .navbar-brand {
-      .white-logo {
-        display: none;
-      }
-      .black-logo {
-        display: block;
-      }
+    .white-logo {
+      display: none;
+    }
+    .black-logo {
+      display: block;
     }
 
-    .navbar-nav .nav-item a {
-      color: #505050;
+    .nav-links a {
+      color: var(--nav-light);
 
-      &:hover,
-      &:focus,
-      &.active {
-        color: #7b68ee;
+      &:hover {
+        color: var(--nav-light-hover);
       }
     }
-    .helloText {
-      color: #505050 !important;
-    }
-  }
 
-  @media only screen and (max-width: 991px) {
-    padding: 20px 0;
-
-    &.is-sticky {
-      padding: 20px 0;
-      box-shadow: 0 7px 13px 0 rgba(0, 0, 0, 0.1);
+    .user-avatar span {
+      color: var(--nav-light);
     }
   }
 }
 
-// 响应式导航部分样式
-@media only screen and (max-width: 991px) {
-  .techvio-responsive-nav {
-    display: block;
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 60px;
+  height: 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.theme-switch-track {
+  position: relative;
+  width: 100%;
+  height: 24px;
+  border-radius: 12px;
+  background-color: var(--bg-secondary);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--bg-white);
+  }
+}
+
+.theme-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  i {
+    position: absolute;
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+  }
+
+  .sun-icon {
+    color: #f59e0b;
+    opacity: 0;
+    left: -18px;
+  }
+
+  .moon-icon {
+    color: #64748b;
+    opacity: 1;
+    right: -18px;
+  }
+
+  &.dark-active {
+    transform: translateX(28px);
+
+    .sun-icon {
+      opacity: 1;
+    }
+
+    .moon-icon {
+      opacity: 0;
+    }
+  }
+}
+
+// Shared styles
+.container {
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.logo {
+  width: 170px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.black-logo {
+  display: none;
+}
+
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+
+  li {
     position: relative;
+    padding: 15px 0;
+
+    a {
+      color: var(--nav-dark);
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: capitalize;
+      padding: 0;
+      margin: 0 15px;
+      cursor: pointer;
+      transition: color 0.3s;
+
+      &:hover {
+        color: var(--nav-dark-hover);
+      }
+    }
+
+    &:last-child a {
+      margin-right: 0;
+    }
+    &:first-child a {
+      margin-left: 0;
+    }
+  }
+}
+
+.user-avatar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  span {
+    color: var(--text-white);
+    font-weight: bold;
   }
 
-  .techvio-nav {
-    display: none;
+  .el-avatar {
+    background-color: var(--avatar-color);
+    font-size: 16px;
   }
+}
 
-  .techvio-responsive-menu {
+// Desktop Navigation
+.desktop-nav {
+  padding: 15px 0;
+  background-color: transparent;
+
+  .nav-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .logo {
-    width: 170px !important;
-    height: 40px !important;
-  }
-  .hamburger-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 25px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
 
-    span {
-      display: block;
-      width: 100%;
-      height: 3px;
-      background-color: #404040;
-      transition: all 0.3s ease;
-    }
+  .nav-links {
+    margin: 0 auto;
   }
+}
 
-  .hamburger-menu.active span:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-  }
+// Responsive Navigation
+.responsive-nav-container {
+  display: none;
+}
 
-  .hamburger-menu.active span:nth-child(2) {
-    opacity: 0;
-  }
+.menu-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 25px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 
-  .hamburger-menu.active span:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
-  }
-
-  .responsive-nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
+  span {
+    display: block;
     width: 100%;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 99;
-
-    .navbar-nav {
-      margin: 0;
-      padding: 0;
-
-      .nav-item {
-        padding: 10px 15px;
-        border-bottom: 1px solid #f1f1f1;
-
-        a {
-          color: #404040;
-          margin: 0;
-        }
-
-        .dropdown-menu {
-          position: static;
-          opacity: 1;
-          visibility: visible;
-          width: 100%;
-          box-shadow: none;
-          border-top: 1px solid #f1f1f1;
-        }
-      }
-    }
-
-    .other-option {
-      margin: 10px 15px;
-    }
+    height: 3px;
+    background-color: var(--nav-phone);
+    transition: all 0.3s ease;
   }
+}
 
-  .responsive-nav.show {
+.responsive-menu-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: var(--bg-white);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+
+  &.show {
     display: block;
   }
 
-  .accountAvatar {
+  .nav-links {
+    flex-direction: column;
+
+    li {
+      padding: 10px 15px;
+      border-bottom: 1px solid var(--border-base);
+
+      a {
+        color: var(--nav-phone);
+        margin: 0;
+      }
+    }
+  }
+
+  .default-btn,
+  .user-avatar {
+    margin: 10px 15px;
+  }
+}
+
+// Media Queries
+@media (max-width: 991px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .responsive-nav-container {
+    display: block;
+  }
+
+  .responsive-menu-header {
     display: flex;
-    align-items: center; /* 垂直居中 */
-    gap: 8px;
-    margin: 5px 0 5px 10px;
-    span {
-      font-weight: bold;
-    }
-    .el-avatar {
-      background: #7b68ee;
-    }
-    &:hover {
-      cursor: pointer;
-    }
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-section.is-sticky {
+    padding: 15px 0;
+    box-shadow: 0 7px 13px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

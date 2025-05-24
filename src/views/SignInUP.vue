@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container pageContainer">
     <div class="login-card" v-if="loginFlag && !forgotPasswordFlag">
       <h2 class="title">Welcome back.</h2>
       <el-button
@@ -33,21 +33,20 @@
             style="width: 100%"
           ></el-input>
         </el-form-item>
-        <p class="forgot-password">
-          <span @click="forgotPasswordFlag = true">Forgot your password?</span>
+        <p class="forgot-password text-link">
+          <span class="" @click="forgotPasswordFlag = true"
+            >Forgot your password?</span
+          >
         </p>
       </el-form>
-      <el-button
-        class="continue-btn"
-        :disabled="!loginForm.email || !loginForm.password"
-        @click="handleLogin"
-        style="width: 100%"
-      >
+      <button class="default-btn" @click="handleLogin" style="width: 100%">
         Log in
-      </el-button>
+      </button>
       <p class="signup-link">
         Don't have an account yet?
-        <span @click="loginFlag = false">Sign up for free</span>
+        <span class="text-link" @click="loginFlag = false"
+          >Sign up for free</span
+        >
       </p>
     </div>
 
@@ -102,30 +101,23 @@
           ></el-input>
         </el-form-item>
       </el-form>
-      <el-button
-        class="continue-btn"
-        :disabled="
-          !signupForm.username ||
-          !signupForm.email ||
-          !signupForm.password1 ||
-          !signupForm.password2
-        "
-        @click="handleSignup"
-        style="width: 100%"
-      >
+      <button class="default-btn" @click="handleSignup" style="width: 100%">
         Create account
-      </el-button>
+      </button>
       <p class="signup-link">
         By clicking "Create account" or "Continue with Google", you agree to the
-        <router-link to="/termofuse" class="term">Terms of Service</router-link>
+        <router-link to="/termofuse" class="term text-link"
+          >Terms of Service</router-link
+        >
         and
-        <router-link to="/privacypolicy" class="term"
+        <router-link to="/privacypolicy" class="term text-link"
           >Privacy Policy</router-link
         >.
       </p>
       <p class="signup-link">
         Already a member?
         <span
+          class="text-link"
           @click="
             loginFlag = true;
             reload();
@@ -182,16 +174,17 @@
           ></el-input>
         </el-form-item>
       </el-form>
-      <el-button
-        class="continue-btn"
+      <button
+        class="default-btn"
         @click="handleForgotPassword"
         style="width: 100%"
       >
         Submit
-      </el-button>
+      </button>
       <p class="signup-link">
         Already a member?
         <span
+          class="text-link"
           @click="
             $router.push('/signinup');
             loginFlag = true;
@@ -508,17 +501,9 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
 
   .login-card {
-    background: white;
+    background-color: var(--bg-white);
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -532,7 +517,6 @@ export default {
 
     .google-btn {
       margin-bottom: 1rem;
-      border: 1px solid #ddd;
       border-radius: 0.5rem;
       cursor: pointer;
       display: flex;
@@ -553,19 +537,17 @@ export default {
       align-items: center;
       margin: 1rem 0;
       text-align: center;
-      color: #666;
 
       &::before,
       &::after {
         content: "";
         flex: 1;
         height: 1px;
-        background: #ddd;
+        background: var(--border-base);
       }
 
       span {
         margin: 0 1rem;
-        color: #666;
       }
     }
 
@@ -577,38 +559,11 @@ export default {
       }
     }
 
-    .continue-btn {
-      background: #ddd;
-      color: #666;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: background 0.3s;
-
-      &:not(:disabled) {
-        background: #409eff;
-        color: white;
-      }
-    }
-
     .forgot-password {
       text-align: right;
       font-size: 0.9rem;
       margin-bottom: 10px;
-      .link {
-        color: #409eff;
-        text-decoration: none;
-        cursor: pointer;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
       span {
-        color: #409eff;
         text-decoration: none;
         cursor: pointer;
       }
@@ -618,21 +573,11 @@ export default {
       text-align: center;
       margin-top: 1rem;
       font-size: 0.9rem;
-      .link {
-        color: #409eff;
-        text-decoration: none;
-        cursor: pointer;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
       span {
-        color: #409eff;
         text-decoration: none;
         cursor: pointer;
       }
       .term {
-        color: #409eff;
         text-decoration: none;
         cursor: pointer;
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="terms-container">
+  <div class="terms-container pageContainer">
     <el-card class="terms-card">
       <!-- Header Section -->
       <div class="terms-header">
@@ -42,14 +42,17 @@
 
           <template v-if="section.link">
             <p>
-              Email: <a :href="`mailto:${section.link}`">{{ section.link }}</a>
+              Email:
+              <a class="text-link" :href="`mailto:${section.link}`">{{
+                section.link
+              }}</a>
             </p>
           </template>
 
           <template v-if="section.id === 8">
             <p>
               We collect and process your data in accordance with our
-              <router-link to="/privacypolicy" class="privacy-link"
+              <router-link to="/privacypolicy" class="privacy-link text-link"
                 >Privacy Policy</router-link
               >.
             </p>
@@ -225,18 +228,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.terms-container {
-  padding: 100px 20px 20px 20px;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
-}
-
 .terms-card {
   max-width: 1300px;
   margin: 0 auto;
@@ -249,13 +240,11 @@ export default {
   margin-bottom: 30px;
 
   .title {
-    color: #000;
     font-size: 28px;
     margin-bottom: 10px;
   }
 
   .effective-date {
-    color: #000;
     font-size: 14px;
     opacity: 0.7;
   }
@@ -264,20 +253,14 @@ export default {
 .welcome-section {
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #ebeef5;
+  border-bottom: 1px solid var(--border-base);
 
   h2 {
-    color: #000;
     margin-bottom: 15px;
-  }
-
-  p {
-    color: #000;
   }
 
   .important-note {
     font-weight: bold;
-    color: #000;
   }
 }
 
@@ -288,15 +271,13 @@ export default {
 .content-section {
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #ebeef5;
-  color: #000;
+  border-bottom: 1px solid var(--border-base);
 
   &:last-child {
     border-bottom: none;
   }
 
   h2 {
-    color: #000;
     margin-bottom: 15px;
     font-size: 20px;
   }
@@ -307,18 +288,15 @@ export default {
 
     li {
       margin-bottom: 8px;
-      color: #000;
       font-weight: 500;
     }
   }
 
   p {
-    color: #000;
     margin-bottom: 15px;
   }
 
   a {
-    color: #409eff;
     text-decoration: none;
 
     &:hover {
@@ -327,7 +305,6 @@ export default {
   }
 
   .privacy-link {
-    color: #409eff;
     text-decoration: none;
     font-weight: 500;
 

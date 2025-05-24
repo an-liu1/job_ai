@@ -14,15 +14,9 @@
                     tailor to your needs and boost your performance.
                   </p>
                   <div class="banner-btn">
-                    <a class="default-btn-two" @click="startPractice"
-                      >Free Practice <span></span
-                    ></a>
-                    <!-- <a class="default-btn-one" @click="startPractice"
-                      >Free Practice <span></span
-                    ></a>
-                    <a class="default-btn-two" @click="startMock"
-                      >Mock Interview <span></span
-                    ></a> -->
+                    <button class="default-btn" @click="startPractice">
+                      Free Practice
+                    </button>
                   </div>
                 </div>
               </div>
@@ -86,14 +80,16 @@ export default {
   display: flex;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
+  background: var(--bg-base);
+
+  .d-table {
+    width: 100%;
+    height: 100%;
+  }
+
+  .d-table-cell {
+    vertical-align: middle;
+  }
 
   .creative-shape {
     position: absolute;
@@ -114,23 +110,14 @@ export default {
   padding-top: 50px;
 
   h1 {
-    color: #ffffff;
+    color: var(--text-white);
     font-size: 68px;
     font-weight: 700;
     margin: 0 0 20px;
   }
 
-  h6 {
-    color: #ff9800;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-  }
-
   p {
-    color: #ffffff;
+    color: var(--text-white);
     font-size: 20px;
     margin: 0;
   }

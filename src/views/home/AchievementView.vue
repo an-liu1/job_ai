@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid px-4 py-5 bg-purple">
+  <div class="container-fluid px-4 py-5 achievementBcgColor">
     <div class="row g-4">
       <div
         v-for="(item, index) in stats"
@@ -91,10 +91,7 @@ export default {
 };
 </script>
 
-<style scoped>
-.bg-purple {
-  background-color: #3cabff !important;
-}
+<style lang="scss" scoped>
 /* 定制化样式 */
 @media (min-width: 992px) {
   .card {

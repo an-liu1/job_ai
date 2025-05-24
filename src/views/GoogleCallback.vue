@@ -1,5 +1,5 @@
 <template>
-  <div class="google-auth-container">
+  <div class="google-auth-container pageContainer">
     <div class="auth-card">
       <div class="logo-container">
         <img
@@ -11,7 +11,7 @@
 
       <div class="loading-section">
         <div class="loading-spinner"></div>
-        <p class="loading-text">Verifying your Google account...</p>
+        <h5 class="loading-text">Verifying your Google account...</h5>
         <p class="loading-subtext">
           Please wait, this usually takes just a few seconds
         </p>
@@ -19,7 +19,7 @@
 
       <div class="error-message" v-if="error">
         <p>{{ error }}</p>
-        <button class="retry-btn" @click="retryLogin">Try Again</button>
+        <button class="default-btn" @click="retryLogin">Try Again</button>
       </div>
     </div>
   </div>
@@ -83,20 +83,12 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 128px);
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
   animation: gradientBG 15s ease infinite;
   padding: 20px;
 }
 
 .auth-card {
-  background: white;
+  background: var(--bg-white);
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   padding: 40px;
@@ -122,44 +114,27 @@ export default {
   width: 50px;
   height: 50px;
   margin: 0 auto 20px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #4285f4;
+  border: 4px solid var(--border-base);
+  border-top: 4px solid var(--border-blue);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 .loading-text {
   font-size: 18px;
-  color: #333;
   font-weight: 500;
   margin-bottom: 8px;
 }
 
 .loading-subtext {
   font-size: 14px;
-  color: #666;
 }
 
 .error-message {
-  color: #d32f2f;
+  color: var(--error);
   margin-top: 20px;
   p {
     margin-bottom: 15px;
-  }
-}
-
-.retry-btn {
-  background: #4285f4;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #3367d6;
   }
 }
 

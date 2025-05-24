@@ -1,11 +1,11 @@
 <template>
   <div id="app" v-loading.fullscreen="loading">
     <!-- Start Preloader Section -->
-    <div :class="{ preloader: true, 'preloader-deactivate': isPageLoaded }">
+    <!-- <div :class="{ preloader: true, 'preloader-deactivate': isPageLoaded }">
       <div class="loader">
         <div class="jobace-text">JobACE</div>
       </div>
-    </div>
+    </div> -->
     <!-- End Preloader Section -->
 
     <NavBar v-if="isRouterAlive" />
@@ -87,18 +87,147 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/_variables.scss";
+/*CSS Reset*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  font-weight: inherit;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
 body {
   margin: 0 !important;
   padding: 0 !important;
   font-family: Arial !important;
-  background: map-get($theme-light, background);
-  color: map-get($theme-light, text);
+}
+// Theme Initialization (add this at the beginning of your styles)
+:root {
+  // Initialize with light theme as default
+  @each $key, $value in $theme-light {
+    --#{$key}: #{$value};
+  }
 }
 
-[data-theme="dark"] body {
-  background: map-get($theme-dark, background);
-  color: map-get($theme-dark, text);
+[data-theme="dark"] {
+  @each $key, $value in $theme-dark {
+    --#{$key}: #{$value};
+  }
+}
+
+// Component Styling (updated to use CSS variables)
+.pageContainer {
+  padding: 100px 20px 20px 20px;
+  background: var(--bg-base);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-primary);
+}
+
+h4,
+h5 {
+  color: var(--text-secondary);
+}
+
+p {
+  color: var(--text-p);
+}
+
+a {
+  color: var(--text-white);
+}
+
+.text-link {
+  color: var(--link-color);
+  &:hover {
+    color: var(--link-hover);
+  }
+}
+
+.icon-color {
+  color: var(--icon-color);
+  &:hover {
+    color: var(--icon-hover);
+  }
+}
+
+.homeBackground {
+  background: var(--bg-secondary);
+}
+
+.default-btn {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  color: var(--text-white);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 30px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: var(--btn-primary);
+  box-shadow: 0 7px 25px rgba(123, 104, 238, 0.25);
+  border: none;
+  margin-top: 5px;
+  cursor: pointer;
+  transition: color 0.4s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 0;
+    height: 0;
+    border-radius: 30px;
+    background-color: var(--btn-primary-hover);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+    left: 50%;
+    top: 50%;
+  }
+
+  &:hover,
+  &:focus {
+    color: var(--btn-primary);
+    outline: none;
+
+    &::before {
+      width: 200%;
+      height: 500px;
+    }
+  }
+}
+
+// Dark mode specific adjustments
+[data-theme="dark"] {
+  .default-btn {
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  // Add any other dark-mode specific overrides here
 }
 
 // 覆盖Element UI确认框样式
@@ -111,10 +240,10 @@ body {
 
   &__header {
     padding: 20px 20px 15px !important;
-    background: linear-gradient(to right, #0295ff, #3cabff) !important;
+    background: var(--pop-up-main-color) !important;
 
     .el-message-box__title {
-      color: white !important;
+      color: var(--text-white) !important;
       font-weight: 600 !important;
       font-size: 18px !important;
     }
@@ -124,7 +253,7 @@ body {
       right: 20px !important;
 
       .el-message-box__close {
-        color: white !important;
+        color: var(--text-white) !important;
       }
     }
   }
@@ -138,7 +267,6 @@ body {
     .el-message-box__message {
       font-size: 15px !important;
       line-height: 1.6 !important;
-      color: #606266 !important;
       margin-left: 0 !important;
     }
 
@@ -164,7 +292,7 @@ body {
       }
 
       &.el-button--primary {
-        background: linear-gradient(to right, #0295ff, #3cabff) !important;
+        background: var(--pop-up-main-color) !important;
         border: none !important;
       }
     }
@@ -174,16 +302,7 @@ body {
 // 不同类型对话框的图标颜色
 .el-message-box__status {
   &.el-icon-info {
-    color: #409eff !important;
-  }
-  &.el-icon-success {
-    color: #67c23a !important;
-  }
-  &.el-icon-warning {
-    color: #e6a23c !important;
-  }
-  &.el-icon-error {
-    color: #f56c6c !important;
+    color: var(--pop-up-main-color) !important;
   }
 }
 </style>

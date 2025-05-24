@@ -1,10 +1,9 @@
 <template>
-  <div class="guide">
+  <div class="guide homeBackground">
     <div class="row g-4 align-items-center">
       <!-- 左侧内容区 -->
       <div class="col-lg-8">
         <div class="header-group">
-          <!-- <span class="tag">Job ACE</span> -->
           <h1 class="display-4">Step-by-Step Guidance</h1>
           <p class="text-muted">
             Practice like it’s the real thing. Each module simulates realistic
@@ -96,17 +95,8 @@ export default {
 
 <style scoped>
 .guide {
-  background-color: #ebefff;
   padding: 30px 8%;
 }
-.tag {
-  background: #54d62c;
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 2rem;
-  font-size: 0.9rem;
-}
-
 .feature-card {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border-radius: 0.8rem;

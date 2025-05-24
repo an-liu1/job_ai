@@ -1,5 +1,5 @@
 <template>
-  <div class="maincontainer">
+  <div class="homeBackground">
     <div class="container py-5">
       <!-- 标题部分 -->
       <div class="text-center mb-5">
@@ -16,9 +16,9 @@
       </el-collapse>
 
       <div class="text-center mt-4">
-        <el-button type="primary" @click="toggleShowAll" class="show-all-btn">
+        <button @click="toggleShowAll" class="default-btn">
           {{ showAll ? "Show Less" : "Show All" }}
-        </el-button>
+        </button>
       </div>
     </div>
   </div>
@@ -104,65 +104,50 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.maincontainer {
-  text-align: center;
-  color: #ffffff;
-  background-color: #ebefff;
+h1 {
+  font-size: 56px;
+}
 
-  h1 {
-    color: #000;
-    font-size: 56px;
+.el-collapse {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+::v-deep .el-collapse-item__header {
+  background-color: var(--bg-light-grey);
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  @media only screen and (max-width: 991px) {
+    font-size: 12px;
   }
-
-  .el-collapse {
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    margin-bottom: 1rem;
-    overflow: hidden;
-  }
-
-  ::v-deep .el-collapse-item__header {
-    background-color: #f9fafb;
-    padding: 1rem 1.5rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-    @media only screen and (max-width: 991px) {
-      font-size: 12px;
-    }
-    @media only screen and (max-width: 431px) {
-      font-size: 12px;
-      line-height: 1;
-      text-align: left;
-    }
-  }
-
-  ::v-deep .el-collapse-item__header:hover {
-    background-color: #cbd5e0;
-  }
-
-  ::v-deep .el-collapse-item__content {
+  @media only screen and (max-width: 431px) {
+    font-size: 12px;
+    line-height: 1;
     text-align: left;
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #e2e8f0;
-    background-color: #fff;
-    font-size: 14px;
   }
+}
 
-  /* 动画效果 */
-  ::v-deep .el-collapse-item__wrap {
-    transition: max-height 0.3s ease-in-out;
-    overflow: hidden;
-  }
+::v-deep .el-collapse-item__header:hover {
+  background-color: var(--bg-dark-grey);
+  
+}
 
-  .show-all-btn {
-    font-size: 16px;
-    margin-top: 10px;
-    padding: 12px 30px;
-    font-weight: bolder;
-    background: #0295ff;
-  }
+::v-deep .el-collapse-item__content {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-base);
+  font-size: 14px;
+}
+
+/* 动画效果 */
+::v-deep .el-collapse-item__wrap {
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
 }
 </style>

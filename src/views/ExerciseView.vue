@@ -1,5 +1,5 @@
 <template>
-  <div class="interview-container">
+  <div class="interview-container pageContainer">
     <!-- 订阅状态显示区域 -->
     <div class="subscription-status-container">
       <div class="status-card">
@@ -187,20 +187,13 @@
           :class="[msg.type, { evaluated: msg.evaluation?.score }]"
         >
           <!-- 用户消息 -->
-          <div
-            v-if="msg.type === 'user'"
-            class="message-content user-message"
-            style="border-left: 4px solid #409eff"
-          >
+          <div v-if="msg.type === 'user'" class="message-content user-message">
             <div class="message-header">
               <div class="avatar user-avatar">
                 {{ userInitial }}
               </div>
               <div class="message-info">
                 <span class="sender-name">You</span>
-                <span class="message-time">{{
-                  formatTime(msg.timestamp)
-                }}</span>
               </div>
             </div>
             <div class="message-text">
@@ -209,26 +202,19 @@
                 v-if="msg.audio"
                 :audio-src="msg.audio"
                 :show-progress="true"
-                color="#409EFF"
+                :color="'var(--chat-user)'"
               />
             </div>
           </div>
 
           <!-- AI 消息 -->
-          <div
-            v-else
-            class="message-content ai-message"
-            style="border-left: 4px solid #67c23a"
-          >
+          <div v-else class="message-content ai-message">
             <div class="message-header">
               <div class="avatar ai-avatar">
                 <i class="el-icon-robot"></i>
               </div>
               <div class="message-info">
                 <span class="sender-name">AI Interview Coach</span>
-                <span class="message-time">{{
-                  formatTime(msg.timestamp)
-                }}</span>
               </div>
             </div>
             <div class="message-text">
@@ -238,7 +224,7 @@
                 :audio-src="msg.audio"
                 :auto-play="true"
                 :show-progress="true"
-                color="#67c23a"
+                :color="'var(--chat-ai)'"
               />
 
               <!-- 评估部分 -->
@@ -341,7 +327,6 @@
             @record-complete="handleRecordComplete"
             @send="handleSend"
             :disabled="!interviewStarted || loading"
-            active-color="#F56C6C"
             v-if="!interviewEnd"
           />
           <div v-if="interviewEnd">
@@ -365,26 +350,13 @@
               </ul>
             </div>
           </div>
-
-          <!-- <div class="recorder-tips">
-            <p v-if="!isRecording">
-              <i class="el-icon-microphone"></i>
-              Click and prepare to record your answer
-            </p>
-            <p v-else class="recording">
-              <i class="el-icon-video-pause"></i>
-              Recording... {{ recordingDuration }}s
-            </p>
-          </div> -->
-          <el-button
+          <button
             v-if="interviewStarted"
-            class="end-interview-btn"
-            type="danger"
-            plain
+            class="end-interview-btn default-btn"
             @click="showEndInterviewDialog"
           >
             End Interview
-          </el-button>
+          </button>
         </div>
       </div>
     </div>
@@ -407,7 +379,7 @@
             Select an interview mode and catergroy to begin your mock interview
             session
           </p>
-          <div class="empty-cta">
+          <div class="empty-cta icon-color">
             <i class="fa-regular fa-thumbs-up"></i>
           </div>
         </div>
@@ -434,7 +406,6 @@
 <script>
 import VoiceRecorder from "../components/VoiceRecorder.vue";
 import MiniAudioPlayer from "../components/MiniAudioPlayer.vue";
-import { format } from "date-fns";
 import VanillaTilt from "vanilla-tilt";
 
 export default {
@@ -631,6 +602,7 @@ export default {
   },
   methods: {
     startInterview() {
+      this.handleCreditUsage();
       if (!this.interviewMode) {
         this.$message.error("Please select a interview mode!");
         return;
@@ -895,10 +867,6 @@ export default {
         }
       });
     },
-    formatTime(timestamp) {
-      if (!timestamp) return "";
-      return format(new Date(timestamp), "h:mm a");
-    },
     formatDate(dateString) {
       if (!dateString) return "";
       const date = new Date(dateString);
@@ -947,17 +915,8 @@ export default {
 .interview-container {
   margin: 0 auto;
   min-height: calc(100vh - 128px);
-  padding: 100px 20px 20px 20px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(
-    to bottom,
-    #0295ff,
-    #3cabff,
-    #76c1ff,
-    #b0d7ff,
-    #ebefff
-  );
 
   .subscription-status-container {
     width: 1300px;
@@ -969,7 +928,7 @@ export default {
       align-items: center;
       padding: 16px 20px;
       border-radius: 12px;
-      background: white;
+      background-color: var(--bg-white);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       transition: all 0.3s ease;
 
@@ -987,13 +946,11 @@ export default {
           display: flex;
           align-items: center;
           gap: 10px;
-          margin-bottom: 8px;
 
           .status-title {
             margin: 0;
             font-size: 16px;
             font-weight: 600;
-            color: #303133;
           }
 
           .el-tag {
@@ -1012,20 +969,20 @@ export default {
           .detail-item {
             display: flex;
             align-items: center;
-            background: #f5f7fa;
+            background-color: var(--bg-grey);
             padding: 6px 12px;
             border-radius: 16px;
 
             .detail-label {
               font-size: 13px;
-              color: #909399;
+              color: var(--text-des);
               margin-right: 6px;
             }
 
             .detail-value {
               font-size: 14px;
               font-weight: 500;
-              color: #606266;
+              color: var(--text-p);
             }
           }
         }
@@ -1036,8 +993,7 @@ export default {
   .interview-header {
     width: 1300px;
     margin: 0 auto;
-    background: #f9fafc;
-    color: #000;
+    background-color: var(--bg-light-grey);
     border-radius: 10px;
     padding: 30px;
     margin-bottom: 20px;
@@ -1088,7 +1044,7 @@ export default {
 
     .dynamic-fields-container {
       width: 100%;
-      background: #f5f7fa;
+      background-color: var(--bg-light-grey);
       border-radius: 8px;
       padding: 20px;
       margin-top: 10px;
@@ -1116,13 +1072,13 @@ export default {
 
       .upload-tip {
         font-size: 12px;
-        color: #909399;
+        color: var(--text-des);
         margin-top: 8px;
       }
 
       .field-hint {
         font-size: 13px;
-        color: #f56c6c;
+        color: var(--input-error);
         margin: 5px 0 0;
         display: flex;
         align-items: center;
@@ -1159,11 +1115,11 @@ export default {
         display: flex;
         align-items: center;
         gap: 8px;
-        background: #f5f7fa;
+        background-color: var(--bg-grey);
         padding: 8px 15px;
         border-radius: 20px;
         font-size: 14px;
-        color: #606266;
+        color: var(--text-des);
 
         i {
           font-size: 16px;
@@ -1175,7 +1131,7 @@ export default {
       flex: 1;
       overflow-y: auto;
       padding: 20px;
-      background: #f9fafc;
+      background-color: var(--bg-light-grey);
       border-radius: 8px;
       margin-bottom: 20px;
       display: flex;
@@ -1195,17 +1151,19 @@ export default {
       }
 
       .message-content {
-        background: white;
+        background: var(--bg-white);
         border-radius: 8px;
         padding: 15px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 
         &.user-message {
           border-top-right-radius: 0;
+          border-left: 4px solid var(--chat-user);
         }
 
         &.ai-message {
           border-top-left-radius: 0;
+          border-left: 4px solid var(--chat-ai);
         }
       }
 
@@ -1225,13 +1183,13 @@ export default {
           font-weight: bold;
 
           &.user-avatar {
-            background: #409eff;
-            color: white;
+            background: var(--chat-user);
+            color: var(--text-white);
           }
 
           &.ai-avatar {
-            background: #67c23a;
-            color: white;
+            background: var(--chat-ai);
+            color: var(--text-white);
 
             i {
               font-size: 18px;
@@ -1244,13 +1202,8 @@ export default {
 
           .sender-name {
             font-weight: 600;
-            color: #303133;
+            color: var(--text-primary);
             margin-right: 10px;
-          }
-
-          .message-time {
-            font-size: 12px;
-            color: #909399;
           }
         }
       }
@@ -1259,7 +1212,6 @@ export default {
         p {
           margin: 0 0 10px;
           line-height: 1.6;
-          color: #606266;
         }
 
         .evaluation-badge {
@@ -1288,7 +1240,7 @@ export default {
           display: flex;
           align-items: center;
           gap: 8px;
-          color: #409eff;
+          color: var(--text-blue);
           font-weight: 500;
           padding: 10px 0;
           font-size: 15px;
@@ -1307,7 +1259,6 @@ export default {
 
             .evaluation-item {
               h5 {
-                color: #606266;
                 margin: 0 0 5px;
                 font-size: 14px;
                 display: flex;
@@ -1323,8 +1274,7 @@ export default {
                 margin: 0;
                 font-size: 14px;
                 line-height: 1.5;
-                color: #303133;
-                background: #f5f7fa;
+                background-color: var(--bg-grey);
                 padding: 8px 12px;
                 border-radius: 4px;
               }
@@ -1340,9 +1290,7 @@ export default {
       .loading-indicator {
         text-align: center;
         padding: 20px;
-        color: #909399;
-
-        i {
+        color: var(--text-des) i {
           margin-right: 8px;
           font-size: 18px;
         }
@@ -1357,26 +1305,10 @@ export default {
 
       .recorder-container {
         width: 100%;
-        background: white;
+        background: var(--bg-white);
         border-radius: 8px;
         padding: 20px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-
-        .recorder-tips {
-          text-align: center;
-          margin-top: 15px;
-          color: #909399;
-          font-size: 14px;
-
-          p.recording {
-            color: #f56c6c;
-            font-weight: 500;
-          }
-
-          i {
-            margin-right: 5px;
-          }
-        }
       }
 
       .end-interview-btn {
@@ -1392,7 +1324,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #ebf2ff 100%);
+    background-color: var(--bg-light-grey);
     border-radius: 16px;
     width: 90%;
     max-width: 1300px;
@@ -1420,20 +1352,17 @@ export default {
           margin: 0 0 16px;
           font-size: 28px;
           font-weight: 600;
-          color: #303133;
           line-height: 1.3;
         }
 
         .empty-subtitle {
           margin: 0 auto 24px;
-          color: #606266;
           font-size: 16px;
           max-width: 600px;
           line-height: 1.6;
         }
 
         .empty-cta {
-          color: #409eff;
           font-size: 24px;
           animation: bounce 2s infinite;
         }
