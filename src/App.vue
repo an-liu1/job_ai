@@ -87,35 +87,6 @@ export default {
 </script>
 
 <style lang="scss">
-/*CSS Reset*/
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  color: inherit;
-  font-weight: inherit;
-}
-
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 700 !important;
-  line-height: 1.4 !important;
-  margin: 0 !important;
-}
-
 body {
   margin: 0 !important;
   padding: 0 !important;

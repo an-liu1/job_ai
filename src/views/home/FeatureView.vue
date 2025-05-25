@@ -73,6 +73,7 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .el-carousel {
   height: 350px !important;
+  background: var(--bg-white);
   @media (max-width: 991px) {
     .image-content {
       display: none;
@@ -98,7 +99,6 @@ export default {
 }
 
 .accordion-content {
-  background: var(--bg-white);
   border-radius: 15px;
   padding: 30px;
   z-index: 1;

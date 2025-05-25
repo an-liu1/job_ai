@@ -92,6 +92,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.achievementBcgColor {
+  background-color: var(--bg-tertiary);
+}
 /* 定制化样式 */
 @media (min-width: 992px) {
   .card {

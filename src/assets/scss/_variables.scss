@@ -78,95 +78,81 @@ $theme-light: (
 );
 
 $theme-dark: (
-  //▂▂▂▂▂ 背景系统 ▂▂▂▂▂
-  bg-base: #121212,
-  // 基底色（Material Design标准）
-  bg-secondary: #1a1a1a,
-  // 卡片/模块背景
-  bg-tertiary: #2d2d2d,
-  // 悬浮层背景
-  bg-white: rgba(255, 255, 255, 0.05),
-  // 覆盖层
-  bg-grey: #0d0d0d,
-  // 辅助背景
-  bg-light-grey: #363636,
-  // 轻交互背景
-  bg-dark-grey: #262626,
+  //背景色
+  bg-base:
+    linear-gradient(to bottom, #02315e, #0a3a6b, #154478, #234e85, #335891),
+  bg-secondary: #335891,
+  bg-tertiary: #154478,
+  bg-white: lighten(#335891, 10%),
+  bg-grey: #2d2d2d,
+  bg-light-grey: #252525,
+  bg-dark-grey: #3a3a3a,
 
-  // 分割线基底
-  //▂▂▂▂▂ 文本系统 ▂▂▂▂▂
-  text-primary: rgba(255, 255, 255, 0.87),
-  // 主文本（87%不透明度）
-  text-secondary: rgba(255, 255, 255, 0.6),
-  // 次级文本
-  text-p: #8c8c8c,
-  // 段落文本（APCA建议低饱和度）
+  //导航色
+  nav-light: #e0e0e0,
+  nav-dark: #f0f0f0,
+  nav-light-hover: #335891,
+  nav-dark-hover: #335891,
+  nav-phone: #d0d0d0,
+
+  //文本色
+  text-primary: #f0f0f0,
+  text-secondary: #e0e0e0,
+  text-p: #e0e0e0,
   text-white: #ffffff,
   text-blue: #64b5f6,
-  // 降低饱和的Material Blue 200
-  text-des: #757575,
-  // 描述性文字（满足4.5:1对比度）
-  text-disabled: #4d4d4d,
+  text-des: #a0a0a0,
+  text-disabled: #555555,
 
-  // 禁用状态
-  //▂▂▂▂▂ 导航系统 ▂▂▂▂▂
-  nav-light: #e0e0e0,
-  nav-dark: #b0b0b0,
-  nav-light-hover: #7b68ee,
-  // 霓虹紫（保持品牌识别）
-  nav-dark-hover: #9575cd,
-  // 降低饱和的紫色
-  nav-phone: #9e9e9e,
+  //边框色
+  border-base: #444444,
+  border-blue: #5d9cec,
 
-  // 中性灰色
-  //▂▂▂▂▂ 交互元素 ▂▂▂▂▂
-  btn-primary: #3e57d0,
-  // 主按钮（添加1px #64B5F6边框补偿对比度）
-  btn-primary-hover: #2c42b0,
-  btn-error: #e53935,
-  btn-error-hover: #c62828,
-  btn-warning: #fb8c00,
-  btn-warning-hover: #ef6c00,
-  btn-success: #67c23a,
-  btn-success-hover: #43a047,
-  btn-disabled: #c0c4cc,
-  link-color: #64b5f6,
-  // 与text-blue统一
-  link-hover: lighten(#64b5f6, 15%),
-  //▂▂▂▂▂ 表单系统 ▂▂▂▂▂
-  input-focus: rgba(100, 181, 246, 0.3),
-  // 聚焦光晕
-  input-error: #e57373,
-  // Material Red 300（通过APCA 60+）
+  // 交互元素
+  btn-primary: #5c6bc0,
+  btn-primary-hover: #3949ab,
+  btn-error: #ef5350,
+  btn-error-hover: #d32f2f,
+  btn-warning: #ffa726,
+  btn-warning-hover: #fb8c00,
+  btn-success: #81c784,
+  btn-success-hover: #66bb6a,
+  btn-disabled: #555555,
+
+  link-color: #4dabf7,
+  link-hover: lighten(#4dabf7, 10%),
+  // 表单状态
+  input-focus: #64b5f6,
+  input-error: #ef9a9a,
   input-success: #81c784,
 
-  // Material Green 300
-  //▂▂▂▂▂ 图标与装饰 ▂▂▂▂▂
+  // 图标颜色
   icon-color: #64b5f6,
-  icon-hover: lighten(#64b5f6, 15%),
+  icon-hover: lighten(#02315e, 20%),
+  //头像颜色
   avatar-color: #64b5f6,
 
-  //▂▂▂▂▂ 特殊组件 ▂▂▂▂▂
-  backtotop-color: rgba(100, 181, 246, 0.7),
+  //BackToTop颜色
+  backtotop-color: #4dabf7,
+
+  //对话颜色
   chat-user: #64b5f6,
   chat-ai: #81c784,
-  pop-up-main-color: #1a1a1a,
 
-  // 弹窗背景（层级区分）
-  //▂▂▂▂▂ 功能状态 ▂▂▂▂▂
+  //pop up颜色
+  pop-up-main-color: #154478,
+
+  // 功能状态
   primary: #64b5f6,
   success: #81c784,
   warning: #ffb74d,
-  // Material Orange 300
-  error: #e57373,
-  info: #9e9e9e,
+  error: #ef9a9a,
+  info: #7d7d7d,
 
-  // 中性灰
-  //▂▂▂▂▂ 视觉效果 ▂▂▂▂▂
-  shadow-base: rgba(255, 255, 255, 0.1),
-  // 反向阴影
+  // 特殊场景
+  shadow-base: rgba(0, 0, 0, 0.3),
   loading-gradient:
-    linear-gradient(90deg, #2d2d2d 25%, #363636 50%, #2d2d2d 75%)
+    linear-gradient(90deg, #333333 25%, #444444 50%, #333333 75%)
 );
 
 // Helper function
