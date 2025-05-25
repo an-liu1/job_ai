@@ -16,9 +16,9 @@
       </el-collapse>
 
       <div class="text-center mt-4">
-        <button @click="toggleShowAll" class="default-btn">
+        <el-button @click="toggleShowAll" class="default-btn" type="primary">
           {{ showAll ? "Show Less" : "Show All" }}
-        </button>
+        </el-button>
       </div>
     </div>
   </div>
@@ -135,7 +135,6 @@ h1 {
 
 ::v-deep .el-collapse-item__header:hover {
   background-color: var(--bg-dark-grey);
-  
 }
 
 ::v-deep .el-collapse-item__content {

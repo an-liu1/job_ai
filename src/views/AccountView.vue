@@ -39,7 +39,13 @@
         </div>
 
         <div class="mt-5">
-          <button class="default-btn" @click="logout">Logout</button>
+          <el-button
+            class="default-btn warning-btn"
+            type="primary"
+            icon="el-icon-switch-button"
+            @click="logout"
+            >Logout</el-button
+          >
         </div>
       </el-card>
 
@@ -172,9 +178,13 @@
                 class="subscription-actions"
                 v-if="userProfile.subscription_status === 'active'"
               >
-                <button class="default-btn" @click="showCancelDialog">
+                <el-button
+                  class="default-btn error-btn"
+                  type="primary"
+                  @click="showCancelDialog"
+                >
                   Cancel Monthly Subscription
-                </button>
+                </el-button>
               </div>
             </div>
           </el-tab-pane>
@@ -278,9 +288,13 @@
                   </el-checkbox-group>
                 </el-form-item>
 
-                <button class="default-btn" @click="saveSettings">
+                <el-button
+                  class="default-btn"
+                  type="primary"
+                  @click="saveSettings"
+                >
                   Save Settings
-                </button>
+                </el-button>
               </el-form>
             </div>
           </el-tab-pane>

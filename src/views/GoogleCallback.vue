@@ -19,7 +19,9 @@
 
       <div class="error-message" v-if="error">
         <p>{{ error }}</p>
-        <button class="default-btn" @click="retryLogin">Try Again</button>
+        <el-button class="default-btn" type="primary" @click="retryLogin"
+          >Try Again</el-button
+        >
       </div>
     </div>
   </div>

@@ -27,12 +27,13 @@
               </p>
 
               <div class="d-flex justify-content-center gap-3 mt-5">
-                <button
+                <el-button
                   class="default-btn"
+                  type="primary"
                   @click="redirectTo(featureInfo[0].redirectURL)"
                 >
                   {{ featureInfo[0].btnText }}
-                </button>
+                </el-button>
               </div>
             </div>
           </div>
@@ -57,12 +58,13 @@
               </p>
 
               <div class="d-flex justify-content-center gap-3 mt-5">
-                <button
+                <el-button
                   class="default-btn"
+                  type="primary"
                   @click="redirectTo(featureInfo[1].redirectURL)"
                 >
                   {{ featureInfo[1].btnText }}
-                </button>
+                </el-button>
               </div>
             </div>
           </div>

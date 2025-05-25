@@ -32,7 +32,14 @@ $theme-light: (
 
   // 交互元素
   btn-primary: #3e57d0,
-  btn-primary-hover: #ffffff,
+  btn-primary-hover: #2c42b0,
+  btn-error: #e53935,
+  btn-error-hover: #c62828,
+  btn-warning: #fb8c00,
+  btn-warning-hover: #ef6c00,
+  btn-success: #67c23a,
+  btn-success-hover: #43a047,
+  btn-disabled: #c0c4cc,
 
   link-color: #1890ff,
   link-hover: lighten(#1890ff, 10%),
@@ -115,7 +122,14 @@ $theme-dark: (
   //▂▂▂▂▂ 交互元素 ▂▂▂▂▂
   btn-primary: #3e57d0,
   // 主按钮（添加1px #64B5F6边框补偿对比度）
-  btn-primary-hover: rgba(62, 87, 208, 0.8),
+  btn-primary-hover: #2c42b0,
+  btn-error: #e53935,
+  btn-error-hover: #c62828,
+  btn-warning: #fb8c00,
+  btn-warning-hover: #ef6c00,
+  btn-success: #67c23a,
+  btn-success-hover: #43a047,
+  btn-disabled: #c0c4cc,
   link-color: #64b5f6,
   // 与text-blue统一
   link-hover: lighten(#64b5f6, 15%),

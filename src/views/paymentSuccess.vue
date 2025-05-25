@@ -11,7 +11,11 @@
           <p class="success-instruction">
             This window will close automatically in {{ countdown }} seconds...
           </p>
-          <el-button type="success" class="close-button" @click="closeWindow">
+          <el-button
+            type="primary"
+            class="close-button default-btn success-btn"
+            @click="closeWindow"
+          >
             Close Now
           </el-button>
         </div>
@@ -19,7 +23,7 @@
           <p class="success-instruction">
             Please manually close this window to return to the application.
           </p>
-          <el-button type="primary" @click="redirectToApp">
+          <el-button class="default-btn" type="primary" @click="redirectToApp">
             Return to Application
           </el-button>
         </div>

@@ -39,9 +39,14 @@
                 </a>
               </li>
             </ul>
-            <button class="default-btn" @click="login" v-if="!loginStatus">
+            <el-button
+              class="default-btn"
+              type="primary"
+              @click="login"
+              v-if="!loginStatus"
+            >
               Sign in
-            </button>
+            </el-button>
             <div class="user-avatar" @click="$router.push('/account')" v-else>
               <span>Hello,</span>
               <el-avatar>
@@ -91,9 +96,14 @@
                   </div>
                 </div>
               </button>
-              <button class="default-btn" @click="login" v-if="!loginStatus">
+              <el-button
+                class="default-btn"
+                type="primary"
+                @click="login"
+                v-if="!loginStatus"
+              >
                 Sign in
-              </button>
+              </el-button>
               <div class="user-avatar" @click="$router.push('/account')" v-else>
                 <span>Hello,</span>
                 <el-avatar>
@@ -459,7 +469,6 @@ export default {
     }
   }
 
-  .default-btn,
   .user-avatar {
     margin: 10px 15px;
   }

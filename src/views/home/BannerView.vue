@@ -14,9 +14,9 @@
                     tailor to your needs and boost your performance.
                   </p>
                   <div class="banner-btn">
-                    <button class="default-btn" @click="startPractice">
+                    <el-button class="default-btn" type="primary" @click="startPractice">
                       Free Practice
-                    </button>
+                    </el-button>
                   </div>
                 </div>
               </div>

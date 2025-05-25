@@ -162,9 +162,14 @@
                 </p>
               </div>
               <div class="download-report">
-                <button class="default-btn" @click="downloadReport">
+                <el-button
+                  class="default-btn"
+                  type="primary"
+                  icon="el-icon-download"
+                  @click="downloadReport"
+                >
                   Download Report
-                </button>
+                </el-button>
               </div>
             </div>
 
@@ -248,6 +253,7 @@
               >
                 <div style="display: inline-block">
                   <el-button
+                    class="default-btn"
                     type="primary"
                     @click="generateAssessment"
                     :loading="isGeneratingAssessment"

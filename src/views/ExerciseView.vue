@@ -138,7 +138,7 @@
         </div>
         <el-button
           type="primary"
-          class="start-btn"
+          class="default-btn start-btn"
           :loading="loading"
           @click="startInterview"
         >
@@ -350,13 +350,14 @@
               </ul>
             </div>
           </div>
-          <button
+          <el-button
             v-if="interviewStarted"
-            class="end-interview-btn default-btn"
+            class="end-interview-btn default-btn error-btn"
+            type="primary"
             @click="showEndInterviewDialog"
           >
             End Interview
-          </button>
+          </el-button>
         </div>
       </div>
     </div>
@@ -602,7 +603,6 @@ export default {
   },
   methods: {
     startInterview() {
-      this.handleCreditUsage();
       if (!this.interviewMode) {
         this.$message.error("Please select a interview mode!");
         return;
@@ -1091,7 +1091,7 @@ export default {
     .start-btn {
       padding-left: 25px;
       padding-right: 25px;
-      margin-top: 10px;
+      margin-top: 10px !important;
       i {
         margin-right: 8px;
       }
@@ -1314,7 +1314,7 @@ export default {
       .end-interview-btn {
         display: block;
         margin: 0 auto;
-        margin-top: 10px;
+        margin-top: 10px !important;
       }
     }
   }

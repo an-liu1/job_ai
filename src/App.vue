@@ -182,18 +182,30 @@ a {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  color: var(--text-white);
-  font-size: 16px;
-  font-weight: 600;
-  padding: 10px 30px;
-  border-radius: 5px;
-  text-align: center;
-  background-color: var(--btn-primary);
-  box-shadow: 0 7px 25px rgba(123, 104, 238, 0.25);
-  border: none;
-  margin-top: 5px;
-  cursor: pointer;
-  transition: color 0.4s;
+  color: var(--text-white) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  padding: 15px 30px !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+  background-color: var(--btn-primary) !important;
+  box-shadow: 0 7px 25px rgba(123, 104, 238, 0.25) !important;
+  border: none !important;
+  margin-top: 5px !important;
+  cursor: pointer !important;
+  transition: color 0.4s !important;
+
+  // 覆盖Element UI默认样式
+  &.el-button--primary {
+    background-color: var(--btn-primary);
+    border-color: transparent;
+
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
 
   &::before {
     content: "";
@@ -218,6 +230,59 @@ a {
       width: 200%;
       height: 500px;
     }
+  }
+
+  // 加载状态样式
+  &.is-loading {
+    &::before {
+      display: none;
+    }
+  }
+
+  // 禁用状态样式
+  &:disabled,
+  &.is-disabled {
+    background-color: var(--btn-disabled) !important;
+    box-shadow: none !important;
+    color: var(--text-white) !important;
+    cursor: not-allowed !important;
+
+    &::before {
+      display: none !important;
+    }
+  }
+}
+.error-btn {
+  background-color: var(--btn-error) !important;
+
+  &.el-button--primary {
+    background-color: var(--btn-error) !important;
+  }
+
+  &::before {
+    background-color: var(--btn-error-hover) !important;
+  }
+}
+.warning-btn {
+  background-color: var(--btn-warning) !important;
+
+  &.el-button--primary {
+    background-color: var(--btn-warning) !important;
+  }
+
+  &::before {
+    background-color: var(--btn-warning-hover) !important;
+  }
+}
+.success-btn {
+  background-color: var(--btn-success) !important;
+
+  &.el-button--primary {
+    background-color: var(--btn-success) !important;
+  }
+
+  &::before {
+    background-color: var(--btn-success-hover) !important;
   }
 }
 

@@ -39,9 +39,14 @@
           >
         </p>
       </el-form>
-      <button class="default-btn" @click="handleLogin" style="width: 100%">
+      <el-button
+        class="default-btn"
+        type="primary"
+        @click="handleLogin"
+        style="width: 100%"
+      >
         Log in
-      </button>
+      </el-button>
       <p class="signup-link">
         Don't have an account yet?
         <span class="text-link" @click="loginFlag = false"
@@ -101,9 +106,14 @@
           ></el-input>
         </el-form-item>
       </el-form>
-      <button class="default-btn" @click="handleSignup" style="width: 100%">
+      <el-button
+        class="default-btn"
+        type="primary"
+        @click="handleSignup"
+        style="width: 100%"
+      >
         Create account
-      </button>
+      </el-button>
       <p class="signup-link">
         By clicking "Create account" or "Continue with Google", you agree to the
         <router-link to="/termofuse" class="term text-link"
@@ -174,13 +184,14 @@
           ></el-input>
         </el-form-item>
       </el-form>
-      <button
+      <el-button
         class="default-btn"
+        type="primary"
         @click="handleForgotPassword"
         style="width: 100%"
       >
         Submit
-      </button>
+      </el-button>
       <p class="signup-link">
         Already a member?
         <span
@@ -511,7 +522,7 @@ export default {
 
     .title {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.5rem !important;
       font-size: 1.5rem;
     }
 
