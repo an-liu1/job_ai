@@ -12,14 +12,14 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/api": {
-        target: "https://jobcoach.top", // 目标 API 服务器地址
+        target: "https://jobace.ca", // 目标 API 服务器地址
         changeOrigin: true, // 允许跨域
         pathRewrite: {
           "^/api": "", // 重写路径，去掉请求路径中的 /api
         },
       },
       "/media": {
-        target: "https://jobcoach.top",
+        target: "https://jobace.ca",
         changeOrigin: true,
         pathRewrite: {
           "^/media": "/media",

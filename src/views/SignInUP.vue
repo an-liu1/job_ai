@@ -361,7 +361,7 @@ export default {
     handleGoogleLogin() {
       // const clientId =
       //   "1031504744342-761b45kg0q0d7c31s1udvsqovqqo71of.apps.googleusercontent.com";
-      // const redirectUri = "https://jobcoach.top/api/auth/google/callback/";
+      // const redirectUri = "https://jobace.ca/api/auth/google/callback/";
       // const scope = "openid email profile";
       // const state = Math.random().toString(36).substring(2);
 
@@ -376,7 +376,7 @@ export default {
 
       // window.location.href = url;
 
-      window.location.href = "https://jobcoach.top/api/google_authentication/";
+      window.location.href = "https://jobace.ca/api/google_authentication/";
     },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {

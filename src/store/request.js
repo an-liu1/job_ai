@@ -2,7 +2,7 @@ import axios from "axios";
 import router from "../router";
 import store from "../store";
 
-export const mainDomain = "https://jobcoach.top/api/";
+export const mainDomain = "https://jobace.ca/api/";
 // process.env.VUE_APP_API_URL || "http://127.0.0.1:8000/";
 
 axios.interceptors.request.use(
