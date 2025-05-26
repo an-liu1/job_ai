@@ -102,7 +102,7 @@
             <div class="action-buttons">
               <el-button
                 type="primary"
-                @click="openJobPosting"
+                @click="startMock"
                 class="external-link-btn default-btn"
                 icon="el-icon-chat-round"
               >
@@ -111,7 +111,7 @@
 
               <el-button
                 type="success"
-                @click="navigateToApplication"
+                @click="openJobPosting"
                 class="apply-btn default-btn success-btn"
                 icon="el-icon-document-copy"
               >
@@ -315,8 +315,8 @@ export default {
         window.open(this.selectedJob.externalUrl, "_blank");
       }
     },
-    navigateToApplication() {
-      this.$router.push(`/apply/${this.selectedJob.id}`);
+    startMock() {
+      this.$router.push(`/exercise/mock`);
     },
   },
   mounted() {
