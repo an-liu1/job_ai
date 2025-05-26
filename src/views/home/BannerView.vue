@@ -14,7 +14,11 @@
                     tailor to your needs and boost your performance.
                   </p>
                   <div class="banner-btn">
-                    <el-button class="default-btn" type="primary" @click="startPractice">
+                    <el-button
+                      class="default-btn"
+                      type="primary"
+                      @click="startPractice"
+                    >
                       Free Practice
                     </el-button>
                   </div>
@@ -110,14 +114,14 @@ export default {
   padding-top: 50px;
 
   h1 {
-    color: var(--text-white);
+    color: var(--text-white) !important;
     font-size: 68px;
     font-weight: 700;
     margin: 0 0 20px;
   }
 
   p {
-    color: var(--text-white);
+    color: var(--text-white) !important;
     font-size: 20px;
     margin: 0;
   }

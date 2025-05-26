@@ -91,6 +91,7 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   font-family: Arial !important;
+  background-color: var(--bg-body) !important;
 }
 // Theme Initialization (add this at the beginning of your styles)
 :root {
@@ -115,14 +116,16 @@ body {
 h1,
 h2,
 h3 {
-  color: var(--text-primary);
+  color: var(--text-primary) !important;
 }
 
 h4,
 h5 {
-  color: var(--text-secondary);
+  color: var(--text-secondary) !important;
 }
 
+ul,
+li,
 p {
   color: var(--text-p);
 }
@@ -339,6 +342,20 @@ a {
 .el-message-box__status {
   &.el-icon-info {
     color: var(--pop-up-main-color) !important;
+  }
+}
+
+//dialog
+.el-dialog {
+  background-color: var(--bg-white) !important;
+}
+.el-dialog__title {
+  color: var(--text-primary) !important;
+}
+.el-dialog__body {
+  color: var(--text-p) !important;
+  * {
+    color: inherit !important;
   }
 }
 </style>

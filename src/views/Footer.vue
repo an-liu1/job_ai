@@ -44,7 +44,7 @@ export default {
 </script>
 
 <!-- height: 123px -->
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .footer-container {
   background: var(--bg-tertiary);
   color: var(--text-white);

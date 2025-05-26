@@ -3,11 +3,12 @@ $theme-light: (
   //背景色
   bg-base:
     linear-gradient(to bottom, #0295ff, #3cabff, #76c1ff, #b0d7ff, #ebefff),
+  bg-body: #ffffff,
   bg-secondary: #ebefff,
   bg-tertiary: #3cabff,
   bg-white: #ffffff,
   bg-grey: #f5f7fa,
-  bg-light-grey: #f9fafc,
+  bg-light-grey: lighten(#f5f7fa, 10%),
   bg-dark-grey: #e2e8f0,
 
   //导航色
@@ -81,12 +82,13 @@ $theme-dark: (
   //背景色
   bg-base:
     linear-gradient(to bottom, #02315e, #0a3a6b, #154478, #234e85, #335891),
+  bg-body: lighten(#234e85, 10%),
   bg-secondary: #335891,
   bg-tertiary: #154478,
-  bg-white: lighten(#335891, 10%),
-  bg-grey: #2d2d2d,
-  bg-light-grey: #252525,
-  bg-dark-grey: #3a3a3a,
+  bg-white: lighten(#234e85, 10%),
+  bg-grey: lighten(#234e85, 20%),
+  bg-light-grey: lighten(#234e85, 30%),
+  bg-dark-grey: #234e85,
 
   //导航色
   nav-light: #e0e0e0,
@@ -96,11 +98,11 @@ $theme-dark: (
   nav-phone: #d0d0d0,
 
   //文本色
-  text-primary: #f0f0f0,
-  text-secondary: #e0e0e0,
+  text-primary: #ffffff,
+  text-secondary: #f0f0f0,
   text-p: #e0e0e0,
   text-white: #ffffff,
-  text-blue: #64b5f6,
+  text-blue: #f0f0f0,
   text-des: #a0a0a0,
   text-disabled: #555555,
 

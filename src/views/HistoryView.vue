@@ -202,6 +202,7 @@ export default {
 
   .history-list-panel {
     .history-card {
+      background-color: var(--bg-white);
       height: 100%;
 
       .search-toolbar {
@@ -236,6 +237,15 @@ export default {
       background-color: var(--bg-white);
       border-radius: 8px;
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  ::v-deep .el-table {
+    background-color: var(--bg-white) !important;
+    color: var(--text-p) !important;
+    * {
+      background-color: inherit !important;
+      color: inherit !important;
     }
   }
 }

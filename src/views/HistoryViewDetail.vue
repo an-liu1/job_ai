@@ -540,6 +540,7 @@ export default {
 
         .message-text {
           background-color: var(--bg-grey);
+          color: var(--text-p);
           padding: 12px 15px;
           border-radius: 8px;
           line-height: 1.6;
@@ -564,6 +565,7 @@ export default {
           }
 
           ::v-deep .el-collapse-item__content {
+            background-color: var(--bg-light-grey);
             padding: 15px;
           }
 
@@ -675,6 +677,7 @@ export default {
 
       .el-card {
         border-radius: 8px;
+        background-color: var(--bg-white);
 
         .section-header {
           display: flex;

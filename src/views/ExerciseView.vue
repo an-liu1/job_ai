@@ -1235,6 +1235,9 @@ export default {
           height: auto;
           line-height: 1.5;
         }
+        ::v-deep .el-collapse-item__content {
+          background-color: var(--bg-light-grey);
+        }
 
         .evaluation-title {
           display: flex;

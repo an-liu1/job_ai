@@ -624,6 +624,7 @@ export default {
 .profile-card {
   padding: 30px 0;
   text-align: center;
+  background-color: var(--bg-grey);
 
   .profile-header {
     margin-bottom: 20px;
@@ -669,6 +670,7 @@ export default {
 
 .details-card {
   padding: 20px;
+  background-color: var(--bg-grey);
 
   .profile-tabs {
     ::v-deep .el-tabs__item {

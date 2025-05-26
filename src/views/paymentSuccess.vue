@@ -79,7 +79,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .payment-success-container {
   margin: 0 auto;
   min-height: calc(100vh - 128px);
@@ -92,6 +92,7 @@ export default {
     margin: 0 auto;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-grey);
 
     .success-content {
       padding: 40px;

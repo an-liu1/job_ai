@@ -7,15 +7,15 @@
         class="col-12 col-md-6 col-lg-3"
       >
         <div
-          class="card shadow rounded-3 border-0 h-100 bg-white"
+          class="card shadow rounded-3 border-0 h-100"
           @mouseenter="onMouseEnter(index)"
           @mouseleave="onMouseLeave(index)"
         >
           <div
             class="card-body d-flex flex-column justify-content-center text-center"
           >
-            <h2 class="fw-bold fs-1 text-purple">{{ item.value }}</h2>
-            <p class="card-text text-muted text-uppercase fs-6">
+            <h2 class="fw-bold fs-1">{{ item.value }}</h2>
+            <p class="card-text text-uppercase fs-6">
               {{ item.label }}
             </p>
           </div>
@@ -117,6 +117,7 @@ export default {
 }
 
 .card {
+  background-color: var(--bg-white);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 </style>

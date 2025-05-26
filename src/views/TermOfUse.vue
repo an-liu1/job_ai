@@ -233,6 +233,7 @@ export default {
   margin: 0 auto;
   padding: 30px;
   margin-bottom: 30px;
+  background-color: var(--bg-light-grey);
 }
 
 .terms-header {

@@ -4,14 +4,14 @@
       <!-- 标题部分 -->
       <div class="text-center mb-5">
         <h1 class="display-5 mb-3">Got questions?</h1>
-        <p class="fs-6 opacity-75 mb-4">
+        <p class="fs-6 mb-4">
           Our team is here to help you succeed in every interview.
         </p>
       </div>
 
       <el-collapse v-for="(i, index) of visibleFaqs" :key="index" class="mt-3">
         <el-collapse-item :title="i.question" :name="index">
-          <div class="text-left">{{ i.answer }}</div>
+          <dpiv class="text-left">{{ i.answer }}</dpiv>
         </el-collapse-item>
       </el-collapse>
 
@@ -123,6 +123,7 @@ h1 {
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-size: 16px;
+  color: var(--text-primary);
   @media only screen and (max-width: 991px) {
     font-size: 12px;
   }

@@ -3,9 +3,9 @@
     <div class="row g-4 align-items-center">
       <!-- 左侧内容区 -->
       <div class="col-lg-8">
-        <div class="header-group">
-          <h1 class="display-4">Step-by-Step Guidance</h1>
-          <p class="text-muted">
+        <div>
+          <h1>Step-by-Step Guidance</h1>
+          <p>
             Practice like it’s the real thing. Each module simulates realistic
             interview settings and helps you improve with every answer. The more
             you practice, the more confident and job-ready you become.
@@ -21,7 +21,7 @@
             <div class="feature-card p-4">
               <!-- <i :class="item.icon" class="feature-icon mb-2"></i> -->
               <h3>{{ item.title }}</h3>
-              <p class="text-secondary small" v-html="item.desc"></p>
+              <p v-html="item.desc"></p>
             </div>
           </div>
         </div>
@@ -93,9 +93,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .guide {
   padding: 30px 8%;
+  h1 {
+    font-size: 56px;
+  }
 }
 .feature-card {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);

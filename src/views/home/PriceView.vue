@@ -282,10 +282,9 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .pricing-plans {
   padding: 80px 100px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   margin: 0 auto;
 
   .section-header {
@@ -304,7 +303,6 @@ export default {
     }
 
     .sub-desc {
-      color: #7f8c8d;
       font-size: 18px;
       max-width: 600px;
       margin: 0 auto;
