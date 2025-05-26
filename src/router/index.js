@@ -54,6 +54,11 @@ const routes = [
     name: "Payment success",
     component: () => import("../views/paymentSuccess.vue"),
   },
+  {
+    path: "/jobList",
+    name: "Job View",
+    component: () => import("../views/JobView.vue"),
+  },
 ];
 
 const router = new VueRouter({

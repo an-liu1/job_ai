@@ -134,6 +134,7 @@ export default {
       return this.loginStatus
         ? [
             { navLink: "/", name: "Home", sectionId: "home" },
+            { navLink: "/jobList", name: "Job List" },
             { navLink: "/exercise/feature", name: "Feature Interview" },
             { navLink: "/exercise/mock", name: "Mock Interview" },
             { navLink: "/history", name: "History" },
