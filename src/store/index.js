@@ -25,6 +25,7 @@ export default new Vuex.Store({
     billingTransactions: {},
     billingProfile: {},
     cancelSubscriptionResponse: {},
+    jobSearchResults: [],
   },
   getters: {},
   mutations: {
@@ -84,6 +85,9 @@ export default new Vuex.Store({
     },
     cancelSubscription(state, payload) {
       state.cancelSubscriptionResponse = payload;
+    },
+    jobSearch(state, payload) {
+      state.jobSearchResults = payload;
     },
   },
   actions: {
@@ -173,6 +177,10 @@ export default new Vuex.Store({
         cancel_immediately: false,
       });
       commit("cancelSubscription", res.data);
+    },
+    async jobSearch({ commit }, data) {
+      let res = await request("post", "jobapp/jobsearch/", data);
+      commit("jobSearch", res);
     },
   },
 
