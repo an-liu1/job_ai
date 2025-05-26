@@ -176,6 +176,91 @@ export default {
           ],
           externalUrl: "https://designhub.com/jobs/ux-designer",
         },
+        {
+          id: 3,
+          title: "Backend Developer",
+          company: "CodeWorks",
+          location: "New York, NY",
+          postTime: "2023-06-01",
+          description:
+            "We are seeking a skilled Backend Developer to build and maintain our server-side applications. You will work with Node.js and Express to create robust APIs.",
+          requirements: [
+            "5+ years of experience with Node.js",
+            "Strong knowledge of Express.js and MongoDB",
+            "Experience with RESTful API design",
+            "Familiarity with Docker and Kubernetes is a plus",
+            "Bachelor's degree in Computer Science or related field",
+          ],
+          externalUrl: "https://codeworks.com/careers/backend-dev",
+        },
+        {
+          id: 4,
+          title: "Data Scientist",
+          company: "DataInsights",
+          location: "Austin, TX",
+          postTime: "2023-06-10",
+          description:
+            "Join our data team to analyze large datasets and extract meaningful insights. You will use Python and SQL to build predictive models and data visualizations.",
+          requirements: [
+            "3+ years of experience in data analysis",
+            "Proficiency in Python and SQL",
+            "Experience with data visualization tools like Tableau or Power BI",
+            "Strong analytical skills and attention to detail",
+            "Master's degree in Data Science or related field is preferred",
+          ],
+          externalUrl: "https://datainsights.com/jobs/data-scientist",
+        },
+        {
+          id: 5,
+          title: "DevOps Engineer",
+          company: "CloudSolutions",
+          location: "Seattle, WA",
+          postTime: "2023-06-15",
+          description:
+            "We are looking for a DevOps Engineer to automate our deployment processes and manage our cloud infrastructure. You will work with AWS and CI/CD tools.",
+          requirements: [
+            "3+ years of experience in DevOps",
+            "Strong knowledge of AWS services",
+            "Experience with Docker and Kubernetes",
+            "Familiarity with CI/CD pipelines",
+            "Bachelor's degree in Computer Science or related field",
+          ],
+          externalUrl: "https://cloudsolutions.com/careers/devops-engineer",
+        },
+        {
+          id: 6,
+          title: "Product Manager",
+          company: "InnovateTech",
+          location: "Boston, MA",
+          postTime: "2023-06-20",
+          description:
+            "Join our product team to define and execute the product roadmap. You will work closely with stakeholders to gather requirements and prioritize features.",
+          requirements: [
+            "5+ years of experience in product management",
+            "Strong understanding of Agile methodologies",
+            "Excellent communication and leadership skills",
+            "Experience with product management tools like JIRA or Trello",
+            "Bachelor's degree in Business or related field is preferred",
+          ],
+          externalUrl: "https://innovatetech.com/jobs/product-manager",
+        },
+        {
+          id: 7,
+          title: "Mobile App Developer",
+          company: "AppCreators",
+          location: "Chicago, IL",
+          postTime: "2023-06-25",
+          description:
+            "We are seeking a Mobile App Developer to create engaging mobile applications for iOS and Android. You will work with React Native and Firebase.",
+          requirements: [
+            "3+ years of experience in mobile app development",
+            "Proficiency in React Native or Flutter",
+            "Experience with Firebase or similar backend services",
+            "Strong understanding of mobile UI/UX principles",
+            "Bachelor's degree in Computer Science or related field",
+          ],
+          externalUrl: "https://appcreators.com/careers/mobile-app-dev",
+        },
       ],
       searchQuery: "",
       currentPage: 1,
@@ -251,23 +336,26 @@ export default {
   flex-direction: column;
 
   .jobContainer {
-    width: 1300px;
+    width: 100%;
+    max-width: 1300px;
     margin: 0 auto;
+    padding: 0 15px;
   }
-  
+
   .el-card {
     background-color: var(--bg-white);
   }
 
   .search-container {
-    padding: 20px 0;
+    padding: 20px 15px;
     display: flex;
     justify-content: center;
     background-color: var(--bg-secondary);
     border-bottom: 1px solid var(--border-base);
 
     .search-input {
-      width: 600px;
+      width: 100%;
+      max-width: 600px;
 
       ::v-deep .el-input__prefix {
         display: flex;
@@ -285,15 +373,24 @@ export default {
     flex: 1;
     overflow: hidden;
     height: calc(100vh - 200px);
+    flex-direction: column;
+
+    @media (min-width: 992px) {
+      flex-direction: row;
+    }
   }
 
   .job-list-container {
     background-color: var(--bg-white);
-    border-right: 1px solid var(--border-base);
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    border-right: none;
+    width: 100% !important;
+    height: auto;
+
+    @media (min-width: 992px) {
+      width: 400px !important;
+      border-right: 1px solid var(--border-base);
+      height: 100%;
+    }
 
     .job-list-card {
       height: 100%;
@@ -308,11 +405,13 @@ export default {
         justify-content: space-between;
         align-items: center;
         padding-bottom: 15px;
+        flex-wrap: wrap;
 
         .header-title {
           font-size: 18px;
           font-weight: bold;
           color: var(--text-primary);
+          margin-right: 10px;
         }
 
         .job-count {
@@ -358,7 +457,8 @@ export default {
 
         .job-meta {
           display: flex;
-          gap: 15px;
+          flex-wrap: wrap;
+          gap: 10px 15px;
           font-size: 13px;
           color: var(--text-des);
 
@@ -380,6 +480,11 @@ export default {
         display: flex;
         justify-content: center;
         border-top: 1px solid var(--border-base);
+
+        ::v-deep .el-pagination {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
       }
     }
   }
@@ -387,8 +492,12 @@ export default {
   .job-details-container {
     padding: 20px;
     background-color: var(--bg-white);
-    height: 100%;
-    overflow-y: auto;
+    height: auto;
+    min-height: 400px;
+
+    @media (min-width: 992px) {
+      height: 100%;
+    }
 
     .job-details-card {
       min-height: calc(100% - 40px);
@@ -398,17 +507,28 @@ export default {
         h2 {
           color: var(--text-primary);
           margin-bottom: 5px;
+          font-size: 22px;
+
+          @media (min-width: 768px) {
+            font-size: 24px;
+          }
         }
 
         .company-name {
           color: var(--text-blue);
           margin-top: 0;
           margin-bottom: 15px;
+          font-size: 18px;
+
+          @media (min-width: 768px) {
+            font-size: 20px;
+          }
         }
 
         .job-meta {
           display: flex;
-          gap: 20px;
+          flex-wrap: wrap;
+          gap: 10px 20px;
           color: var(--text-des);
           font-size: 14px;
 
@@ -432,6 +552,7 @@ export default {
           color: var(--text-primary);
           margin-top: 20px;
           margin-bottom: 10px;
+          font-size: 18px;
         }
 
         ul {
@@ -442,7 +563,17 @@ export default {
       .action-buttons {
         margin-top: 30px;
         display: flex;
-        gap: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .el-button {
+          flex: 1 1 100%;
+          margin-left: 0;
+
+          @media (min-width: 480px) {
+            flex: 1 1 auto;
+          }
+        }
 
         .external-link-btn {
           background-color: var(--btn-primary);
@@ -474,9 +605,11 @@ export default {
       text-align: center;
       border: none;
       box-shadow: none;
+      min-height: 300px;
 
       .empty-content {
         color: var(--text-des);
+        padding: 20px;
 
         i {
           color: var(--icon-color);
@@ -486,26 +619,77 @@ export default {
         h3 {
           color: var(--text-primary);
           margin-bottom: 10px;
+          font-size: 18px;
+        }
+
+        p {
+          max-width: 400px;
+          margin: 0 auto;
         }
       }
     }
   }
 }
 
-// Responsive adjustments
-@media (max-width: 992px) {
+// Mobile-first responsive adjustments
+@media (max-width: 767px) {
   .job-portal-container {
-    .portal-layout {
-      flex-direction: column;
-      height: auto;
+    .search-container {
+      padding: 15px;
+    }
 
-      .job-list-container {
-        width: 100% !important;
-        height: 400px;
+    .job-list-container {
+      .job-list-card {
+        .job-item {
+          padding: 12px;
+
+          .job-meta {
+            gap: 8px;
+          }
+        }
       }
+    }
 
-      .job-details-container {
-        height: auto;
+    .job-details-container {
+      padding: 15px;
+
+      .job-details-card {
+        .details-header {
+          h2 {
+            font-size: 20px;
+          }
+
+          .company-name {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .job-portal-container {
+    .job-list-container {
+      .job-list-card {
+        .list-header {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .job-count {
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+
+    .job-details-container {
+      .job-details-card {
+        .action-buttons {
+          .el-button {
+            width: 100%;
+          }
+        }
       }
     }
   }
