@@ -264,7 +264,7 @@ export default {
       ],
       searchQuery: "",
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 5,
       selectedJob: null,
       loading: false,
     };
@@ -424,7 +424,8 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        height: calc(100vh - 320px);
+        overflow: auto;
       }
 
       .job-item {
@@ -500,7 +501,7 @@ export default {
     }
 
     .job-details-card {
-      min-height: calc(100% - 40px);
+      min-height: calc(100% - 10px);
       border-radius: 4px;
 
       .details-header {
