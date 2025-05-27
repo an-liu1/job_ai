@@ -108,6 +108,26 @@
               </div>
             </div>
 
+            <div class="info-notice">
+              <p style="margin: 0; line-height: 1.6; color: var(--text-des)">
+                <i class="el-icon-info"></i>
+                All job listings are automatically collected from major
+                recruitment platforms within the last 7 days. Use these JD
+                descriptions for
+                <strong style="color: var(--primary)"
+                  >"Mock Interview Practice"</strong
+                >, or click
+                <strong style="color: var(--success)">"Apply Now"</strong> to be
+                redirected to the original posting. <br /><br />
+                <span style="font-size: 13px">
+                  <i class="el-icon-warning" style="color: var(--warning)"></i>
+                  Note: Application links are provided by third parties - we
+                  recommend verifying the employer's authenticity before
+                  submitting personal information.
+                </span>
+              </p>
+            </div>
+
             <div class="job-description">
               <h4>Employment Type</h4>
               <p>{{ selectedJob.employmentType }}</p>
@@ -511,6 +531,24 @@ export default {
               color: var(--icon-color);
             }
           }
+        }
+      }
+
+      .info-notice {
+        border-left: 3px solid var(--border-base);
+        transition: all 0.3s ease;
+        margin-bottom: 25px;
+        padding: 15px;
+        background-color: var(--bg-grey);
+        border-radius: 4px;
+        color: var(--text-des);
+
+        i {
+          color: var(--primary);
+          margin-right: 8px;
+        }
+        strong {
+          font-weight: 600;
         }
       }
 
