@@ -26,6 +26,7 @@ export default new Vuex.Store({
     billingProfile: {},
     cancelSubscriptionResponse: {},
     jobSearchResults: [],
+    jobDetail: {},
   },
   getters: {},
   mutations: {
@@ -88,6 +89,9 @@ export default new Vuex.Store({
     },
     jobSearch(state, payload) {
       state.jobSearchResults = payload;
+    },
+    setJobDetail(state, payload) {
+      state.jobDetail = payload;
     },
   },
   actions: {

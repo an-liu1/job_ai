@@ -37,7 +37,7 @@
             <div slot="header" class="list-header">
               <span class="header-title">Job Opportunities</span>
               <span class="job-count"
-                >{{ jobSearchResults.count }} jobs found</span
+                >{{ jobSearchResults?.count }} jobs found</span
               >
             </div>
 
@@ -76,7 +76,7 @@
                   :page-sizes="[5, 10, 20, 30]"
                   :page-size="pageSize"
                   layout="total, sizes, prev, pager, next"
-                  :total="jobSearchResults.count"
+                  :total="jobSearchResults?.count"
                 ></el-pagination>
               </div>
             </div>
@@ -290,7 +290,8 @@ export default {
       }
     },
     startMock() {
-      this.$router.push(`/exercise/mock`);
+      this.$store.commit("setJobDetail", this.selectedJob);
+      this.$router.push(`/exercise/mock/true`);
     },
   },
 };

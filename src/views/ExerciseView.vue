@@ -560,11 +560,15 @@ export default {
           return 0;
       }
     },
+    jobDetail() {
+      return this.$store.state.jobDetail || {};
+    },
   },
   beforeRouteLeave(to, from, next) {
     if (this.interviewStarted) {
       this.showEndInterviewDialog();
     } else {
+      this.$store.commit("setJobDetail", {});
       next();
     }
   },
@@ -579,6 +583,11 @@ export default {
     }
     if (this.$route.params.mode == "mock") {
       this.interviewMode = "mock";
+      if (this.$route.params.job) {
+        this.interviewSubMode = "M-jr";
+        this.resumeUploadRequired = true;
+        this.jobDescription = this.jobDetail.responsibilities || "";
+      }
     } else {
       this.interviewMode = "";
     }
@@ -893,6 +902,7 @@ export default {
       this.endInterviewDialogVisible = true;
     },
     endInterview() {
+      this.$store.commit("setJobDetail", {});
       this.clearTimers();
       this.interviewStarted = false;
       this.endInterviewDialogVisible = false;

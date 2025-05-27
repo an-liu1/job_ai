@@ -282,7 +282,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .pricing-plans {
   padding: 80px 100px;
   margin: 0 auto;

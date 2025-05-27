@@ -10,7 +10,7 @@ const routes = [
     component: () => import("../views/HomeView.vue"),
   },
   {
-    path: "/exercise/:mode",
+    path: "/exercise/:mode/:job",
     name: "Exercise View",
     component: () => import("../views/ExerciseView.vue"),
   },
