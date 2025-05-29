@@ -1,6 +1,48 @@
 <template>
   <div class="main-container">
     <transition name="content-fade">
+      <div class="content-container container py-4 mt-3" v-show="showContent">
+        <div class="row g-4 align-items-center">
+          <div class="col-12 col-lg-8 order-lg-1 order-2">
+            <div class="info-section">
+              <h1 class="main-title">
+                {{ featureInfo[2].title }}
+              </h1>
+              <h5 class="sub-title">{{ featureInfo[2].subTitle }}</h5>
+              <div
+                class="description animated fadeIn mt-4"
+                v-for="(i, index) in featureInfo[2].des"
+                :key="index"
+              >
+                <h5>{{ i.title }}</h5>
+                <p>{{ i.des }}</p>
+              </div>
+
+              <div class="d-flex justify-content-center gap-3 mt-5">
+                <el-button
+                  class="default-btn"
+                  type="primary"
+                  @click="redirectTo(featureInfo[2].redirectURL)"
+                >
+                  {{ featureInfo[2].btnText }}
+                </el-button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4 order-lg-2 order-1">
+            <div class="image-section h-100">
+              <img
+                :src="featureInfo[2].imgUrl"
+                alt="AI Interview Simulation"
+                class="img-fluid w-100 h-100 object-fit-cover animated fadeIn"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <transition name="content-fade">
       <div class="content-container container py-4" v-show="showContent">
         <div class="row g-4 align-items-center">
           <div class="col-12 col-lg-4">
@@ -132,6 +174,28 @@ export default {
           ],
           btnText: "Start your mock interview",
           redirectURL: "exercise/mock",
+        },
+        {
+          imgUrl: require("@/assets/interview2.png"),
+          title: "Job Portal for Interview Preparation",
+          subTitle:
+            "Our comprehensive job portal aggregates thousands of real job listings from across Canada, helping you find the perfect positions to practice for your next interview.",
+          des: [
+            {
+              title: "Advanced Job Search & Details",
+              des: "Find your ideal role with comprehensive search filters (title, location) and access complete job descriptions including responsibilities, requirements, and qualifications",
+            },
+            {
+              title: "Mock Interview Practice",
+              des: "Use real job descriptions to prepare for Mock interviews with your resume, simulating real interview conditions",
+            },
+            {
+              title: "Direct Application Links",
+              des: "One-click access to original job postings with verified application links, when you're ready",
+            },
+          ],
+          btnText: "Explore Job Listings",
+          redirectURL: "jobList",
         },
       ],
     };

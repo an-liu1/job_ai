@@ -11,7 +11,7 @@
 
       <el-collapse v-for="(i, index) of visibleFaqs" :key="index" class="mt-3">
         <el-collapse-item :title="i.question" :name="index">
-          <dpiv class="text-left">{{ i.answer }}</dpiv>
+          <div class="text-left">{{ i.answer }}</div>
         </el-collapse-item>
       </el-collapse>
 
