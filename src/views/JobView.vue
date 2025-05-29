@@ -141,34 +141,12 @@
               <h4>Job Qualifications</h4>
               <p>{{ selectedJob.qualifications }}</p>
 
-              <h4>Experience Requirements</h4>
-              <ul>
-                <li
-                  v-for="(req, index) in selectedJob.experienceRequirements"
-                  :key="index"
-                >
-                  {{ req }}
-                </li>
-              </ul>
-              <h4>Education Requirements</h4>
-              <ul>
-                <li
-                  v-for="(req, index) in selectedJob.educationRequirements"
-                  :key="index"
-                >
-                  {{ req }}
-                </li>
-              </ul>
-
               <h4>Skills</h4>
               <ul>
                 <li v-for="(req, index) in selectedJob.skills" :key="index">
                   {{ req }}
                 </li>
               </ul>
-
-              <h4>Salary</h4>
-              <p>{{ selectedJob.baseSalary.value.value }}</p>
             </div>
 
             <div class="action-buttons">

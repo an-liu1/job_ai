@@ -184,7 +184,7 @@ export default new Vuex.Store({
     },
     async jobSearch({ commit }, data) {
       let res = await request("post", "jobapp/jobsearch/", data);
-      commit("jobSearch", res);
+      commit("jobSearch", res.data);
     },
   },
 

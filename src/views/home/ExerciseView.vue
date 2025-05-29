@@ -176,7 +176,7 @@ export default {
           redirectURL: "exercise/mock",
         },
         {
-          imgUrl: require("@/assets/interview2.png"),
+          imgUrl: require("@/assets/job.png"),
           title: "Job Portal for Interview Preparation",
           subTitle:
             "Our comprehensive job portal aggregates thousands of real job listings from across Canada, helping you find the perfect positions to practice for your next interview.",
