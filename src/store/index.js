@@ -187,7 +187,7 @@ export default new Vuex.Store({
       commit("cancelSubscription", res.data);
     },
     async jobSearch({ commit }, data) {
-      let res = await request("post", "jobapp/jobsearch/", data);
+      let res = await request("get", `jobapp/jobs/?category=${data}`);
       commit("jobSearch", res.data);
     },
   },

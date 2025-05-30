@@ -3,16 +3,33 @@
     <div class="jobContainer">
       <!-- Search Bar -->
       <div class="search-container">
-        <el-input
+        <!-- <el-input
           placeholder="Search jobs by title"
           v-model="searchQuery"
           class="search-input"
           clearable
         >
           <i slot="prefix" class="el-icon-search"></i>
-        </el-input>
+        </el-input> -->
 
         <el-select
+          v-model="searchQuery"
+          filterable
+          clearable
+          placeholder="Select job by categories"
+          class="search-input"
+        >
+          <i slot="prefix" class="el-icon-search"></i>
+          <el-option
+            v-for="i in jobCategoryList"
+            :key="i"
+            :label="i"
+            :value="i"
+          >
+          </el-option>
+        </el-select>
+
+        <!-- <el-select
           v-model="location"
           filterable
           clearable
@@ -21,7 +38,7 @@
         >
           <el-option v-for="i in locationList" :key="i" :label="i" :value="i">
           </el-option>
-        </el-select>
+        </el-select> -->
 
         <el-button
           slot="append"
@@ -129,24 +146,44 @@
             </div>
 
             <div class="job-description">
-              <h4>Employment Type</h4>
-              <p>{{ selectedJob.employmentType }}</p>
+              <div v-if="selectedJob.employmentType">
+                <h4>Employment Type</h4>
+                <p>{{ selectedJob.employmentType }}</p>
+              </div>
 
-              <h4>Job Description</h4>
-              <p>{{ selectedJob.description }}</p>
+              <div v-if="selectedJob.description">
+                <h4>Job Description</h4>
+                <p>{{ selectedJob.description }}</p>
+              </div>
 
-              <h4>Job Responsibilities</h4>
-              <p>{{ selectedJob.responsibilities }}</p>
+              <div v-if="selectedJob.responsibilities">
+                <h4>Job Responsibilities</h4>
+                <p>{{ selectedJob.responsibilities }}</p>
+              </div>
 
-              <h4>Job Qualifications</h4>
-              <p>{{ selectedJob.qualifications }}</p>
+              <div v-if="selectedJob.qualifications">
+                <h4>Job Qualifications</h4>
+                <p>{{ selectedJob.qualifications }}</p>
+              </div>
 
-              <h4>Skills</h4>
-              <ul>
-                <li v-for="(req, index) in selectedJob.skills" :key="index">
-                  {{ req }}
-                </li>
-              </ul>
+              <div v-if="selectedJob.educationRequirements">
+                <h4>Education Requirements</h4>
+                <p>{{ selectedJob.educationRequirements }}</p>
+              </div>
+
+              <div v-if="selectedJob.skills && selectedJob.skills.length">
+                <h4>Skills</h4>
+                <ul>
+                  <li v-for="(req, index) in selectedJob.skills" :key="index">
+                    {{ req }}
+                  </li>
+                </ul>
+              </div>
+
+              <div v-if="selectedJob.baseSalary">
+                <h4>Salary</h4>
+                <p>{{ selectedJob.baseSalary }}</p>
+              </div>
             </div>
 
             <div class="action-buttons">
@@ -191,7 +228,22 @@ export default {
   name: "JobPortal",
   data() {
     return {
-      searchQuery: "",
+      searchQuery: "Software Engineering",
+      jobCategoryList: [
+        "Software Engineering",
+        "DevOps & Cloud",
+        "Data Science & AI",
+        "Product Management",
+        "Design & UX/UI",
+        "Project Management",
+        "Marketing",
+        "Sales",
+        "Customer Service",
+        "HR & Talent",
+        "Finance & Accounting",
+        "Operations & Logistics",
+        "Healthcare Services",
+      ],
       locationList: [
         "Toronto",
         "Montreal",
@@ -256,18 +308,17 @@ export default {
       return this.$store.state.jobSearchResults;
     },
   },
+  mounted() {
+    // Initial job search
+    this.handleSearch();
+  },
   methods: {
     handleSearch() {
-      this.$store
-        .dispatch("jobSearch", {
-          category: this.searchQuery || "Web Development",
-          region: this.location || "Toronto",
-        })
-        .then(() => {
-          if (this.jobSearchResults.jobs.length > 0) {
-            this.selectedJob = this.jobSearchResults.jobs[0];
-          }
-        });
+      this.$store.dispatch("jobSearch", this.searchQuery).then(() => {
+        if (this.jobSearchResults.jobs.length > 0) {
+          this.selectedJob = this.jobSearchResults.jobs[0];
+        }
+      });
     },
     handleJobClick(job) {
       this.selectedJob = job;
