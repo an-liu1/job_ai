@@ -60,13 +60,14 @@
                 {{ featureInfo[0].title }}
               </h1>
               <h5 class="sub-title">{{ featureInfo[0].subTitle }}</h5>
-              <p
+              <div
                 class="description animated fadeIn mt-4"
                 v-for="(i, index) in featureInfo[0].des"
                 :key="index"
               >
-                <b>{{ i.title + " " }}</b> {{ i.des }}
-              </p>
+                <h5>{{ i.title }}</h5>
+                <p>{{ i.des }}</p>
+              </div>
 
               <div class="d-flex justify-content-center gap-3 mt-5">
                 <el-button
@@ -91,13 +92,14 @@
                 {{ featureInfo[1].title }}
               </h1>
               <h5 class="sub-title">{{ featureInfo[1].subTitle }}</h5>
-              <p
+              <div
                 class="description animated fadeIn mt-4"
                 v-for="(i, index) in featureInfo[1].des"
                 :key="index"
               >
-                <b>{{ i.title + " " }}</b> {{ i.des }}
-              </p>
+                <h5>{{ i.title }}</h5>
+                <p>{{ i.des }}</p>
+              </div>
 
               <div class="d-flex justify-content-center gap-3 mt-5">
                 <el-button
@@ -139,15 +141,15 @@ export default {
           des: [
             {
               title: "Practice Common Questions",
-              des: "While you can't predict every interview question, mastering frequently asked ones (like 'Tell me about yourself' or 'Why this role?') builds a strong foundation. Our curated list ensures you're ready for the basics—so you can focus on standing out.",
+              des: "While you can't predict every interview question, mastering frequently asked ones (like 'Tell me about yourself' or 'Why this role?') builds a strong foundation. Our curated list ensures you're ready for the basics—so you can focus on standing out",
             },
             {
               title: "Master Behavioral Questions",
-              des: "Behavioral questions ('Describe a challenge you faced...') require structured answers. The STAR method (Situation, Task, Action, Result) helps you turn past experiences into compelling stories that impress recruiters.",
+              des: "Behavioral questions ('Describe a challenge you faced...') require structured answers. The STAR method (Situation, Task, Action, Result) helps you turn past experiences into compelling stories that impress recruiters",
             },
             {
               title: "Tackle Tough Questions",
-              des: "Employers ask tough questions (e.g., 'How would you handle a failed project?') to test your critical thinking. Practice these to demonstrate resilience, adaptability, and technical expertise under pressure.",
+              des: "Employers ask tough questions (e.g., 'How would you handle a failed project?') to test your critical thinking. Practice these to demonstrate resilience, adaptability, and technical expertise under pressure",
             },
           ],
           btnText: "Start practicing now",
@@ -182,8 +184,8 @@ export default {
             "Our comprehensive job portal aggregates thousands of real job listings from across Canada, helping you find the perfect positions to practice for your next interview.",
           des: [
             {
-              title: "Advanced Job Search & Details",
-              des: "Find your ideal role with comprehensive search filters (title, location) and access complete job descriptions including responsibilities, requirements, and qualifications",
+              title: "Job Search & Details",
+              des: "Find your ideal role and access complete job descriptions including responsibilities and requirements",
             },
             {
               title: "Mock Interview Practice",
