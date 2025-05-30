@@ -8,7 +8,7 @@
             <div class="row align-items-center">
               <div class="col-lg-7 col-md-12">
                 <div class="main-banner-content">
-                  <h1>Ace Your Interviews With Personalized AI Coaching</h1>
+                  <h1>Your AI-Powered Interview Coach. Speak with Confidence</h1>
                   <p>
                     Experience realistic, voice-based interview simulations that
                     tailor to your needs and boost your performance.
