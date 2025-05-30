@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    themeMode: "light",
     loading: false,
     loginStatus: false,
     loginFromRoute: "",
@@ -30,6 +31,9 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
+    setThemeMode(state, payload) {
+      state.themeMode = payload;
+    },
     switchLoadingStatus(state, payload) {
       state.loading = payload;
     },

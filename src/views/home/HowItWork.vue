@@ -2,47 +2,41 @@
   <div class="guide homeBackground">
     <div class="row g-4 align-items-center">
       <!-- 左侧内容区 -->
-      <div class="col-lg-8">
-        <div>
-          <h1>Step-by-Step Guidance</h1>
-          <p>
-            Practice like it’s the real thing. Each module simulates realistic
-            interview settings and helps you improve with every answer. The more
-            you practice, the more confident and job-ready you become.
-          </p>
-        </div>
-
-        <div class="row g-4 mt-3">
+      <h1>Step-by-Step Guidance</h1>
+      <p class="col-12 col-lg-10">
+        Practice like it’s the real thing. Each module simulates realistic
+        interview settings and helps you improve with every answer. The more you
+        practice, the more confident and job-ready you become.
+      </p>
+      <!-- <div class="col-12 col-lg-6">
+        <div class="row">
           <div
             class="col-md-6"
             v-for="(item, index) in featureList"
             :key="index"
           >
             <div class="feature-card p-4">
-              <!-- <i :class="item.icon" class="feature-icon mb-2"></i> -->
+              <i :class="item.icon" class="feature-icon mb-2"></i>
               <h3>{{ item.title }}</h3>
               <p v-html="item.desc"></p>
             </div>
           </div>
         </div>
+      </div> -->
+
+      <div class="col-12 col-lg-6">
+        <img :src="guideStep" alt="guideStep" class="img-fluid" />
       </div>
 
       <!-- 右侧图片区 -->
-      <div class="col-lg-4">
-        <img :src="img" alt="Sitemap Preview" class="img-fluid" ref="tiltImg" />
-        <img
-          :src="img1"
-          alt="Sitemap Preview"
-          class="img-fluid"
-          ref="tiltImg1"
-        />
+      <div class="col-12 col-lg-6">
+        <img :src="guideGif" alt="guideGif" class="img-fluid" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import VanillaTilt from "vanilla-tilt";
 export default {
   data() {
     return {
@@ -68,27 +62,18 @@ export default {
           desc: "· Get your overall score, strengths & weaknesses <br />· See improvement tips & career suggestions <br />· Access anytime in <b>History</b>",
         },
       ],
-      img: require("@/assets/feature.png"),
-      img1: require("@/assets/feature1.png"),
+      guideGif: require("@/assets/guide.gif"),
     };
   },
-  mounted() {
-    if (this.$refs.tiltImg) {
-      VanillaTilt.init(this.$refs.tiltImg, {
-        max: 25, // 最大倾斜角度
-        speed: 400, // 倾斜动画的速度
-        glare: false, // 是否启用眩光效果
-        "max-glare": 0.5, // 最大眩光强度
-      });
-    }
-    if (this.$refs.tiltImg1) {
-      VanillaTilt.init(this.$refs.tiltImg1, {
-        max: 25, // 最大倾斜角度
-        speed: 400, // 倾斜动画的速度
-        glare: false, // 是否启用眩光效果
-        "max-glare": 0.5, // 最大眩光强度
-      });
-    }
+  computed: {
+    themeMode() {
+      return this.$store.state.themeMode;
+    },
+    guideStep() {
+      return this.themeMode == "dark"
+        ? require("@/assets/guideStep_dark.png")
+        : require("@/assets/guideStep.png");
+    },
   },
 };
 </script>

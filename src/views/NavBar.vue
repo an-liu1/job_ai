@@ -184,6 +184,7 @@ export default {
       this.currentTheme = this.currentTheme === "light" ? "dark" : "light";
       document.documentElement.setAttribute("data-theme", this.currentTheme);
       localStorage.setItem("theme", this.currentTheme);
+      this.$store.commit("setThemeMode", this.currentTheme);
     },
     login() {
       this.$store.commit("setLogininFrom", this.$route.fullPath);
