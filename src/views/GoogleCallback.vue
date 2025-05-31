@@ -15,6 +15,9 @@
         <p class="loading-subtext">
           Please wait, this usually takes just a few seconds
         </p>
+        <el-button class="default-btn" type="primary" @click="$router.push('/')"
+          >Click to home</el-button
+        >
       </div>
 
       <div class="error-message" v-if="error">
@@ -72,7 +75,7 @@ export default {
           this.$store.dispatch("getBillingProfile"),
         ]).then(() => {
           this.$store.commit("setLoginStatus", true);
-          this.$router.push(this.loginFromRoute);
+          this.$router.push(this.loginFromRoute || "/");
         });
       }
     },

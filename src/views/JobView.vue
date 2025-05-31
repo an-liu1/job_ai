@@ -742,4 +742,57 @@ export default {
     }
   }
 }
+
+
+// 保持原有电脑端样式不变，只添加移动端媒体查询
+@media (max-width: 992px) {
+  .portal-layout {
+    flex-direction: column;
+    height: auto; // 改为自动高度
+  }
+
+  .job-list-container {
+    width: 100% !important;
+    height: auto; // 自动高度
+    max-height: 50vh; // 限制最大高度
+    overflow-y: auto; // 允许滚动
+    border-right: none;
+    border-bottom: 1px solid var(--border-base);
+    
+    .job-list-card {
+      .job-list-content {
+        height: auto; // 自动高度
+        max-height: calc(50vh - 60px); // 减去头部高度
+      }
+    }
+  }
+
+  .job-details-container {
+    width: 100% !important;
+    height: auto; // 自动高度
+    min-height: 50vh; // 最小高度保证可见
+    padding: 15px;
+    
+    .job-details-card {
+      min-height: 300px; // 保证卡片最小高度
+    }
+  }
+}
+
+// 针对更小的手机设备优化
+@media (max-width: 576px) {
+  .job-list-container {
+    max-height: 45vh; // 更小的屏幕减少列表高度
+    
+    .job-list-card {
+      .job-list-content {
+        max-height: calc(45vh - 60px);
+      }
+    }
+  }
+  
+  .job-details-container {
+    min-height: 55vh; // 增加详情区域高度
+  }
+}
 </style>
