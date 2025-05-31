@@ -586,7 +586,24 @@ export default {
       if (this.$route.params.job) {
         this.interviewSubMode = "M-jr";
         this.resumeUploadRequired = true;
-        this.jobDescription = this.jobDetail.responsibilities || "";
+
+        const fieldsToInclude = [
+          "title",
+          "category",
+          "description",
+          "qualifications",
+          "experienceLevel",
+          "educationRequirements",
+          "responsibilities",
+        ];
+        this.jobDescription = fieldsToInclude
+          .map((field) => `${field}: ${this.jobDetail[field]}`)
+          .join("\n");
+        // Handle special cases
+        this.jobDescription += `\nskills: ${this.jobDetail.skills.join(", ")}`;
+        this.jobDescription += `\ncompany name: ${this.jobDetail.hiringOrganization.name}`;
+        this.jobDescription += `\nlocation: ${this.jobDetail.jobLocation.address.addressLocality}, ${this.jobDetail.jobLocation.address.addressRegion}, ${this.jobDetail.jobLocation.address.addressCountry}`;
+        this.jobDescription += `\nemploymentType: ${this.jobDetail.employmentType}`;
       }
     } else {
       this.interviewMode = "";
