@@ -92,8 +92,19 @@
                   :current-page="currentPage"
                   :page-sizes="[5, 10, 20, 30]"
                   :page-size="pageSize"
-                  layout="total, sizes, prev, pager, next"
+                  layout="prev, pager, next"
                   :total="jobSearchResults?.count"
+                  :locale="{
+                    total: 'Total',
+                    itemsPerPage: '/page',
+                    goto: 'Go to',
+                    page: '',
+                    prev: 'Previous',
+                    next: 'Next',
+                    currentPage: 'current page',
+                    prevPages: 'Previous pages',
+                    nextPages: 'Next pages',
+                  }"
                 ></el-pagination>
               </div>
             </div>
