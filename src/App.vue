@@ -278,6 +278,7 @@ a {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
   border: none !important;
   width: 520px !important;
+  padding-bottom: 0 !important;
 
   &__header {
     padding: 20px 20px 15px !important;
@@ -300,6 +301,7 @@ a {
   }
 
   &__content {
+    background: var(--pop-up-body-color) !important;
     padding: 25px 20px !important;
     display: flex !important;
     align-items: flex-start !important;
@@ -318,6 +320,7 @@ a {
   }
 
   &__btns {
+    background: var(--pop-up-body-color) !important;
     padding: 15px 20px 20px !important;
     text-align: right !important;
 
