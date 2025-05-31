@@ -67,8 +67,13 @@ export default {
       let token = this.$route.query.access;
       if (token) {
         localStorage.setItem("Authorization", token);
-        this.$store.commit("setLoginStatus", true);
-        this.$router.push(this.loginFromRoute);
+        Promise.all([
+          this.$store.dispatch("getUserInfo"),
+          this.$store.dispatch("getBillingProfile"),
+        ]).then(() => {
+          this.$store.commit("setLoginStatus", true);
+          this.$router.push(this.loginFromRoute);
+        });
       }
     },
     retryLogin() {

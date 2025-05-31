@@ -395,8 +395,13 @@ export default {
           this.$store
             .dispatch("login", this.loginForm)
             .then(() => {
-              this.$store.commit("setLoginStatus", true);
-              this.$router.push(this.loginFromRoute);
+              Promise.all([
+                this.$store.dispatch("getUserInfo"),
+                this.$store.dispatch("getBillingProfile"),
+              ]).then(() => {
+                this.$store.commit("setLoginStatus", true);
+                this.$router.push(this.loginFromRoute);
+              });
             })
             .catch(() => {
               this.$alert(
