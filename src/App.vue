@@ -277,8 +277,10 @@ a {
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
   border: none !important;
-  width: 520px !important;
+  width: auto !important;
+  max-width: 520px !important;
   padding-bottom: 0 !important;
+  margin: 20px !important;
 
   &__header {
     padding: 20px 20px 15px !important;
@@ -350,17 +352,197 @@ a {
   }
 }
 
-//dialog
+// Dialog styles
 .el-dialog {
   background-color: var(--bg-white) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+  margin: 20px auto !important;
+  max-width: 600px !important;
+  width: auto !important;
+
+  &__header {
+    padding: 20px !important;
+    background: var(--pop-up-main-color) !important;
+
+    .el-dialog__title {
+      color: var(--text-white) !important;
+      font-weight: 600 !important;
+      font-size: 18px !important;
+    }
+
+    .el-dialog__headerbtn {
+      top: 20px !important;
+      right: 20px !important;
+
+      .el-dialog__close {
+        color: var(--text-white) !important;
+      }
+    }
+  }
+
+  &__body {
+    color: var(--text-p) !important;
+    padding: 25px 20px !important;
+
+    * {
+      color: inherit !important;
+    }
+  }
+
+  &__footer {
+    padding: 15px 20px 20px !important;
+    text-align: right !important;
+
+    .el-button {
+      padding: 10px 20px !important;
+      border-radius: 6px !important;
+      font-weight: 500 !important;
+      transition: all 0.3s !important;
+      font-size: 14px !important;
+
+      &:first-child {
+        margin-right: 10px !important;
+      }
+
+      &.el-button--primary {
+        background: var(--pop-up-main-color) !important;
+        border: none !important;
+      }
+    }
+  }
 }
-.el-dialog__title {
-  color: var(--text-primary) !important;
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .el-message-box {
+    width: calc(100% - 40px) !important;
+    max-width: none !important;
+
+    &__header {
+      padding: 16px 16px 12px !important;
+
+      .el-message-box__title {
+        font-size: 16px !important;
+      }
+
+      .el-message-box__headerbtn {
+        top: 16px !important;
+        right: 16px !important;
+      }
+    }
+
+    &__content {
+      padding: 20px 16px !important;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .el-message-box__message {
+        font-size: 14px !important;
+      }
+
+      .el-message-box__status {
+        font-size: 20px !important;
+      }
+    }
+
+    &__btns {
+      padding: 12px 16px 16px !important;
+
+      .el-button {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+      }
+    }
+  }
+
+  .el-dialog {
+    width: calc(100% - 40px) !important;
+    max-width: none !important;
+
+    &__header {
+      padding: 16px !important;
+
+      .el-dialog__title {
+        font-size: 16px !important;
+      }
+
+      .el-dialog__headerbtn {
+        top: 16px !important;
+        right: 16px !important;
+      }
+    }
+
+    &__body {
+      padding: 20px 16px !important;
+    }
+
+    &__footer {
+      padding: 12px 16px 16px !important;
+
+      .el-button {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+      }
+    }
+  }
 }
-.el-dialog__body {
-  color: var(--text-p) !important;
-  * {
-    color: inherit !important;
+
+@media (max-width: 480px) {
+  .el-message-box {
+    width: calc(100% - 30px) !important;
+    margin: 10px !important;
+
+    &__header {
+      padding: 14px 14px 10px !important;
+    }
+
+    &__content {
+      padding: 16px 14px !important;
+      gap: 12px !important;
+    }
+
+    &__btns {
+      padding: 10px 14px 14px !important;
+      text-align: center !important;
+
+      .el-button {
+        width: 100%;
+        margin-bottom: 8px !important;
+
+        &:first-child {
+          margin-right: 0 !important;
+        }
+      }
+    }
+  }
+
+  .el-dialog {
+    width: calc(100% - 30px) !important;
+    margin: 10px !important;
+
+    &__header {
+      padding: 14px !important;
+    }
+
+    &__body {
+      padding: 16px 14px !important;
+    }
+
+    &__footer {
+      padding: 10px 14px 14px !important;
+      text-align: center !important;
+
+      .el-button {
+        width: 100%;
+        margin-bottom: 8px !important;
+
+        &:first-child {
+          margin-right: 0 !important;
+        }
+      }
+    }
   }
 }
 </style>
