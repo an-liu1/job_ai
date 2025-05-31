@@ -1134,9 +1134,11 @@ export default {
 
     .interview-meta {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 25px;
+      gap: 15px;
       margin-bottom: 20px;
+      row-gap: 10px;
 
       .meta-item {
         display: flex;
@@ -1147,9 +1149,39 @@ export default {
         border-radius: 20px;
         font-size: 14px;
         color: var(--text-des);
-
+        flex-shrink: 0;
         i {
           font-size: 16px;
+        }
+      }
+      @media (min-width: 768px) {
+        flex-wrap: nowrap; // Force single row
+        gap: 25px; // Larger gap for desktop
+        row-gap: 0; // Remove vertical gap
+      }
+
+      // Mobile - two rows layout
+      @media (max-width: 767px) {
+        // Calculate width for 2 items per row accounting for gaps
+        .meta-item {
+          width: calc(50% - 8px); // Half width minus half gap
+          justify-content: center; // Center content in the box
+          box-sizing: border-box; // Include padding in width calculation
+        }
+      }
+
+      // Very small screens adjustment
+      @media (max-width: 480px) {
+        gap: 10px;
+        row-gap: 8px;
+
+        .meta-item {
+          padding: 6px 10px;
+          font-size: 13px;
+
+          i {
+            font-size: 14px;
+          }
         }
       }
     }

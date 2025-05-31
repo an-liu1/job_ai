@@ -397,6 +397,10 @@ export default {
     border-radius: 3px;
     margin: 0 2px;
     transition: height 0.2s ease, background-color 0.3s ease;
+    @media (max-width: 480px) {
+       width: 1px;
+       margin: 0 1px;
+    }
   }
 }
 
