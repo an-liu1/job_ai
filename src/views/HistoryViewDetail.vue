@@ -20,6 +20,25 @@
             <span>Average Score: {{ chatHistoryDetail.average_score }}/10</span>
           </div>
         </div>
+        <div class="action-buttons">
+          <el-button
+            class="default-btn"
+            type="danger"
+            icon="el-icon-delete"
+            @click="confirmDeleteRecord"
+          >
+            Delete Entire Record
+          </el-button>
+          <el-button
+            class="default-btn"
+            type="warning"
+            icon="el-icon-close-notification"
+            @click="confirmDeleteAudioOnly"
+            :disabled="!hasAudioFiles"
+          >
+            Delete Audio Files Only
+          </el-button>
+        </div>
       </div>
 
       <el-tabs v-model="activeTab" class="detail-tabs">
@@ -308,6 +327,9 @@ export default {
     isTrialUser() {
       return this.billingProfile.is_trial_active;
     },
+    hasAudioFiles() {
+      return this.chatHistoryDetail.messages?.some((msg) => msg.audio_url);
+    },
   },
   watch: {
     conversationID(newVal, oldVal) {
@@ -460,6 +482,60 @@ export default {
           console.log("no download");
         });
     },
+    confirmDeleteRecord() {
+      this.$confirm(
+        "This will permanently delete the entire conversation record. Continue?",
+        "Delete Confirmation",
+        {
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          this.$store
+            .dispatch("deleteConversation", this.conversationID)
+            .then(() => {
+              this.$message.success("Record deleted successfully");
+              this.$parent.initalData();
+            })
+            .catch((error) => {
+              this.$message.error("Failed to delete record: " + error.message);
+            });
+        })
+        .catch(() => {
+          this.$message.info("Deletion canceled");
+        });
+    },
+
+    confirmDeleteAudioOnly() {
+      this.$confirm(
+        "This will delete all audio files but keep the text content. Continue?",
+        "Delete Audio Confirmation",
+        {
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          this.$store
+            .dispatch("deleteConversationAudio", this.conversationID)
+            .then(() => {
+              this.$message.success("Audio files deleted successfully");
+              // Refresh the data
+              this.$store.dispatch("getChatHistoryDetail", this.conversationID);
+            })
+            .catch((error) => {
+              this.$message.error(
+                "Failed to delete audio files: " + error.message
+              );
+            });
+        })
+        .catch(() => {
+          this.$message.info("Deletion canceled");
+        });
+    },
   },
 };
 </script>
@@ -496,6 +572,12 @@ export default {
             font-size: 16px;
           }
         }
+      }
+      .action-buttons {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
       }
     }
   }
@@ -763,6 +845,12 @@ export default {
     .assessment-sections {
       grid-template-columns: 1fr !important;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
   }
 }
 

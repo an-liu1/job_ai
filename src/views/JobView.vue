@@ -199,7 +199,7 @@
               <el-button
                 type="success"
                 @click="openJobPosting"
-                class="apply-btn default-btn success-btn"
+                class="apply-btn default-btn"
                 icon="el-icon-document-copy"
               >
                 Apply Now

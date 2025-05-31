@@ -213,6 +213,41 @@ a {
     }
   }
 
+  &.el-button--danger {
+    background-color: var(--btn-error) !important;
+
+    &.el-button--primary {
+      background-color: var(--btn-error) !important;
+    }
+
+    &::before {
+      background-color: var(--btn-error-hover) !important;
+    }
+  }
+  &.el-button--warning {
+    background-color: var(--btn-warning) !important;
+
+    &.el-button--primary {
+      background-color: var(--btn-warning) !important;
+    }
+
+    &::before {
+      background-color: var(--btn-warning-hover) !important;
+    }
+  }
+
+  &.el-button--success {
+    background-color: var(--btn-success) !important;
+
+    &.el-button--primary {
+      background-color: var(--btn-success) !important;
+    }
+
+    &::before {
+      background-color: var(--btn-success-hover) !important;
+    }
+  }
+
   // 禁用状态样式
   &:disabled,
   &.is-disabled {
@@ -224,39 +259,6 @@ a {
     &::before {
       display: none !important;
     }
-  }
-}
-.error-btn {
-  background-color: var(--btn-error) !important;
-
-  &.el-button--primary {
-    background-color: var(--btn-error) !important;
-  }
-
-  &::before {
-    background-color: var(--btn-error-hover) !important;
-  }
-}
-.warning-btn {
-  background-color: var(--btn-warning) !important;
-
-  &.el-button--primary {
-    background-color: var(--btn-warning) !important;
-  }
-
-  &::before {
-    background-color: var(--btn-warning-hover) !important;
-  }
-}
-.success-btn {
-  background-color: var(--btn-success) !important;
-
-  &.el-button--primary {
-    background-color: var(--btn-success) !important;
-  }
-
-  &::before {
-    background-color: var(--btn-success-hover) !important;
   }
 }
 

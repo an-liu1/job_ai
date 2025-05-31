@@ -12,8 +12,8 @@
             This window will close automatically in {{ countdown }} seconds...
           </p>
           <el-button
-            type="primary"
-            class="close-button default-btn success-btn"
+            type="success"
+            class="close-button default-btn"
             @click="closeWindow"
           >
             Close Now

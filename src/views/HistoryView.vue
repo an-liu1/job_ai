@@ -171,25 +171,28 @@ export default {
           this.$store.commit("switchLoadingStatus", false);
         });
     },
+    initalData() {
+      this.$store.commit("switchLoadingStatus", true);
+      this.$store.commit("getFinalAssessmentDetail", {});
+      this.$store.dispatch("getChatHistory").then(() => {
+        this.$store
+          .dispatch(
+            "getChatHistoryDetail",
+            this.filteredChatHistory[0].conversation_id
+          )
+          .then(() => {
+            this.$store.commit(
+              "setConversationID",
+              this.filteredChatHistory[0].conversation_id
+            );
+            this.refreshKey += 1;
+            this.$store.commit("switchLoadingStatus", false);
+          });
+      });
+    },
   },
   mounted() {
-    this.$store.commit("switchLoadingStatus", true);
-    this.$store.commit("getFinalAssessmentDetail", {});
-    this.$store.dispatch("getChatHistory").then(() => {
-      this.$store
-        .dispatch(
-          "getChatHistoryDetail",
-          this.filteredChatHistory[0].conversation_id
-        )
-        .then(() => {
-          this.$store.commit(
-            "setConversationID",
-            this.filteredChatHistory[0].conversation_id
-          );
-          this.refreshKey += 1;
-          this.$store.commit("switchLoadingStatus", false);
-        });
-    });
+    this.initalData();
   },
 };
 </script>

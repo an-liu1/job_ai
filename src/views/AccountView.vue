@@ -40,8 +40,8 @@
 
         <div class="mt-5">
           <el-button
-            class="default-btn warning-btn"
-            type="primary"
+            class="default-btn"
+            type="warning"
             icon="el-icon-switch-button"
             @click="logout"
             >Logout</el-button
@@ -179,8 +179,8 @@
                 v-if="userProfile.subscription_status === 'active'"
               >
                 <el-button
-                  class="default-btn error-btn"
-                  type="primary"
+                  class="default-btn"
+                  type="danger"
                   @click="showCancelDialog"
                 >
                   Cancel Monthly Subscription

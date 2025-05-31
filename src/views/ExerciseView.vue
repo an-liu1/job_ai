@@ -352,8 +352,8 @@
           </div>
           <el-button
             v-if="interviewStarted"
-            class="end-interview-btn default-btn error-btn"
-            type="primary"
+            class="end-interview-btn default-btn"
+            type="danger"
             @click="showEndInterviewDialog"
           >
             End Interview

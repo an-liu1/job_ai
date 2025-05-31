@@ -155,6 +155,12 @@ export default new Vuex.Store({
       let res = await request("get", `jobapp/history/${data}/`);
       commit("getChatHistoryDetail", res);
     },
+    async deleteConversation(commit, data) {
+      await request("delete", `jobapp/history/${data}/delete/`);
+    },
+    async deleteConversationAudio(commit, data) {
+      await request("delete", `jobapp/history/${data}/delete-audio/`);
+    },
     async getFinalAssessmentDetail({ commit }, data) {
       let res = await request("post", `jobapp/final-assessment/${data}/`);
       commit("getFinalAssessmentDetail", res);
